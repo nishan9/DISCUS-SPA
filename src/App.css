@@ -3,3 +3,17 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.test {
+  background-color: blue;
+}
+
+.background {
+  background-color: #97d0c0;
+  height: 100%;
+  width: 100%;
+}
+
+body > #root > div {
+  height: 100vh;
+}
