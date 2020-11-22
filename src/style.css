@@ -4,7 +4,9 @@
   background-color: rgb(222, 74, 74);
 }
 
-*, *:after, *:before {
+*,
+*:after,
+*:before {
   box-sizing: border-box;
   font: inherit;
   color: inherit;

@@ -43,7 +43,7 @@ function App() {
                 <Button 
                   size="large" 
                   variant="contained" 
-                  color="secondary"  
+                  color="primary"  
                   onClick={event =>  window.location.replace('Home')}
                   >Login</Button> 
               </Box> 
