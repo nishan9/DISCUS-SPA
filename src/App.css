@@ -10,6 +10,6 @@
   width: 100%;
 }
 
-body > #root > div {
+body > div {
   height: 100vh;
 }

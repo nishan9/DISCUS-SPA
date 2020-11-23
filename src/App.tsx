@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 // import {useAuth0} from "@auth0/auth0-react";
 // import Login from './Login';
@@ -11,6 +11,8 @@ import Home from './Home';
 
 
 function App() {
+
+  const [AcessPortal, setAcessPortal] = useState(false);
 
   //const {isAuthenticated} = useAuth0();
   //   <div>
@@ -28,7 +30,8 @@ function App() {
     //<Button variant="contained" color="secondary" onClick={() => logout({returnTo: window.location.origin})}>Login Out</Button> 
 // <Home/>
   return (
-    
+    <>
+    {!AcessPortal ?
     <div className="background">
       <Grid container >
         <Grid item xs={12} md={6} container className="background" direction="column" >
@@ -43,9 +46,9 @@ function App() {
                 <Button 
                   size="large" 
                   variant="contained" 
-                  color="primary"  
-                  onClick={event =>  window.location.replace('Home')}
-                  >Login</Button> 
+                  color="primary"
+                  onClick={() => setAcessPortal(true)}
+                >Login</Button> 
               </Box> 
             </Box>
         </Grid>
@@ -53,7 +56,9 @@ function App() {
           <img alt="Colorful Pattern Background" src={logo} width="100%"/>
         </Grid>
       </Grid>
-    </div>
+    </div>: <Home />
+    }
+    </>
   );
 }
 

@@ -22,8 +22,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
-
-export default function ButtonAppBar() {
+interface ButtonAppBarProps {
+  changeLoginState: Function
+}
+export default function ButtonAppBar(props: ButtonAppBarProps) {
   const classes = useStyles();
 
   return (
@@ -36,7 +38,7 @@ export default function ButtonAppBar() {
           <Typography variant="h6" className={classes.title}>
             Dashboard
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={() => props.changeLoginState(true)}>Login</Button>
         </Toolbar>
       </AppBar>
     </div>
