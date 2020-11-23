@@ -1,20 +1,32 @@
-import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
+import { Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
+import React, { useState } from 'react'
 import "./style.css";
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Navbar from './Navbar';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
+import {
+    MuiPickersUtilsProvider,
+    KeyboardTimePicker,
+    KeyboardDatePicker,
+  } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 
 
 export default function Home() {
-    const {user, logout} = useAuth0();
-    const [event, setEvent] = useState({title:"",date:"",eventType:"",registration:""}); 
+//    const {user, logout} = useAuth0();
+    
+    const [selectedDate, setSelectedDate] = useState <Date | null>(
+        new Date('2020-11-18T21:11:54'),
+    );
+
+    const handleDateChange = (date: Date | null) => {
+        setSelectedDate(date);
+        console.log(String(date));
+    };
+    const [event, setEvent] = useState({title:"",date:selectedDate,eventType:"",registration:""}); 
+
 
 //    const [token, setToken] = useState("");
 
@@ -62,11 +74,45 @@ export default function Home() {
             <Grid item xs={2}>
                 <Typography variant="h3">Create Event</Typography>
                 <form>
-                    <TextField margin="normal" label="Title" variant="outlined" type="text" name="title" onChange={(e) => setEvent({...event,title:e.target.value})}/>
-                    <TextField margin="normal" label="Date" variant="outlined" type="text" name="date" onChange={(e) => setEvent({...event,date:e.target.value})} />
+                    <TextField 
+                        required
+                        margin="normal" 
+                        label="Title" 
+                        variant="outlined" 
+                        type="text" 
+                        name="title" 
+                        onChange={(e) => setEvent({...event,title:e.target.value})}
+                    />
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Grid container justify="space-around">
+                        <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="MM/dd/yyyy"
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Date picker inline"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                        />
+                        <KeyboardTimePicker
+                        margin="normal"
+                        id="time-picker"
+                        label="Time picker"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change time',
+                        }}
+                        />
+                    </Grid>
+                    </MuiPickersUtilsProvider>
                     
                     <FormControl variant="outlined" className="formcontrol">
-                    <InputLabel>Type</InputLabel>
+                        <InputLabel>Type</InputLabel>
                         <Select
                             style={{
                                 minWidth: 100
@@ -74,17 +120,12 @@ export default function Home() {
                             onChange={(e) => setEvent({...event,eventType:String(e.target.value)})}
                             label="Event Type"
                         >
-                        <MenuItem value="Hackathon">Hackathon</MenuItem>
-                        <MenuItem value="Showcase">Showcase</MenuItem>
-                        <MenuItem value="Networking">Networking</MenuItem>
-                        <MenuItem value="Generic">Generic</MenuItem>
+                            <MenuItem value="Hackathon">Hackathon</MenuItem>
+                            <MenuItem value="Showcase">Showcase</MenuItem>
+                            <MenuItem value="Networking">Networking</MenuItem>
+                            <MenuItem value="Generic">Generic</MenuItem>
                         </Select>
                     </FormControl>
-
-                    
-
-
-
                     <TextField margin="normal" label="Registration" variant="outlined" type="text" name="registration" onChange={(e) => setEvent({...event,registration:e.target.value})}/>
                     <Button variant="contained" color="secondary" type="submit" onClick={(e) =>publishEvent(e)} value="Submit">Submit</Button>
                 </form>
