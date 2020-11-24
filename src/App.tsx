@@ -4,7 +4,7 @@ import './App.css';
 // import Login from './Login';
 // import Home from './Home';
 import { Grid, Button} from '@material-ui/core';
-import logo from './assets/Reuss.png';
+import logo from './assets/Reuss.svg';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import Home from './Home';
