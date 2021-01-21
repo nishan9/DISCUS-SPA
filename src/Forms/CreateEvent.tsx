@@ -22,7 +22,7 @@ function CreateEvent() {
         setSelectedDate(date);
         console.log(String(date));
     };
-    const [event, setEvent] = useState({title:"",date:selectedDate,eventType:"",registration:""}); 
+    const [event, setEvent] = useState({title:"",date:selectedDate,eventType:""}); 
 
     async function publishEvent(e:any){
         e.preventDefault();
@@ -108,7 +108,6 @@ function CreateEvent() {
                         <MenuItem value="Generic">Generic</MenuItem>
                     </Select>
                 </FormControl>
-                <TextField margin="normal" label="Registration" variant="outlined" type="text" name="registration" onChange={(e) => setEvent({...event,registration:e.target.value})}/>
                 <Button variant="contained" color="secondary" type="submit" onClick={(e) =>publishEvent(e)} value="Submit">Submit</Button>
             </form>
         </Grid>   

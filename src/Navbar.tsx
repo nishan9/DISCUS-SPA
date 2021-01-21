@@ -44,6 +44,7 @@ export default function ButtonAppBar(props: ButtonAppBarProps) {
           <Typography variant="h6" className={classes.title}>
           <Button color="inherit" onClick={() => history.push("/")}>Dashboard</Button>
           </Typography>
+          <Button color="inherit" onClick={() => history.push("/searchUsers")}>Search Users</Button>
           <Button color="inherit" onClick={() => history.push("/createEvent")}>Create Event</Button>
           <Button color="inherit" onClick={() => history.push("/searchEvent")}>Search Event</Button>
           <Button color="inherit" onClick={() => props.changeLoginState(true)}>Login</Button>

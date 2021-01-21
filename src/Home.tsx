@@ -7,12 +7,10 @@ import { InputLabel } from '@material-ui/core';
 import CreateEvent from './Forms/CreateEvent';
 import Welcome from './welcome';
 import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
+    BrowserRouter as Router, Switch, Route, Link
   } from "react-router-dom";
 import SearchEvent from './SearchEvent';
+import SearchUsers from './SearchUsers';
 
 export default function Home() {
 //    const {user, logout} = useAuth0(); // 
@@ -35,7 +33,10 @@ export default function Home() {
         <Switch>
             <Route exact path="/">
                     <Welcome/>
-                </Route>
+            </Route>
+            <Route exact path="/SearchUsers">
+                    <SearchUsers/>
+            </Route>
             <Route exact path="/CreateEvent">
                 <CreateEvent/>
             </Route>
