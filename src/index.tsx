@@ -12,7 +12,7 @@ ReactDOM.render(
   //   redirectUri={window.location.origin}
   // >
     <React.StrictMode>
-      <App />
+      <Home/>
     </React.StrictMode>,
   // </Auth0Provider>,
   document.getElementById('root')

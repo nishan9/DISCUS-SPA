@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -22,11 +23,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }),
 );
+
+
 interface ButtonAppBarProps {
   changeLoginState: Function
 }
 export default function ButtonAppBar(props: ButtonAppBarProps) {
   const classes = useStyles();
+
+  const history = useHistory(); 
+
 
   return (
     <div className={classes.root}>
@@ -36,8 +42,9 @@ export default function ButtonAppBar(props: ButtonAppBarProps) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Dashboard
+          <Button color="inherit" onClick={() => history.push("/")}>Dashboard</Button>
           </Typography>
+          <Button color="inherit" onClick={() => history.push("/createEvent")}>Create Event</Button>
           <Button color="inherit" onClick={() => props.changeLoginState(true)}>Login</Button>
         </Toolbar>
       </AppBar>
