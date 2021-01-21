@@ -45,6 +45,7 @@ export default function ButtonAppBar(props: ButtonAppBarProps) {
           <Button color="inherit" onClick={() => history.push("/")}>Dashboard</Button>
           </Typography>
           <Button color="inherit" onClick={() => history.push("/createEvent")}>Create Event</Button>
+          <Button color="inherit" onClick={() => history.push("/searchEvent")}>Search Event</Button>
           <Button color="inherit" onClick={() => props.changeLoginState(true)}>Login</Button>
         </Toolbar>
       </AppBar>

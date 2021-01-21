@@ -5,12 +5,14 @@ import Navbar from './Navbar';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
 import CreateEvent from './Forms/CreateEvent';
+import Welcome from './welcome';
 import {
     BrowserRouter as Router,
     Switch,
     Route,
     Link
   } from "react-router-dom";
+import SearchEvent from './SearchEvent';
 
 export default function Home() {
 //    const {user, logout} = useAuth0(); // 
@@ -31,8 +33,14 @@ export default function Home() {
             </>}
         </>
         <Switch>
+            <Route exact path="/">
+                    <Welcome/>
+                </Route>
             <Route exact path="/CreateEvent">
                 <CreateEvent/>
+            </Route>
+            <Route exact path="/SearchEvent">
+                <SearchEvent/>
             </Route>
         </Switch>
 
