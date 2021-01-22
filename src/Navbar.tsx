@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link, useHistory } from "react-router-dom";
+import { useAuth0 } from '@auth0/auth0-react';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +31,7 @@ interface ButtonAppBarProps {
 }
 export default function ButtonAppBar(props: ButtonAppBarProps) {
   const classes = useStyles();
-
+  const Auth0 = useAuth0();
   const history = useHistory(); 
 
 
@@ -47,7 +48,7 @@ export default function ButtonAppBar(props: ButtonAppBarProps) {
           <Button color="inherit" onClick={() => history.push("/searchUsers")}>Search Users</Button>
           <Button color="inherit" onClick={() => history.push("/createEvent")}>Create Event</Button>
           <Button color="inherit" onClick={() => history.push("/searchEvent")}>Search Event</Button>
-          <Button color="inherit" onClick={() => props.changeLoginState(true)}>Login</Button>
+          <Button color="inherit" onClick={() => Auth0.logout()}>Logout</Button>
         </Toolbar>
       </AppBar>
     </div>
