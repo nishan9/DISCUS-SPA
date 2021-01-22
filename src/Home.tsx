@@ -14,6 +14,7 @@ import { Button } from '@material-ui/core';
 export default function Home() {
     const Auth0 = useAuth0();
     const [loginPressed, setLoginPressed] = useState(false);
+    const { user } = useAuth0();
     //const [accessToken, setAccessToken] = useState("");
     /**
      *     useEffect(() => {
@@ -29,10 +30,12 @@ export default function Home() {
         Auth0.isAuthenticated ? 
         <>
             {/* if the user is authenticated */}
+            
             <Router>
                 <Switch>
                     <Route exact path="/">
                         <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
+                        <div>Hello {user.name}</div>
                         <Welcome />
                     </Route>
                     <Route exact path="/SearchUsers">
