@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import Typography from '@material-ui/core/Typography';
 import Navbar from './Navbar';
-import TextField from '@material-ui/core/TextField';
-import { InputLabel } from '@material-ui/core';
 import CreateEvent from './Forms/CreateEvent';
 import Welcome from './welcome';
 import {
-    BrowserRouter as Router, Switch, Route, Link
+    BrowserRouter as Router, Switch, Route
   } from "react-router-dom";
 import SearchEvent from './SearchEvent';
 import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
+import { Button } from '@material-ui/core';
 
 export default function Home() {
     const Auth0 = useAuth0();
@@ -23,12 +21,37 @@ export default function Home() {
         }
     },[Auth0]);
 
-    
+    async function sendToken(e:any){
+        e.preventDefault();
+        const response = await fetch("http://localhost:5000/api/discusEvents", {
+            method:"POST", 
+            body: JSON.stringify({"dsada": 5}), 
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization" : `Bearer ${accessToken}`, 
+            }
+        })
+        console.log(response);
+
+        if(response.ok){
+            alert("Success"); 
+        }else{
+            console.error("Publishing failed");
+        }
+    }
+
+
     return (
 
         Auth0.isAuthenticated ? 
         <>
             {/* if the user is authenticated */}
+
+
+            <Button variant="contained" color="secondary" type="submit" onClick={(e) =>sendToken(e)} value="Submit">sendthedoodoo</Button>
+
+
+
             <Router>
                 <Switch>
                     <Route exact path="/">
@@ -54,36 +77,5 @@ export default function Home() {
         <>
             <Login />
         </>
-
-
-
-        // <Router>
-        // <>
-        // {!loginPressed ?
-        // <>
-        // <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
-
-        // </>:
-        //     <>
-        //         <p>Login Pressed</p>
-        //         <Button color="inherit" onClick={() => setLoginPressed(false)}>Log out</Button>
-        //     </>}
-        // </>
-        // <Switch>
-        //     <Route exact path="/">
-        //             <Welcome/>
-        //     </Route>
-        //     <Route exact path="/SearchUsers">
-        //             <SearchUsers/>
-        //     </Route>
-        //     <Route exact path="/CreateEvent">
-        //         <CreateEvent/>
-        //     </Route>
-        //     <Route exact path="/SearchEvent">
-        //         <SearchEvent/>
-        //     </Route>
-        // </Switch>
-
-        // </Router>
     )
 }
