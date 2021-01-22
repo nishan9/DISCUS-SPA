@@ -14,44 +14,21 @@ import { Button } from '@material-ui/core';
 export default function Home() {
     const Auth0 = useAuth0();
     const [loginPressed, setLoginPressed] = useState(false);
-    const [accessToken, setAccessToken] = useState("");
-    useEffect(() => {
+    //const [accessToken, setAccessToken] = useState("");
+    /**
+     *     useEffect(() => {
         if(Auth0.isAuthenticated){
-            Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
         }
     },[Auth0]);
-
-    async function sendToken(e:any){
-        e.preventDefault();
-        const response = await fetch("http://localhost:5000/api/discusEvents", {
-            method:"POST", 
-            body: JSON.stringify({"dsada": 5}), 
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization" : `Bearer ${accessToken}`, 
-            }
-        })
-        console.log(response);
-
-        if(response.ok){
-            alert("Success"); 
-        }else{
-            console.error("Publishing failed");
-        }
-    }
-
+     * 
+     */
 
     return (
 
         Auth0.isAuthenticated ? 
         <>
             {/* if the user is authenticated */}
-
-
-            <Button variant="contained" color="secondary" type="submit" onClick={(e) =>sendToken(e)} value="Submit">sendthedoodoo</Button>
-
-
-
             <Router>
                 <Switch>
                     <Route exact path="/">

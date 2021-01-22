@@ -1,5 +1,5 @@
 import { Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Navbar from '../Navbar'; 
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +10,8 @@ import {
     KeyboardDatePicker,
   } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 function CreateEvent() {
 
@@ -22,7 +24,16 @@ function CreateEvent() {
         setSelectedDate(date);
         console.log(String(date));
     };
+
+    const Auth0 = useAuth0();
     const [event, setEvent] = useState({title:"",date:selectedDate,eventType:""}); 
+    const [accessToken, setAccessToken] = useState("");
+    useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+        }
+    },[Auth0]);
+
 
     async function publishEvent(e:any){
         e.preventDefault();
@@ -30,7 +41,8 @@ function CreateEvent() {
             method:"POST", 
             body: JSON.stringify(event),
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization" : `Bearer ${accessToken}`, 
             }
         })
         console.log(response);
