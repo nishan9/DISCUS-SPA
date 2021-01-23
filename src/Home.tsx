@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar';
 import CreateEvent from './Forms/CreateEvent';
-import Welcome from './welcome';
 import {
     BrowserRouter as Router, Switch, Route
   } from "react-router-dom";
@@ -10,6 +9,7 @@ import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import { Button } from '@material-ui/core';
+import Welcome from './Welcome';
 
 export default function Home() {
     const Auth0 = useAuth0();

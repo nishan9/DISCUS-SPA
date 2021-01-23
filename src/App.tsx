@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import './App.css';
-// import {useAuth0} from "@auth0/auth0-react";
-// import Login from './Login';
-// import Home from './Home';
 import { Grid, Button} from '@material-ui/core';
 import logo from './assets/Reuss.svg';
 import Box from '@material-ui/core/Box';
