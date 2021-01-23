@@ -14,21 +14,8 @@ function App() {
 
   const [AcessPortal, setAcessPortal] = useState(false);
 
-  //const {isAuthenticated} = useAuth0();
-  //   <div>
-  //     {/* //{isAuthenticated ?  */}
-  //      // <>
-  //         <Home />
-  //    //   </> 
-  //  //   : 
-  //     //   <>
-  //     //     <Login />
   console.log(logo);
-  //     //   </>
-  //     // }
-  //   </div>
-    //<Button variant="contained" color="secondary" onClick={() => logout({returnTo: window.location.origin})}>Login Out</Button> 
-// <Home/>
+
   return (
     <>
     {!AcessPortal ?

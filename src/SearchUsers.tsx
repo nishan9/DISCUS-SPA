@@ -14,21 +14,7 @@ function SearchUsers() {
     }
     return (
         <div>
-            <table>
-            <tr>
-            <th>Name</th>
-            <th>Email Address</th> 
-            <th>Department</th>
-            </tr>
-            {data.map((item:{name:string, emailAddress:string, Department: String}) => (
-            <tr>
-            <td>{ item.name}</td>
-            <td>{ item.emailAddress}</td>
-            <td>{ item.Department}</td>
-            </tr>
-            ))
-            }
-            </table>
+            Search Engine for users. 
         </div>
     )
 }
