@@ -4,9 +4,12 @@ import App from './App';
 import Home from './Home';
 import {useAuth0,Auth0Provider} from "@auth0/auth0-react";
 import Login from './Login';
+import { GlobalContextProvider } from './context/GlobalContext';
 
 ReactDOM.render(
-  <Wrapper />,
+  <GlobalContextProvider>
+  <Wrapper />
+  </GlobalContextProvider>, 
   document.getElementById('root')
 );
 
