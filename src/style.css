@@ -9,3 +9,11 @@
   border: none;
   outline: none;
 }
+
+.black {
+  background-color: black;
+}
+
+.grey {
+  background-color: #212529;
+}

@@ -21,7 +21,8 @@ export default function Home() {
         if(Auth0.isAuthenticated){
             Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
         }
-    },[Auth0]);
+    },[Auth0]);                         //<div>Hello {user.name}</div>
+
      * 
      */
 
@@ -35,7 +36,6 @@ export default function Home() {
                 <Switch>
                     <Route exact path="/">
                         <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
-                        <div>Hello {user.name}</div>
                         <Welcome />
                     </Route>
                     <Route exact path="/SearchUsers">
