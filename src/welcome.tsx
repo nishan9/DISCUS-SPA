@@ -1,3 +1,4 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Box, createStyles, Grid, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
 import { Avatar } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
@@ -6,11 +7,20 @@ import Auth0user from './models/Auth0user';
 function Welcome() {
     
     const [data, setData] = useState<Auth0user[]>([]);
+    const [accessToken, setAccessToken] = useState("");
+    const Auth0 = useAuth0();
 
+    async function getAccessToken(){
+      const authtoken = await Auth0.getAccessTokenSilently(); 
+      setAccessToken(authtoken); 
+    }
     useEffect(() => {
-        fetchData();
-    },[]);
-    
+      if(Auth0.isAuthenticated){
+        getAccessToken().then(() => fetchData(accessToken)); 
+      }
+    },[Auth0, accessToken]);                        
+
+
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       root: {
@@ -18,10 +28,6 @@ function Welcome() {
         '& > *': {
           margin: theme.spacing(1),
         },
-      },
-      small: {
-        width: theme.spacing(3),
-        height: theme.spacing(3),
       },
       large: {
         width: theme.spacing(30),
@@ -31,10 +37,15 @@ function Welcome() {
   );
 
   
-    async function fetchData(){
-        const response = await fetch('http://localhost:5000/api/users/id');
+    async function fetchData(token : string){
+        const response = await fetch('http://localhost:5000/api/users/me', { 
+          headers: {
+            'Authorization': `Bearer ${token}`, 
+            'Content-Type': 'application/json',
+          }
+         });
         setData(await response.json());
-        console.log(data)
+        console.log(data); 
     }
     const classes = useStyles();
 
@@ -59,18 +70,18 @@ function Welcome() {
                     <div>
                         <Typography variant="h4">General</Typography>
                         <Typography variant="body1">Email {data.length > 0 ? data[0].email : ""}</Typography>
-                        <Typography variant="body1">LinkedIn nfm24Sussex@.com</Typography>
-                        <Typography variant="body1">Sussex Profile nfm24Sussex@.com</Typography> 
+                        <Typography variant="body1">LinkedIn {data.length > 0 ? data[0].user_metadata.linkedin : ""}</Typography>
+                        <Typography variant="body1">Sussex Profile {data.length > 0 ? data[0].user_metadata.sussex : ""}</Typography>
                     </div>
                 </Paper>
                 <Box m={2} /> 
                 <Paper>
                 <Typography variant="h4">Academic</Typography>
                         <div>
-                        <Typography>Department : </Typography>
-                        <Typography>School</Typography>
-                        <Typography>Career Stage</Typography>
-                        <Typography>Research interest summary</Typography>
+                        <Typography>Department : {data.length > 0 ? data[0].user_metadata.department : ""}</Typography>
+                        <Typography>School: {data.length > 0 ? data[0].user_metadata.school : ""}</Typography>
+                        <Typography>Career Stage : {data.length > 0 ? data[0].user_metadata.career_stage : ""}</Typography>
+                        <Typography>Research interest summary: {data.length > 0 ? data[0].user_metadata.research_interests : ""}</Typography>
                         <Typography>Areas of expertise</Typography>
                         <Typography>Areas of interest</Typography>
                         <Typography>Areas I'd where I'd like training</Typography>

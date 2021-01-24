@@ -15,16 +15,14 @@ export default function Home() {
     const Auth0 = useAuth0();
     const [loginPressed, setLoginPressed] = useState(false);
     const { user } = useAuth0();
-    //const [accessToken, setAccessToken] = useState("");
-    /**
-     *     useEffect(() => {
+    const [accessToken, setAccessToken] = useState("");
+   /**    useEffect(() => {
         if(Auth0.isAuthenticated){
-            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+            Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
         }
     },[Auth0]);                         //<div>Hello {user.name}</div>
 
-     * 
-     */
+**/
 
     return (
 

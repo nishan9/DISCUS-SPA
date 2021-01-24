@@ -22,8 +22,12 @@ interface Identity{
 }
 
 interface Metadata{
-    "color": string, 
-    "pet": string, 
+    "sussex": string, 
+    "linkedin": string, 
+    "career_stage" : string, 
+    "school" : string
+    "department": string, 
+    "research_interests" : string 
 }
 
 
