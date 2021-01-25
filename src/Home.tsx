@@ -9,7 +9,7 @@ import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import { Button } from '@material-ui/core';
-import Welcome from './Welcome';
+import WelcomeScreen from './WelcomeScreen';
 
 export default function Home() {
     const Auth0 = useAuth0();
@@ -34,7 +34,7 @@ export default function Home() {
                 <Switch>
                     <Route exact path="/">
                         <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
-                        <Welcome />
+                        <WelcomeScreen />
                     </Route>
                     <Route exact path="/SearchUsers">
                         <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
