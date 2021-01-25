@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './Navbar';
 import CreateEvent from './Forms/CreateEvent';
-import Welcome from './welcome';
 import {
     BrowserRouter as Router, Switch, Route
   } from "react-router-dom";
@@ -10,20 +9,20 @@ import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import { Button } from '@material-ui/core';
+import WelcomeScreen from './WelcomeScreen';
 
 export default function Home() {
     const Auth0 = useAuth0();
     const [loginPressed, setLoginPressed] = useState(false);
     const { user } = useAuth0();
-    //const [accessToken, setAccessToken] = useState("");
-    /**
-     *     useEffect(() => {
+    const [accessToken, setAccessToken] = useState("");
+   /**    useEffect(() => {
         if(Auth0.isAuthenticated){
-            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+            Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
         }
-    },[Auth0]);
-     * 
-     */
+    },[Auth0]);                         //<div>Hello {user.name}</div>
+
+**/
 
     return (
 
@@ -35,8 +34,7 @@ export default function Home() {
                 <Switch>
                     <Route exact path="/">
                         <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
-                        <div>Hello {user.name}</div>
-                        <Welcome />
+                        <WelcomeScreen />
                     </Route>
                     <Route exact path="/SearchUsers">
                         <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />

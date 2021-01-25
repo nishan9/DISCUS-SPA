@@ -9,3 +9,19 @@
   border: none;
   outline: none;
 }
+
+.black {
+  background-color: black;
+}
+
+.grey {
+  background-color: #212529;
+}
+
+.small {
+  height: 350px;
+}
+
+.big {
+  height: 300px;
+}
