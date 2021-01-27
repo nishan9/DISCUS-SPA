@@ -1,4 +1,10 @@
-interface Auth0user{
+interface Auth0userList{
+    "users" : Users[], 
+    "total" : number, 
+}
+
+
+interface Users{
     "created_at": string,
     "email": "test@email.com",
     "email_verified": boolean,
@@ -13,7 +19,6 @@ interface Auth0user{
     "last_login": string, 
     "logins_count": number
 }
-
 interface Identity{
     "connection": string, 
     "provider": string, 
@@ -27,9 +32,8 @@ interface Metadata{
     "career_stage" : string, 
     "school" : string
     "department": string, 
-    "research_interests" : string,
+    "research_interests" : string 
 }
 
 
-
-export default Auth0user;  
+export default Auth0userList;  
