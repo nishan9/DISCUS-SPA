@@ -1,4 +1,4 @@
-import { Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, FormControl, Grid, MenuItem, Select } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -119,6 +119,8 @@ function CreateEvent() {
                         <MenuItem value="Generic">Generic</MenuItem>
                     </Select>
                 </FormControl>
+
+                <Box m={3}></Box>
                 <Button variant="contained" color="secondary" type="submit" onClick={(e) =>publishEvent(e)} value="Submit">Submit</Button>
             </form>
         </Grid>   

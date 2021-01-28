@@ -74,7 +74,7 @@ function WelcomeScreen() {
                             <Typography variant="body1"> <FontAwesomeIcon icon={faEnvelope} size="2x"/> {data?.email}</Typography>
                             <Typography variant="body1"><FontAwesomeIcon icon={faLinkedin} size="2x"/> {data ? data?.user_metadata.linkedin : ""}</Typography>
                             
-                            <Typography variant="body1"> <FontAwesomeIcon icon={faAt} size="2x"/> {data ? data?.user_metadata.sussex : ""}</Typography>
+                            <Typography variant="body1"><FontAwesomeIcon icon={faAt} size="2x"/> {data ? data?.user_metadata.sussex : ""}</Typography>
                             <Typography variant="body1">Graduation Date </Typography>
                             <Typography variant="body1">Available </Typography>
                         </div>
