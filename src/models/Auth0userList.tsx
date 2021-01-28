@@ -3,7 +3,6 @@ interface Auth0userList{
     "total" : number, 
 }
 
-
 interface Users{
     "created_at": string,
     "email": "test@email.com",
