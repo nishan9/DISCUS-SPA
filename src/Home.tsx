@@ -50,7 +50,6 @@ export default function Home() {
                         <SearchEvent/>
                     </Route>
                     <Route exact path='/users/:user_id' component={ViewUser}/>
-                    
                 </Switch>
             </Router>
         </>
