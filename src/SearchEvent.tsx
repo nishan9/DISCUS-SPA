@@ -1,13 +1,16 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormGroup, Grid, InputLabel, Link, MenuItem, Modal, Select, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Fab, FormControl, FormControlLabel, FormGroup, Grid, IconButton, InputLabel, Link, makeStyles, MenuItem, Modal, Select, TextField, Typography } from '@material-ui/core';
 import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import React, {useState, useEffect} from 'react'
 import EventEntity from './models/EventEntity';
-
+import AddIcon from '@material-ui/icons/Add';
+import CreateEvent from './Forms/CreateEvent';
+import CancelIcon from '@material-ui/icons/Cancel';
 
 function SearchEvent() {
     const [data, setData] = useState<EventEntity[]>([]);
     const [open, setOpen] = useState(false);
+    const [openNE, setOpenNE] = useState(false); 
     const [selectedDate, setSelectedDate] = useState <Date | null>();
     const [currEvent, setCurrEvent] = useState<number>(0);
     const [newEvent, setNewEvent] = useState<EventEntity>(); 
@@ -27,6 +30,10 @@ function SearchEvent() {
         setNewEvent(data[i])
         setOpen(true);
     };
+
+    const handleOpenNE = () => {
+        setOpenNE(true);
+    }
 
     async function handleSave(e : any){
         e.preventDefault();
@@ -57,11 +64,26 @@ function SearchEvent() {
         setOpen(false);
     };
 
+    const handleCloseNE = () => {
+        setOpenNE(false);
+        fetchData(); 
+    };
+
     const handleDateChange = (date: Date | null) => {
         console.log(Date)
         setSelectedDate(date);
     };
 
+    
+
+    const useStyles = makeStyles(theme => ({
+    fab: {
+        position: 'fixed',
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+    },
+    }));
+    const classes = useStyles();
 
     return (
         <div>
@@ -196,9 +218,32 @@ function SearchEvent() {
                       <Button onClick={handleClose} color="primary"> Cancel</Button>
                       <Button onClick={(e) =>handleSave(e)} color="primary"> Save</Button>
                     </DialogActions>
-                  </Dialog>            
+                  </Dialog> 
+
+                           
             </Grid>
-            : <p>no data </p> } 
+            : <p>no data </p> }
+                            
+            <Dialog open={openNE} onClose={handleCloseNE} aria-labelledby="form-dialog-title">
+                <DialogTitle id="id">
+                <Box display="flex" alignItems="center">
+                    <Box flexGrow={1}> <Typography variant="h4">Create an event</Typography></Box>
+                    <Box>
+                        <IconButton onClick={handleCloseNE}>
+                        <CancelIcon />
+                        </IconButton>
+                    </Box>
+                </Box>
+                </DialogTitle>
+            <DialogContent>
+                <CreateEvent/>
+            </DialogContent>
+            </Dialog>
+
+            <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
+                <Button onClick={(e) => handleOpenNE()} > <AddIcon/> </Button>
+            </Fab>
+            
         </div>
     )
 }
