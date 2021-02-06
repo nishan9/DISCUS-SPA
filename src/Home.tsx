@@ -10,7 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import WelcomeScreen from './WelcomeScreen';
 import ViewUser from './ViewUser';
-import Test from './Test';
+
 
 export default function Home() {
     const Auth0 = useAuth0();

@@ -59,7 +59,7 @@ function WelcomeScreen() {
                 </Grid>
                 <Grid item xs={3}>
                     <Box className="small" m={2} p={6} borderRadius="borderRadius">
-                        <Avatar alt="Remy Sharp" className={classes.large} src="https://images.vexels.com/media/users/3/145908/preview2/52eabf633ca6414e60a7677b0b917d92-male-avatar-maker.jpg"/>
+                        <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
                     </Box>
                     <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
                         <Typography variant="h3">Points</Typography>

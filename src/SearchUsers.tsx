@@ -1,12 +1,9 @@
-import { Avatar, Box, Checkbox, Container, Divider, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, InputBase, makeStyles, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Avatar, Box, Checkbox, Container, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
-import Paper from '@material-ui/core/Paper';
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
 import { Pagination } from '@material-ui/lab';
-import { red } from '@material-ui/core/colors';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import StarIcon from '@material-ui/icons/Star';
 
 function SearchUsers() {
     const [data, setData] = useState<Auth0userList>(); 
@@ -57,14 +54,14 @@ function SearchUsers() {
             const response = await fetch(`http://localhost:5000/api/users/search/${sex}/${currPage - 1}`);
             const data : Auth0userList = await response.json();
             setData(data);
-            setPagetotal(Math.ceil(data.total/5))
+            setPagetotal(Math.ceil(data.total/10))
 
         } else {
             console.log(`http://localhost:5000/api/users/page/${currPage - 1}/${filter}`); 
             const response = await fetch(`http://localhost:5000/api/users/page/${currPage - 1}/${filter}`);
             const data : Auth0userList = await response.json();
             setData(data);
-            setPagetotal(Math.ceil(data.total/5))
+            setPagetotal(Math.ceil(data.total/10))
         }
     }
 
@@ -90,8 +87,7 @@ function SearchUsers() {
             height: 90, 
         },
         form: {
-            fontSize : "2.3rem", 
-            fontFamily : "proxima-nova, sans-serif", 
+            fontFamily : "Open Sans, sans-serif", 
         },
     });
 
@@ -101,7 +97,7 @@ function SearchUsers() {
         <div>
             <Grid container style={{ background: "#ebebeb"}}>
             <Grid xs={12}> 
-                <Box mx="30rem" my={7} className={classes.box}>
+                <Box mx="25vw" my={7} className={classes.box}>
                     <Grid container direction="row" alignItems="center">
                         <Grid container>
                             <div style={{ display: "flex" , width : "100%" }}>
@@ -159,18 +155,18 @@ function SearchUsers() {
                 <Grid item lg={8} > 
                     <Box ml={4} mt={15}>
                         {data ? data.users.map( e => (
-                            <Grid container direction="row" alignItems="center" style={{ borderBottom: "1px solid black"}}>
+                            <Grid container direction="row" alignItems="center" style={{ borderBottom: "1px solid #D3D3D3"}}>
                                 <Grid container>
-
                                         <Box style={{ display : "flex"}} >
-                                                <Box  my={6}>
-                                                    <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
+                                                <Box  my={6} >
+                                                <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
                                                 </Box>
-                                                <Box m={5} style={{ display : "flex", flexDirection : "column" }} >
-                                                    <Typography variant="body1"> {e.name}</Typography>
-                                                   
-                                                    <Typography variant="body1"> {e.user_metadata.career_stage}  <StarIcon/>  {e.user_metadata.department}</Typography>
-                                                    <Typography> {e.user_metadata.research_interests}</Typography>
+                                                <Box m={5} className={classes.form} style={{ display : "flex", flexDirection : "column" }} >
+                                                    <Typography variant="h5"> {e.name}</Typography>
+                                                    <Typography > {e.user_metadata.career_stage}  . {e.user_metadata.department}</Typography>
+                                                    <Box my={2} className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
+                                                        {e.user_metadata.research_interests}
+                                                    </Box>
                                                 </Box>
                                         </Box>
                                 </Grid>
