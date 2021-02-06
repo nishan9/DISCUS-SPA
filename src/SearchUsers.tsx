@@ -1,4 +1,4 @@
-import { Avatar, Box, Checkbox, Container, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
+import { Avatar, Box, Checkbox, Container, FormControl, FormControlLabel, FormGroup, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
@@ -26,7 +26,6 @@ function SearchUsers() {
         fetchData();
     },[searchTerm,currPage,theArray]);
 
-
     async function fetchData(){
         
         let filter = "ALL"; 
@@ -42,23 +41,22 @@ function SearchUsers() {
             }
         }
 
-        if (searchTerm.length >=2 ){
+        if (searchTerm.length > 2 ){
             let sex = ""
             if (theArray.length > 0){
                 sex = "name:*" + searchTerm + "* AND "+ filter; 
             }else {
                 sex = "name:*" + searchTerm + "*"; 
             }
-            console.log("Request before sending :"); 
-            console.log(`http://localhost:5000/api/users/search/${sex}/${currPage - 1}`);
-            const response = await fetch(`http://localhost:5000/api/users/search/${sex}/${currPage - 1}`);
+            console.log(`https://localhost:5001/UserSearch/Search/${sex}/${currPage - 1}`);
+            const response = await fetch(`https://localhost:5001/UserSearch/Search/${sex}/${currPage - 1}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))
 
         } else {
-            console.log(`http://localhost:5000/api/users/page/${currPage - 1}/${filter}`); 
-            const response = await fetch(`http://localhost:5000/api/users/page/${currPage - 1}/${filter}`);
+            console.log(`https://localhost:5001/UserSearch/Page/${currPage - 1}/${filter}`); 
+            const response = await fetch(`https://localhost:5001/UserSearch/Page/${currPage - 1}/${filter}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))

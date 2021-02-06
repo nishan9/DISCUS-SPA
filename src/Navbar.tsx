@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -47,6 +47,7 @@ export default function ButtonAppBar(props: ButtonAppBarProps) {
           </Typography>
           <Button color="inherit" onClick={() => history.push("/searchUsers")}>Search Users</Button>
           <Button color="inherit" onClick={() => history.push("/searchEvent")}>Events</Button>
+          <Button color="inherit" onClick={() => history.push("/TagSystem")}>Tag System</Button>
           <Button color="inherit" onClick={() => Auth0.logout()}>Logout</Button>
         </Toolbar>
       </AppBar>

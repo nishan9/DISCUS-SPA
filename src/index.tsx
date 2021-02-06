@@ -1,13 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import Home from './Home';
 import {useAuth0,Auth0Provider} from "@auth0/auth0-react";
-import Login from './Login';
 import { GlobalContextProvider } from './context/GlobalContext';
 import { ThemeProvider } from '@material-ui/core';
 import theme from './theme';
-import { createMuiTheme } from '@material-ui/core/styles';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
