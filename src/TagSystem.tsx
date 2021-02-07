@@ -10,19 +10,17 @@ function TagSystem() {
     }
 
     return (
-        <Box m={5}>
-        <Autocomplete
-          multiple
-          onChange={(event, value, reason) => addtoState(value)}
-          id="multiple-limit-tags"
-          options={Subjects}
-          getOptionLabel={(option) => option.Subject}
-          renderInput={(params) => (
-            <TextField {...params} variant="outlined" placeholder="Tags" />
-          )}
-        />
-      </Box>
-    )
+          <Autocomplete
+            multiple
+            onChange={(event, value, reason) => addtoState(value)}
+            id="multiple-limit-tags"
+            options={Subjects}
+            getOptionLabel={(option) => option.Subject}
+            renderInput={(params) => (
+              <TextField {...params} variant="outlined" placeholder="Tags" />
+            )}
+          />
+  )
 }
 const Subjects = [
     { Subject: 'Biology'},

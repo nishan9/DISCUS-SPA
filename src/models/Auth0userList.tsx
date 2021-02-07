@@ -32,6 +32,7 @@ interface Metadata{
     "school" : string
     "department": string, 
     "research_interests" : string 
+    "tags" : string[]
 }
 
 
