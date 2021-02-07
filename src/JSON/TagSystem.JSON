@@ -1,0 +1,35 @@
+{
+    "TagHeirachy":[
+       {
+          "Subject":"Biology",
+          "Children":[
+             {
+                "Subject":"Computational Biology",
+                "Children":"None"
+             }
+          ]
+       },
+       {
+          "Subject":"Computer Science",
+          "Children":[
+             {
+                "Subject":"Data Structures and Alogirthms",
+                "Children":"None"
+             },
+             {
+                "Subject":"Machine Learning",
+                "Children":[
+                   {
+                      "Subject":"CNNs",
+                      "Children":"None"
+                   }
+                ]
+             },
+             {
+                "Subject":"Operating Systems",
+                "Children":"None"
+             }
+          ]
+       }
+    ]
+ }

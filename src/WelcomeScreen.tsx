@@ -22,7 +22,8 @@ function WelcomeScreen() {
     }, [accessToken])
 
     async function fetchData(){
-        const response = await fetch('http://localhost:5000/api/users/me', { 
+        console.log(accessToken);
+        const response = await fetch('https://localhost:5001/UserSearch/Me', { 
             headers: {
               'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',
@@ -92,7 +93,6 @@ function WelcomeScreen() {
                     <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}>
                         <Typography variant="h4">Upcoming Events</Typography>
                             <div >
-                                <SearchEvent/>
                             </div>
                     </Box>
                 </Grid>

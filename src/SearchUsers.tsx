@@ -1,70 +1,99 @@
-import { Avatar, Box, Checkbox, Container, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, Grid, InputBase, makeStyles, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Checkbox, Chip, Container, FormControl, FormControlLabel, FormGroup, Grid, InputBase, makeStyles, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
-import { Pagination } from '@material-ui/lab';
+import { Autocomplete, Pagination } from '@material-ui/lab';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import LabelIcon from '@material-ui/icons/Label';
+import LabelOffIcon from '@material-ui/icons/LabelOff';
+import TagSystem from './TagSystem';
 
 function SearchUsers() {
     const [data, setData] = useState<Auth0userList>(); 
     const [Pagetotal, setPagetotal] = useState(0); 
     const [searchTerm, setSearchTerm] = useState(""); 
     const [currPage, setCurrPage] = useState(1); 
-    const [theArray, setTheArray] = useState<string[]>([]);
+    const [DepArray, setDepArray] = useState<string[]>([]);
+    const [tags, setTags] = useState(true)
+    const [tagsArray, setTagsArray] = useState<String[]>([]); 
 
-    
       function handleChange (checkbocName: string, state: boolean) {
         if (state === true){
-            setTheArray(theArray => [...theArray, checkbocName])
+            setDepArray(theArray => [...theArray, checkbocName])
         } else {
-            const result = theArray.filter(dep => dep !== `${checkbocName}`);
-            setTheArray(result); 
+            const result = DepArray.filter(dep => dep !== `${checkbocName}`);
+            setDepArray(result); 
         }
       }
 
     useEffect(() => {
         fetchData();
-    },[searchTerm,currPage,theArray]);
-
+    },[searchTerm,currPage,DepArray, tagsArray]);
 
     async function fetchData(){
         
         let filter = "ALL"; 
 
-        if (theArray.length > 0){
+        if (DepArray.length > 0){
             filter = ""; 
-            for (var i = 0; i < theArray.length; i++) {
+            for (var i = 0; i < DepArray.length; i++) {
                 if (i === 0){
-                  filter = filter.concat('user_metadata.department:"' + theArray[i] + '"')
+                  filter = filter.concat('user_metadata.department:"' + DepArray[i] + '"')
                 }else {
-                  filter = filter.concat( ' OR user_metadata.department:"' + theArray[i] + '"')
+                  filter = filter.concat( ' OR user_metadata.department:"' + DepArray[i] + '"')
                 }
             }
         }
 
-        if (searchTerm.length >=2 ){
-            let sex = ""
-            if (theArray.length > 0){
-                sex = "name:*" + searchTerm + "* AND "+ filter; 
+        if (searchTerm.length > 2){
+            let FinalQuery = ""
+
+            if (DepArray.length > 0){
+                FinalQuery = "name:*" + searchTerm + "* AND "+ filter; 
             }else {
-                sex = "name:*" + searchTerm + "*"; 
+                FinalQuery = "name:*" + searchTerm + "*"; 
             }
-            console.log("Request before sending :"); 
-            console.log(`http://localhost:5000/api/users/search/${sex}/${currPage - 1}`);
-            const response = await fetch(`http://localhost:5000/api/users/search/${sex}/${currPage - 1}`);
+            const response = await fetch(`https://localhost:5001/UserSearch/Search/${FinalQuery}/${currPage - 1}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))
 
-        } else {
-            console.log(`http://localhost:5000/api/users/page/${currPage - 1}/${filter}`); 
-            const response = await fetch(`http://localhost:5000/api/users/page/${currPage - 1}/${filter}`);
+        } else if (tagsArray.length > 0){
+            let tagfilter = ""
+            for (var i = 0; i < tagsArray.length; i++) {
+                if (i === 0){
+                    tagfilter = tagfilter.concat('user_metadata.tags:"' + tagsArray[i] + '"')
+                }else {
+                    tagfilter = tagfilter.concat( ' AND user_metadata.tags:"' + tagsArray[i] + '"')
+                }
+            }
+            const response = await fetch(`https://localhost:5001/UserSearch/Search/${tagfilter}/${currPage - 1}`);
+            const data : Auth0userList = await response.json();
+            setData(data);
+            setPagetotal(Math.ceil(data.total/10))
+        }
+        
+        
+        else {
+            const response = await fetch(`https://localhost:5001/UserSearch/Page/${currPage - 1}/${filter}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))
         }
     }
 
+        
+    function Changetag(){
+        setTags(false)
+    }
+    function Untag(){
+        setTags(true);
+    }
+
+
+    function addtoState(value : { Subject : string}[]){
+        setTagsArray(value.map ( x => x.Subject)); 
+    }
 
     const useStyles = makeStyles({
         box: {
@@ -100,10 +129,36 @@ function SearchUsers() {
                 <Box mx="25vw" my={7} className={classes.box}>
                     <Grid container direction="row" alignItems="center">
                         <Grid container>
+
+                                {tags ?                                
                             <div style={{ display: "flex" , width : "100%" }}>
-                                <SearchIcon fontSize={"large"}/>
-                                <InputBase fullWidth={true} className={classes.inputbase} placeholder="Search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}/>
-                            </div>
+                            <SearchIcon fontSize={"large"}/>
+                                <InputBase fullWidth={true} className={classes.inputbase} placeholder="Search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}/> 
+                                <Button onClick={Changetag}>
+                                    <LabelOffIcon color={"error"} fontSize={"large"}/>
+                                </Button>
+                                </div>
+                                :
+                                <div style={{ display: "flex" , width : "100%" }}>
+                                                                <SearchIcon fontSize={"large"}/>
+
+                                    <Autocomplete
+                                        multiple
+                                        onChange={(event, value, reason) => addtoState(value)}
+                                        id="multiple-limit-tags"
+                                        options={Subjects}
+                                        getOptionLabel={(option) => option.Subject}
+                                        renderInput={(params) => (
+                                        <TextField {...params} variant="outlined" placeholder="Tags" />
+                                        )}
+                                    />
+                                <Button onClick={Untag}>
+
+                                    <LabelIcon color={"error"} fontSize={"large"}/>
+                                </Button>
+                                </div>
+                                }
+
                         </Grid>
                     </Grid>
                 </Box> 
@@ -150,6 +205,7 @@ function SearchUsers() {
                         <FormControlLabel control={<Checkbox onChange={(e) => handleChange("psych", e.target.checked)} />}
                         label={<Typography variant="body2" color="textPrimary">Brighton and Sussex Medical School</Typography>}/>
                     </FormGroup> </FormControl>  
+                    
                     </Box>
                 </Grid>
                 <Grid item lg={8} > 
@@ -166,6 +222,10 @@ function SearchUsers() {
                                                     <Typography > {e.user_metadata.career_stage}  . {e.user_metadata.department}</Typography>
                                                     <Box my={2} className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
                                                         {e.user_metadata.research_interests}
+                                                        <Box my={2}>
+                                                        {e.user_metadata.tags.map(e => <Chip label={e}></Chip>)}
+                                                        </Box>
+
                                                     </Box>
                                                 </Box>
                                         </Box>
@@ -185,6 +245,12 @@ function SearchUsers() {
         </div>
     )
 }
+const Subjects = [
+    { Subject: 'Computer Stuff'},
+    { Subject: 'Natural Language Engineering'},
+    { Subject: 'Mathematics'},
+    { Subject: 'Julie'},
+  ];
 
 export default SearchUsers
 

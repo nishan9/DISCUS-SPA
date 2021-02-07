@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Avatar, Box, Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0user from './models/Auth0user';
-import Auth0userList from './models/Auth0userList';
 import Navbar from './Navbar'
 
 function ViewUser(props : any) {

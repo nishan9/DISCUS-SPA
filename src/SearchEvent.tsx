@@ -6,6 +6,8 @@ import EventEntity from './models/EventEntity';
 import AddIcon from '@material-ui/icons/Add';
 import CreateEvent from './Forms/CreateEvent';
 import CancelIcon from '@material-ui/icons/Cancel';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function SearchEvent() {
     const [data, setData] = useState<EventEntity[]>([]);
@@ -82,6 +84,20 @@ function SearchEvent() {
         bottom: theme.spacing(2),
         right: theme.spacing(2),
     },
+    paper: {
+        overflowY: 'unset',
+    },
+
+    customizedButton: {
+        padding: "10px",
+        position: "absolute",
+        right: -26,
+        top: -27,
+    }, 
+    box : {
+        position : "relative", 
+    }
+
     }));
     const classes = useStyles();
 
@@ -93,7 +109,11 @@ function SearchEvent() {
             {data.length > 0 ? 
             <Grid container>
             {data?.map ((e,i) => 
-                    <Box borderRadius="borderRadius" border={1} m={3} p={5} bgcolor={"yellow"}> 
+                    <Box width="30%" borderRadius="borderRadius" border={1} m={3} p={4} className={classes.box}> 
+                        <div className={classes.customizedButton} >
+                            <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
+                            <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
+                        </div>
                         <Typography variant={"h4"}>{e.title}</Typography>
                             {e.dateTime}
                         <Box>
@@ -102,9 +122,6 @@ function SearchEvent() {
                             <Typography variant="body2"> Is DISCUS : {e.isDISCUS.toString()}</Typography>
                             {e.description}
                         </Box>  
-                        <Button variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit">Edit</Button>
-                        <Button variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit">Delete</Button>
-
                     </Box> 
             )} 
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -112,7 +129,7 @@ function SearchEvent() {
                         <DialogContent>
                                 <TextField
                                     autoFocus
-                                    defaultValue={data ? data[currEvent].title : ""}
+                                    defaultValue={newEvent ? newEvent.title : ""}
                                     onChange={(e) => {
                                         if (newEvent !== undefined){
                                             setNewEvent({...newEvent,title : (e.target.value)})
@@ -128,6 +145,7 @@ function SearchEvent() {
                                 <Select
                                     style={{ minWidth: 100 }}
                                     label="Event Type"
+                                    defaultValue={newEvent ? newEvent.type : "Hackathon"}
                                     onChange={(e : React.ChangeEvent<any>) => {
                                         if (newEvent !== undefined){
                                             setNewEvent({...newEvent,type : e.target.value})
@@ -196,7 +214,7 @@ function SearchEvent() {
 
                                 />
                             }
-                        label=""
+                        label="Is a DISCUS event"
                     />
                     </FormGroup>
                     
@@ -210,6 +228,7 @@ function SearchEvent() {
                                     }}
                                     margin="dense"
                                     id="name"
+                                    multiline
                                     label="Description"
                                     fullWidth
                                 />
