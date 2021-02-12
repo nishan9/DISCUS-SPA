@@ -5,7 +5,7 @@ interface Auth0userList{
 
 interface Users{
     "created_at": string,
-    "email": "test@email.com",
+    "email": string,
     "email_verified": boolean,
     "identities": Identity[], 
     "name": string,
@@ -25,14 +25,28 @@ interface Identity{
     "isSocial": boolean
 }
 
-interface Metadata{
-    "sussex": string, 
-    "linkedin": string, 
-    "career_stage" : string, 
-    "school" : string
-    "department": string, 
-    "research_interests" : string 
-    "tags" : string[]
+interface Metadata
+{
+    "social" : Social,
+    "education" : Education,
+    "research" : string, 
+    "expertise" : String[], 
+    "interest" : string[]
+}
+
+interface Social
+{
+    "linkedin" : string,
+    "sussex" : string
+}
+
+interface Education
+{
+    "school" : string,
+    "department" : string,
+    "careerStage": string,
+    "graduationDate": string,
+    "available" : string,
 }
 
 

@@ -10,7 +10,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import WelcomeScreen from './WelcomeScreen';
 import ViewUser from './ViewUser';
-import TagSystem from './TagSystem';
+import Sidebar from './Sidebar';
 
 
 export default function Home() {
@@ -51,10 +51,6 @@ export default function Home() {
                         <SearchEvent/>
                     </Route>
                     <Route exact path='/users/:user_id' component={ViewUser}/>
-                    <Route exact path='/TagSystem'>
-                        <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
-                        <TagSystem/>
-                    </Route>
                 </Switch>
             </Router>
         </>

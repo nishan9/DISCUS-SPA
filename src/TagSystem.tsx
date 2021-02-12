@@ -1,32 +1,26 @@
-import { Box, TextField } from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import React, { useState } from 'react'
+import React from 'react'
 
-function TagSystem() {
-    const [tags, setTags] = useState<String[]>([]); 
-
-    function addtoState(value : { Subject : string}[]){
-        setTags(value.map ( x => x.Subject)); 
+const TagSystem = {
+    "Chemistry":0,
+    "Architecture":0,
+    "Julie":{
+       "Astro Physics":0
+    },
+    "Computer Stuff":{
+       "Natural Language Engineering": 0,
+       "Natural Language":{
+          "Natural Language Processing squared":0
+       },
+       "Data Structures and Algorithms":{
+          "Algorithms":0,
+          "Data Structures":0,
+          "Linguistics" : 0
+       }
     }
+ }
 
-    return (
-          <Autocomplete
-            multiple
-            onChange={(event, value, reason) => addtoState(value)}
-            id="multiple-limit-tags"
-            options={Subjects}
-            getOptionLabel={(option) => option.Subject}
-            renderInput={(params) => (
-              <TextField {...params} variant="outlined" placeholder="Tags" />
-            )}
-          />
-  )
-}
-const Subjects = [
-    { Subject: 'Biology'},
-    { Subject: 'Physics'},
-    { Subject: 'Mathematics'},
-    { Subject: 'Julie'},
-  ];
+ function getAllKeys(){
+    
+ }
 
 export default TagSystem

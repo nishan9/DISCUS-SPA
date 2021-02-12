@@ -5,8 +5,6 @@ import { InputLabel } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Alert } from '@material-ui/lab';
-
 
 function CreateEvent() {
 
@@ -14,6 +12,7 @@ function CreateEvent() {
     const [selectedDate, setSelectedDate] = useState <Date | null>();
     const [event, setEvent] = useState({title:"",dateTime:"",type:"",description:"",isDISCUS:true, url:""}); 
     const [accessToken, setAccessToken] = useState("");
+    
     const handleDateChange = (date: Date | null) => {
         setSelectedDate(date);
     };
