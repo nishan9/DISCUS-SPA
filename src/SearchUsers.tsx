@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Checkbox, Chip, Container, FormControl, FormControlLabel, FormGroup, Grid, InputBase, Link, makeStyles, Switch, TextField, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Checkbox, Chip, Container, FormControl, FormControlLabel, FormGroup, Grid, InputBase, makeStyles, Switch, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
@@ -8,7 +8,8 @@ import LabelIcon from '@material-ui/icons/Label';
 import LabelOffIcon from '@material-ui/icons/LabelOff';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import SchoolIcon from '@material-ui/icons/School';
-import TagSystem from './TagSystem';
+import { Link } from 'react-router-dom';
+import { TagSystem } from './TagSystem';
 const JsonFind = require('json-find');
 
 
@@ -240,7 +241,6 @@ function SearchUsers() {
                         </div>
 }
                   
-
                     </Grid>
                 </Box> 
             </Grid>
@@ -301,7 +301,7 @@ function SearchUsers() {
                         {data ? data.users.map( e => (
                             <Grid container direction="row" alignItems="center" style={{ borderBottom: "1px solid #D3D3D3"}}>
                                 <Grid container>
-                                <Link href={`/users/${e.user_id}`} underline="none" color="initial">
+                                <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none' }}>
 
                                         <Box style={{ display : "flex"}} >
                                                     <Box  my={6} >

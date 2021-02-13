@@ -8,7 +8,10 @@ import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/picker
 import { Autocomplete } from '@material-ui/lab';
 import DateFnsUtils from '@date-io/date-fns';
 import EditIcon from '@material-ui/icons/Edit';
-
+import CancelIcon from '@material-ui/icons/Cancel';
+import Metadata from './models/Metadata';
+import { AllSubjects } from './TagSystem';
+const JsonFind = require('json-find');
 
 function WelcomeScreen() {
     const Auth0 = useAuth0();
@@ -20,13 +23,17 @@ function WelcomeScreen() {
     const [interests, setInterests] = useState<String[]>([]); 
     const [expertise, setExpertise] = useState<String[]>([]);
     const [editMode, setEditMode] = useState(false);
-
-
-
+    const [changeMeta, setUpdateMeta] = useState<Metadata>(); 
+    const [subject, setSubject] = useState([]); 
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
     },[Auth0])
+
+    useEffect(() => {
+    },[])
+
+
 
     useEffect(() => {
         fetchData();
@@ -84,7 +91,35 @@ function WelcomeScreen() {
         setSelectedDate(date);
     };
 
+    function changeEdit(){
+        setEditMode(true);
 
+        if (data !== undefined ){
+            const postreq : Metadata = {
+                user_metadata: {
+                    social : {
+                        sussex: data.user_metadata.social.sussex, 
+                    },
+                    education : {
+                        school : data?.user_metadata.education.school,
+                        department : data?.user_metadata.education.department,
+                        careerStage: data?.user_metadata.education.careerStage,
+                        graduationDate: data?.user_metadata.education.graduationDate,
+                        available : data?.user_metadata.education.available,
+                    },
+                    research : data?.user_metadata.research, 
+                    expertise : data.user_metadata.expertise, 
+                    interest : data.user_metadata.interest
+                }
+            }
+            setUpdateMeta(postreq)
+        }
+
+    }
+
+    function ChangeCancel(){
+        setEditMode(false)
+    }
 
     function addtoInterests(value : { Subject : string}[]){
         setInterests(value.map ( x => (x.Subject))); 
@@ -116,19 +151,11 @@ function WelcomeScreen() {
         <div>
         { data?.user_metadata === null ? 
         
-        
         <div>
         <Box p={2} > <Typography color="secondary" variant={"h2"}> Enrich your profile </Typography> </Box>
         <Grid container justify = "center">
             <Grid item xs={5}>
-                <Box my={3} p={3} border={1} borderColor="primary.main">     
-                <Typography variant={"h4"}> Social Connections</Typography>
-                <Box my={2}>
-                    <TextField fullWidth id="outlined-basic" label="Sussex Profile URL" variant="outlined" />
-                </Box>
-
-                <Typography  variant={"h4"}> Education </Typography>
-                
+                <Box my={3} p={3} border={1} borderColor="primary.main">                     
                 <Grid container direction="row" alignItems="center">
 
                 <Box my={1} mr={3}>
@@ -204,8 +231,8 @@ function WelcomeScreen() {
                     <FormControl variant="outlined" style={{minWidth: 150}}>
                     <InputLabel>CareerStage</InputLabel>
                     <Select onChange={(e) => setTypeValue({...typeValue,careerstage: String(e.target.value)})} label="Career Stage" >
-                    <MenuItem value="University School">UG</MenuItem>
-                    <MenuItem value="Schl Work">MSc</MenuItem>
+                    <MenuItem value="UG">UG</MenuItem>
+                    <MenuItem value="MSc">MSc</MenuItem>
                     <MenuItem value="PhD">PhD</MenuItem>
                     <MenuItem value="PhD">PostDoc</MenuItem>
                     <MenuItem value="Professional Services">Professional Services</MenuItem>
@@ -228,8 +255,10 @@ function WelcomeScreen() {
                         />
                     </MuiPickersUtilsProvider>
                 </Box>
-                            <p>Available? </p>
-                            <Checkbox onChange={(e) => setTypeValue({...typeValue,available: String(e.target.checked)})}/>
+                        <Box m={4}>
+                            <Typography>Available? <Checkbox onChange={(e) => setTypeValue({...typeValue,available: String(e.target.checked)})}/> </Typography>
+                        </Box>
+               
                 </Grid> 
 
 
@@ -237,6 +266,7 @@ function WelcomeScreen() {
                     id="outlined-multiline-static"
                     label="Research"
                     multiline
+                    fullWidth
                     onChange={(e) => setTypeValue({...typeValue,research: String(e.target.value)})}
                     rows={4}
                     variant="outlined"
@@ -244,37 +274,11 @@ function WelcomeScreen() {
                         maxlength: CHARACTER_LIMIT
                     }}
                 />
-
-                <Box my={3}>
-                    Interests
-                    <Autocomplete
-                        multiple
-                        fullWidth
-                        onChange={(event, value, reason) => addtoInterests(value)}
-                        id="multiple-limit-tags"
-                        options={Subjects}
-                        getOptionLabel={(option) => option.Subject}
-                        renderInput={(params) => (
-                            <TextField {...params} variant="outlined" placeholder="Add Interests" />
-                        )}
-                    />
+                <Box my={2}>
+                    <TextField fullWidth id="outlined-basic" label="Sussex Profile URL" variant="outlined" />
                 </Box>
+                
 
-
-                <Box my={3}>
-                    Expertise
-                    <Autocomplete
-                        multiple
-                        fullWidth
-                        onChange={(event, value, reason) => addtoExpertise(value)}
-                        id="multiple-limit-tags"
-                        options={Subjects}
-                        getOptionLabel={(option) => option.Subject}
-                        renderInput={(params) => (
-                        <TextField {...params} variant="outlined" placeholder="Add More" />
-                        )}
-                    />
-                </Box>
 
                 <Box my={2}>
                     <Button variant="contained" color="secondary" type="submit" onClick={(e) => SaveMetada(e)} value="Submit">Submit</Button>
@@ -286,13 +290,7 @@ function WelcomeScreen() {
 
         </div>   
         
-        :   
-        
-        
-        
-        
-        
-        
+        :   editMode === false ?
         
         <Grid>
         <div>
@@ -314,7 +312,7 @@ function WelcomeScreen() {
             <Grid item xs={8} >
                 <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
                     <div>
-                        <Button> <EditIcon/> </Button>
+                        <Button onClick={changeEdit}> <EditIcon/> </Button>
                         <Typography variant="h4">General</Typography>
                         <Typography variant="body1">Name {data?.name}</Typography>
                         <Typography variant="body1">{data?.email}</Typography>
@@ -337,7 +335,66 @@ function WelcomeScreen() {
         </Grid>
         </div>
         </Grid>
-        
+        : 
+ 
+                
+        <Grid>
+        <div>
+        <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Box pt={3} >
+                    <Typography variant="h3">Edit Mode</Typography>
+                </Box>
+            </Grid>
+            <Grid item xs={3}>
+                <Box className="small" m={2} p={6} borderRadius="borderRadius">
+                    <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
+                </Box>
+                <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
+                    <Typography variant="h3">Points</Typography>
+                    <Typography variant="h4">5 Points</Typography>
+                </Box>
+            </Grid>
+            <Grid item xs={8} >
+                <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
+                    <div>
+                        <Button onClick={ChangeCancel}> <CancelIcon/> </Button>
+                        <Typography variant="h4"></Typography>
+                        <Typography variant="body1">Name {data?.name}</Typography>
+                        <Typography variant="body1">{data?.email}</Typography>
+                        <Typography>{data?.user_metadata.education.department}</Typography>
+                        <Typography>{data?.user_metadata.education.school}</Typography>
+                        <Typography>{data?.user_metadata.education.department}</Typography>
+                        <Autocomplete
+                            multiple
+                            fullWidth
+                            onChange={(event, value, reason) => console.log(value, reason)}
+                            id="multiple-limit-tags"
+                            options={AllSubjects}
+                            getOptionLabel={(option) => option}
+                            renderInput={(params) => (
+                            <TextField {...params} variant="outlined" placeholder="Add Tags" />
+                            )}
+                        />
+
+                        
+                        {data?.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
+                    </div>
+                </Box>
+                <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}>
+                <Typography variant="h4">Academic</Typography>
+                    <div >
+                    <Typography variant="body1"></Typography>
+                    <Typography variant="body1"></Typography>
+                    <Typography>{data?.user_metadata.research}</Typography>
+                        {data?.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
+                    </div>
+                </Box>
+            </Grid>
+        </Grid>
+        </div>
+        </Grid>
+
         
         }
 
@@ -345,11 +402,5 @@ function WelcomeScreen() {
         </div>           
     )}
 
-    const Subjects = [
-        { Subject: 'Computer Stuff'},
-        { Subject: 'Natural Language Engineering'},
-        { Subject: 'Mathematics'},
-        { Subject: 'Julie'},
-      ];
 
 export default WelcomeScreen

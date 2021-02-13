@@ -1,6 +1,7 @@
+
 import React from 'react'
 
-const TagSystem = {
+export const TagSystem = {
     "Chemistry":0,
     "Architecture":0,
     "Julie":{
@@ -19,8 +20,7 @@ const TagSystem = {
     }
  }
 
- function getAllKeys(){
-    
- }
+export const AllSubjects = [ "Chemistry", "Architecture", "Julie", "Astro Physics", "Computer Stuff", "Natural Language Engineering", "Natural Language" ]
+ 
+ 
 
-export default TagSystem

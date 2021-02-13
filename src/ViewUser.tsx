@@ -20,9 +20,8 @@ function ViewUser(props : any) {
     }, [])
 
     async function fetchData(){
-        let id = user_id.slice(6); 
-        console.log(`https://localhost:5001/UserSearch/${id}`); 
-        const response = await fetch(`https://localhost:5001/UserSearch/${id}`);
+        console.log(`https://localhost:5001/UserSearch/${user_id}`); 
+        const response = await fetch(`https://localhost:5001/UserSearch/${user_id}`);
         setData(await response.json());
     }
 
@@ -87,12 +86,12 @@ function ViewUser(props : any) {
             
             <div>
             <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} /> 
-<Grid container spacing={3}>
-    <Grid item xs={12}>
-        <Box pt={3} >
-            <Typography variant="h3">Overview</Typography>
-        </Box>
-    </Grid>
+    <Grid container spacing={3}>
+            <Grid item xs={12}>
+                <Box pt={3} >
+                    <Typography variant="h3">{data?.name}</Typography>
+                </Box>
+            </Grid>
     <Grid item xs={3}>
         <Box className="small" m={2} p={6} borderRadius="borderRadius">
             <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
@@ -107,7 +106,6 @@ function ViewUser(props : any) {
             <div>
                 <Button onClick={changeEdit}> <SaveIcon/> </Button>
                 <Button onClick={Cancel}> <CancelIcon/> </Button>
-                <Typography variant="h4">General</Typography>
                 <Typography variant="body1">Name <TextField defaultValue={data?.name}/></Typography>
                 <Typography variant="body1">
                     <TextField 
@@ -218,7 +216,7 @@ function ViewUser(props : any) {
 <Grid container spacing={3}>
     <Grid item xs={12}>
         <Box pt={3} >
-            <Typography variant="h3">Overview</Typography>
+            <Typography variant="h3">{data?.name}</Typography>
         </Box>
     </Grid>
     <Grid item xs={3}>
@@ -234,10 +232,8 @@ function ViewUser(props : any) {
         <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
             <div>
                 <Button onClick={changeEdit}> <EditIcon/> </Button>
-                <Typography variant="h4">General</Typography>
                 <Typography variant="body1">Name {data?.name}</Typography>
                 <Typography variant="body1">{data?.email}</Typography>
-                <Typography>{data?.user_metadata.education.department}</Typography>
                 <Typography>{data?.user_metadata.education.school}</Typography>
                 <Typography>{data?.user_metadata.education.department}</Typography>
                 {data?.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
