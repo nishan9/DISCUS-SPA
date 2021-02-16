@@ -33,7 +33,10 @@ const dataDefaultValue : Auth0user = {
     }, 
     "last_ip": "", 
     "last_login": "", 
-    "logins_count": 0
+    "logins_count": 0,
+    "app_metadata" : {
+        "isAdmin" : false
+    }
 }
 export const Auth0Context = createContext({
     data : dataDefaultValue,

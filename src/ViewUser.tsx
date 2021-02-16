@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, ButtonBase, Chip, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Theme, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Auth0user from './models/Auth0user';
 import Navbar from './Navbar'
 import EditIcon from '@material-ui/icons/Edit';
@@ -7,6 +7,7 @@ import DepartmentObj from './Department';
 import { Autocomplete, AutocompleteChangeReason } from '@material-ui/lab';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
+import { Auth0Context } from './context/Auth0Context';
 
 function ViewUser(props : any) {
     const [loginPressed, setLoginPressed] = useState(false);
@@ -14,6 +15,7 @@ function ViewUser(props : any) {
     const user_id = props.match.params.user_id; 
     const [editMode, setEditMode] = useState(false);
     const [interests, setInterests] = useState<string[]>([])
+    const AuthContext = useContext(Auth0Context)
 
     useEffect(() => {
         fetchData();
@@ -86,24 +88,24 @@ function ViewUser(props : any) {
             
             <div>
             <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} /> 
-    <Grid container spacing={3}>
+            <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Box pt={3} >
-                    <Typography variant="h3">{data?.name}</Typography>
-                </Box>
+            <Box pt={3} >
+            <Typography variant="h3">{data?.name}</Typography>
+            </Box>
             </Grid>
-    <Grid item xs={3}>
-        <Box className="small" m={2} p={6} borderRadius="borderRadius">
+            <Grid item xs={3}>
+            <Box className="small" m={2} p={6} borderRadius="borderRadius">
             <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
-        </Box>
-        <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
+            </Box>
+            <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
             <Typography variant="h3">Points</Typography>
             <Typography variant="h4">5 Points</Typography>
-        </Box>
-    </Grid>
-    <Grid item xs={9} >
+            </Box>
+            </Grid>
+        <Grid item xs={9} >
         <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
-            <div>
+            <div>                
                 <Button onClick={changeEdit}> <SaveIcon/> </Button>
                 <Button onClick={Cancel}> <CancelIcon/> </Button>
                 <Typography variant="body1">Name <TextField defaultValue={data?.name}/></Typography>
@@ -231,7 +233,7 @@ function ViewUser(props : any) {
     <Grid item xs={8} >
         <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
             <div>
-                <Button onClick={changeEdit}> <EditIcon/> </Button>
+                {AuthContext?.data.app_metadata === null ? <></> : <p> <Button onClick={changeEdit}> <EditIcon/> </Button> </p>}
                 <Typography variant="body1">Name {data?.name}</Typography>
                 <Typography variant="body1">{data?.email}</Typography>
                 <Typography>{data?.user_metadata.education.school}</Typography>

@@ -11,6 +11,7 @@ import Login from './Login';
 import WelcomeScreen from './WelcomeScreen';
 import ViewUser from './ViewUser';
 import Sidebar from './Sidebar';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
 
 
 export default function Home() {
@@ -25,34 +26,81 @@ export default function Home() {
     },[Auth0]);                         //<div>Hello {user.name}</div>
 
 **/
+const drawerWidth = 140;
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: 'flex',
+    },
+    drawer: {
+      [theme.breakpoints.up('sm')]: {
+        width: drawerWidth,
+        flexShrink: 0,
+      },
+    },
+    appBar: {
+      [theme.breakpoints.up('sm')]: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+      },
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up('sm')]: {
+        display: 'none',
+      },
+    },
+    // necessary for content to be below app bar
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+      width: drawerWidth,
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
+  }),
+);
+const classes = useStyles();
+
 
     return (
-
         Auth0.isAuthenticated ? 
         <>
             {/* if the user is authenticated */}
-            
+            <div className={classes.root}>
             <Router>
+                <Sidebar/>
                 <Switch>
                     <Route exact path="/">
-                        <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
-                        <WelcomeScreen />
+                    <main className={classes.content}>
+                    <div className={classes.toolbar} />
+                        <WelcomeScreen/>
+                    </main>
                     </Route>
                     <Route exact path="/searchUsers">
-                        <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
+                    <main className={classes.content}>
+                    <div className={classes.toolbar} />
                         <SearchUsers/>
+                        </main>
                     </Route>
                     <Route exact path="/createEvent">
-                        <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
+                    <main className={classes.content}>
+                    <div className={classes.toolbar} />
                         <CreateEvent/>
+                        </main>
                     </Route>
                     <Route exact path="/searchEvent">
-                        <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} />
+                    <main className={classes.content}>
+                    <div className={classes.toolbar} />
                         <SearchEvent/>
+                        </main>
                     </Route>
                     <Route exact path='/users/:user_id' component={ViewUser}/>
                 </Switch>
             </Router>
+            </div>
         </>
         :
         <>

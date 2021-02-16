@@ -11,8 +11,15 @@ interface Auth0user{
     "user_metadata": Metadata, 
     "last_ip": string, 
     "last_login": string, 
-    "logins_count": number
+    "logins_count": number,
+    "app_metadata" : AppMetadata
 }
+
+interface AppMetadata
+{
+    "isAdmin" : boolean
+}
+
 interface Identity{
     "connection": string, 
     "provider": string, 

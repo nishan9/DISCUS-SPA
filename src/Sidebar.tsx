@@ -1,21 +1,25 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
+import WelcomeScreen from './WelcomeScreen';
+import { Box, Button, Grid } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import PeopleIcon from '@material-ui/icons/People';
+import { useAuth0 } from '@auth0/auth0-react';
+import EventIcon from '@material-ui/icons/Event';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AppsIcon from '@material-ui/icons/Apps';
 
-const drawerWidth = 150;
+const drawerWidth = 140;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,19 +44,18 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
-    // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-    }
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+    },
   }),
 );
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window?: () => Window;
 }
 
@@ -61,7 +64,10 @@ export default function ResponsiveDrawer(props: Props) {
   const classes = useStyles();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const history = useHistory(); 
+  const Auth0 = useAuth0();
 
+  
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
@@ -69,21 +75,31 @@ export default function ResponsiveDrawer(props: Props) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <List>
-
-        {['I', 'S', 'S', 'D'].map((text, index) => (
-          <ListItem>
-            <ListItemIcon> {index % 2 === 0 ? <InboxIcon fontSize={"large"}/> : <MailIcon fontSize={"large"}/>}</ListItemIcon>
-          </ListItem>
-        ))}
-      </List>
+        <List>
+          <Grid container justify="center">
+            <Box display="flex" flexDirection="column" p={1} m={1} bgcolor="primary">
+              <Box my={6}>
+                  <Button color="inherit" onClick={() => history.push("/")}><AppsIcon style={{ fontSize: 50 }}/></Button>
+              </Box>
+              <Box my={6}>
+                <Button color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 50 }}/></Button>
+              </Box>
+              <Box my={6}>
+                <Button color="inherit" onClick={() => history.push("/searchEvent")}><EventIcon style={{ fontSize: 50 }} /></Button>
+              </Box>
+              <Box my={6}>
+                <Button color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }} /></Button>
+              </Box>
+            </Box>
+          </Grid>
+        </List>
     </div>
   );
 
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <div className={classes.root}>
+    <>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
@@ -96,11 +112,16 @@ export default function ResponsiveDrawer(props: Props) {
           >
             <MenuIcon />
           </IconButton>
+          <Typography variant="h6" noWrap>
+            DISCUS Database
+          </Typography>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
+        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
+            container={container}
             variant="temporary"
             anchor={theme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
@@ -109,7 +130,7 @@ export default function ResponsiveDrawer(props: Props) {
               paper: classes.drawerPaper,
             }}
             ModalProps={{
-              keepMounted: true, 
+              keepMounted: true, // Better open performance on mobile.
             }}
           >
             {drawer}
@@ -127,6 +148,6 @@ export default function ResponsiveDrawer(props: Props) {
           </Drawer>
         </Hidden>
       </nav>
-    </div>
+    </>
   );
 }
