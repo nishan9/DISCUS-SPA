@@ -47,7 +47,6 @@ export default function ButtonAppBar(props: ButtonAppBarProps) {
           </Typography>
           <Button color="inherit" onClick={() => history.push("/searchUsers")}>Search Users</Button>
           <Button color="inherit" onClick={() => history.push("/searchEvent")}>Events</Button>
-          <Button color="inherit" onClick={() => history.push("/TagSystem")}>Tag System</Button>
           <Button color="inherit" onClick={() => Auth0.logout()}>Logout</Button>
         </Toolbar>
       </AppBar>

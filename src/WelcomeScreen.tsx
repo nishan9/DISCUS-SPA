@@ -1,18 +1,18 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import { faAt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Avatar, Box, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react'
-import Auth0user from './models/Auth0user';
-import SearchEvent from './SearchEvent';
+import React, { useContext, useEffect, useState } from 'react'
 import "./style.css"; 
-
+import { Auth0Context } from './context/Auth0Context';
+import Dashboard from './Dashboard';
+import EnrichProfile from './components/EnrichProfile';
+import EditUserProfile from './components/EditUserProfile';
+import { createStyles, makeStyles, Theme } from '@material-ui/core';
+const drawerWidth = 140;
 
 function WelcomeScreen() {
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
-    const [data, setData] = useState<Auth0user>()
+    const AuthContext = useContext(Auth0Context)
+
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
     },[Auth0])
@@ -22,83 +22,64 @@ function WelcomeScreen() {
     }, [accessToken])
 
     async function fetchData(){
-        console.log(accessToken);
+        console.log(accessToken)
         const response = await fetch('https://localhost:5001/UserSearch/Me', { 
             headers: {
               'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',
             }
            });
-          setData(await response.json());
+        AuthContext.setData(await response.json());  
     }
-
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-    root: {
+      root: {
         display: 'flex',
-        '& > *': {
-        margin: theme.spacing(1),
+      },
+      drawer: {
+        [theme.breakpoints.up('sm')]: {
+          width: drawerWidth,
+          flexShrink: 0,
         },
-    },
-    large: {
-        width: theme.spacing(35),
-        height: theme.spacing(35),
-    },
+      },
+      appBar: {
+        [theme.breakpoints.up('sm')]: {
+          width: `calc(100% - ${drawerWidth}px)`,
+          marginLeft: drawerWidth,
+        },
+      },
+      menuButton: {
+        marginRight: theme.spacing(2),
+        [theme.breakpoints.up('sm')]: {
+          display: 'none',
+        },
+      },
+      // necessary for content to be below app bar
+      toolbar: theme.mixins.toolbar,
+      drawerPaper: {
+        width: drawerWidth,
+      },
+      content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+      },
     }),
-    );
-    const classes = useStyles();
+  );
+
+  const classes = useStyles();
 
 
     return (
-        
-        <div className={classes.root}>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Box pt={3} >
-                        <Typography variant="h3">Overview</Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={3}>
-                    <Box className="small" m={2} p={6} borderRadius="borderRadius">
-                        <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
-                    </Box>
-                    <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-                        <Typography variant="h3">Points</Typography>
-                        <Typography variant="h4">5 Points</Typography>
-                    </Box>
-                </Grid>
-                <Grid item xs={6} >
-                    <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
-                        <div>
-                            <Typography variant="h4">General</Typography>
-                            <Typography variant="body1">Name {data?.name}</Typography>
-                            <Typography variant="body1"> <FontAwesomeIcon icon={faEnvelope} size="2x"/> {data?.email}</Typography>
-                            <Typography variant="body1"><FontAwesomeIcon icon={faLinkedin} size="2x"/> {data ? data?.user_metadata.linkedin : ""}</Typography>
-                            
-                            <Typography variant="body1"><FontAwesomeIcon icon={faAt} size="2x"/> {data ? data?.user_metadata.sussex : ""}</Typography>
-                            <Typography variant="body1">Graduation Date </Typography>
-                            <Typography variant="body1">Available </Typography>
-                        </div>
-                    </Box>
-                    <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}>
-                    <Typography variant="h4">Academic</Typography>
-                        <div >
-                        <Typography variant="body1">{data?.user_metadata.career_stage}</Typography>
-                        <Typography variant="body1">{data?.user_metadata.department}</Typography>
-                        <Typography variant="body1">Summary {data?.user_metadata.research_interests}</Typography>
-                        </div>
-                    </Box>
-                </Grid>
-                <Grid  item xs={3}>
-                    <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}>
-                        <Typography variant="h4">Upcoming Events</Typography>
-                            <div >
-                            </div>
-                    </Box>
-                </Grid>
-            </Grid>
-        </div>
-    )
-}
+        <>
+        { AuthContext.data.user_metadata === null ? 
+                <EnrichProfile />
+            :   AuthContext.edit === false ?
+                <Dashboard/>
+            :
+                <EditUserProfile/>
+        }
+        </>
+    )}
+
 
 export default WelcomeScreen

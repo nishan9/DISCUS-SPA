@@ -1,6 +1,6 @@
 interface Auth0user{
     "created_at": string,
-    "email": "test@email.com",
+    "email": string,
     "email_verified": boolean,
     "identities": Identity[], 
     "name": string,
@@ -11,7 +11,13 @@ interface Auth0user{
     "user_metadata": Metadata, 
     "last_ip": string, 
     "last_login": string, 
-    "logins_count": number
+    "logins_count": number,
+    "app_metadata" : AppMetadata
+}
+
+interface AppMetadata
+{
+    "isAdmin" : boolean
 }
 
 interface Identity{
@@ -21,15 +27,28 @@ interface Identity{
     "isSocial": boolean
 }
 
-interface Metadata{
-    "sussex": string, 
-    "linkedin": string, 
-    "career_stage" : string, 
-    "school" : string
-    "department": string, 
-    "research_interests" : string,
+interface Metadata
+{
+    "social" : Social,
+    "education" : Education,
+    "research" : string, 
+    "expertise" : string[], 
+    "interest" : string[]
 }
 
+interface Social
+{
+    "sussex" : string
+}
+
+interface Education
+{
+    "school" : string,
+    "department" : string,
+    "careerStage": string,
+    "graduationDate": string,
+    "available" : string,
+}
 
 
 export default Auth0user;  
