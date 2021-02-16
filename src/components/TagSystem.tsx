@@ -4,7 +4,7 @@ import React from 'react'
 export const TagSystem = {
     "Chemistry":0,
     "Architecture":0,
-    "Julie":{
+    "Physics":{
        "Astro Physics":0
     },
     "Computer Stuff":{

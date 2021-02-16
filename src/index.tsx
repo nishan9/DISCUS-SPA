@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './Home';
 import {useAuth0,Auth0Provider} from "@auth0/auth0-react";
-import { GlobalContextProvider } from './context/GlobalContext';
 import { ThemeProvider } from '@material-ui/core';
 import theme from './theme';
+import { Auth0ContextProvider } from './context/Auth0Context';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
-    <GlobalContextProvider>
+    <Auth0ContextProvider>
       <Wrapper />
-    </GlobalContextProvider>, 
+    </Auth0ContextProvider>, 
   </ThemeProvider>, 
   document.getElementById('root')
 );

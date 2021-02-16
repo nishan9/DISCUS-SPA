@@ -25,13 +25,12 @@ interface Metadata
     "social" : Social,
     "education" : Education,
     "research" : string, 
-    "expertise" : String[], 
+    "expertise" : string[], 
     "interest" : string[]
 }
 
 interface Social
 {
-    "linkedin" : string,
     "sussex" : string
 }
 

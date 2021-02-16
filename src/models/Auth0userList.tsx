@@ -36,7 +36,6 @@ interface Metadata
 
 interface Social
 {
-    "linkedin" : string,
     "sussex" : string
 }
 

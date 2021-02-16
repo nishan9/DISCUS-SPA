@@ -9,7 +9,7 @@ import LabelOffIcon from '@material-ui/icons/LabelOff';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import SchoolIcon from '@material-ui/icons/School';
 import { Link } from 'react-router-dom';
-import { TagSystem } from './TagSystem';
+import { TagSystem } from './components/TagSystem';
 const JsonFind = require('json-find');
 
 
@@ -34,6 +34,16 @@ function SearchUsers() {
         }
       }
 
+      const Subjects = [
+        { Subject: 'Computer Stuff'},
+        { Subject: 'Natural Language Engineering'},
+        { Subject: 'Data Structures and Algorithms'},
+        { Subject: 'Chemistry'},
+        { Subject: 'Computer Stuff'},
+        { Subject: 'Physics'},
+
+      ];
+      
     useEffect(() => {
         fetchData();
     },[searchTerm,currPage,DepArray, tagsArray, checked, IncludeAll]);
@@ -341,10 +351,6 @@ function SearchUsers() {
         </div>
     )
 }
-const Subjects = [
-    { Subject: 'Computer Stuff'},
-    { Subject: 'Natural Language Engineering'},
-    { Subject: 'Julie'},
-  ];
+
 
 export default SearchUsers

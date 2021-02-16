@@ -1,13 +1,14 @@
 interface user_metada{
     user_metadata : Metadata
 }
+
 interface Metadata
 {
     social : Social,
     education : Education,
     research : string, 
-    expertise : String[], 
-    interest : string[]
+    expertise : string[], 
+    interest : string[],
 }
 
 interface Social
