@@ -29,7 +29,8 @@ const dataDefaultValue : Auth0user = {
         },
         "research" : "", 
         "expertise" : ["Physics"], 
-        "interest" : ["Chemistry"]
+        "interest" : ["Chemistry"],
+        "events" : [],
     }, 
     "last_ip": "", 
     "last_login": "", 

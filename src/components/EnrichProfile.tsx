@@ -44,11 +44,12 @@ function EnrichProfile() {
                   "research": metadata.research,
                   "expertise": expertise,
                   "interest": interests, 
+                  "events" : [], 
                 }
             }
         )
 
-        const response = await fetch('https://localhost:5001/UserSearch/Me', { 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             method:"PATCH", 
             body: JSON.stringify(postreq),
             headers: {
@@ -65,7 +66,7 @@ function EnrichProfile() {
     }
 
     async function fetchData(){
-        const response = await fetch('https://localhost:5001/UserSearch/Me', { 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             headers: {
               'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',

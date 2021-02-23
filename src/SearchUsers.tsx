@@ -1,3 +1,4 @@
+import ExtensionIcon from '@material-ui/icons/Extension';
 import { Avatar, Box, Button, Checkbox, Chip, Container, FormControl, FormControlLabel, FormGroup, Grid, InputBase, makeStyles, Switch, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
@@ -12,18 +13,27 @@ import { Link } from 'react-router-dom';
 import { TagSystem } from './components/TagSystem';
 const JsonFind = require('json-find');
 
-
 function SearchUsers() {
     const [data, setData] = useState<Auth0userList>(); 
     const [Pagetotal, setPagetotal] = useState(0); 
     const [searchTerm, setSearchTerm] = useState(""); 
     const [currPage, setCurrPage] = useState(1); 
     const [DepArray, setDepArray] = useState<string[]>([]);
+    const [CareerStage, setCareerStage] = useState<string[]>([]);
     const [tags, setTags] = useState(true)
     const [checked, setChecked] = useState(false);
     const [tagsArray, setTagsArray] = useState<String[]>([]); 
     const [newArr, setnewArr] = useState<String[]>([]); 
     const [IncludeAll, setIncludeAll] = useState(false); 
+
+      function handleChangeCareer (checkbocName: string, state: boolean) {
+        if (state === true){
+            setCareerStage(theArray => [...theArray, checkbocName])
+        } else {
+            const result = CareerStage.filter(dep => dep !== `${checkbocName}`);
+            setCareerStage(result); 
+        }
+      }
 
       function handleChange (checkbocName: string, state: boolean) {
         if (state === true){
@@ -46,7 +56,7 @@ function SearchUsers() {
       
     useEffect(() => {
         fetchData();
-    },[searchTerm,currPage,DepArray, tagsArray, checked, IncludeAll]);
+    },[searchTerm,currPage,DepArray, tagsArray, checked, IncludeAll, CareerStage]);
 
 
     function checkChildTagsTwo(Term : String){
@@ -74,12 +84,23 @@ function SearchUsers() {
             filter = ""; 
             for (var i = 0; i < DepArray.length; i++) {
                 if (i === 0){
-                  filter = filter.concat('user_metadata.education.School:"' + DepArray[i] + '"')
+                  filter = filter.concat('user_metadata.education.school:"' + DepArray[i] + '"')
                 }else {
-                  filter = filter.concat( ' OR user_metadata.education.department:"' + DepArray[i] + '"')
+                  filter = filter.concat( ' OR user_metadata.education.school:"' + DepArray[i] + '"')
                 }
             }
         }
+        let careerfilter = ""; 
+        if (CareerStage.length > 0){
+            for (var i = 0; i < CareerStage.length; i++) {
+                if (i === 0){
+                    careerfilter = careerfilter.concat('user_metadata.education.CareerStage:"' + CareerStage[i] + '"')
+                  }else {
+                    careerfilter = careerfilter.concat( ' OR user_metadata.education.CareerStage:"' + CareerStage[i] + '"')
+                  } 
+            }
+        }
+        console.log(careerfilter)
 
         if (searchTerm.length > 2){
             let FinalQuery = ""
@@ -89,7 +110,11 @@ function SearchUsers() {
             }else {
                 FinalQuery = "name:*" + searchTerm + "*"; 
             }
-            const response = await fetch(`https://localhost:5001/UserSearch/Search/${FinalQuery}/${currPage - 1}`);
+
+            if (CareerStage.length > 0){
+                FinalQuery = "AND " + careerfilter; 
+            }
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${FinalQuery}/${currPage - 1}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))
@@ -106,7 +131,7 @@ function SearchUsers() {
                     }
                 }
             }else {
-                //Expertise
+                //Expertise 
                 for (var i = 0; i < tagsArray.length; i++) {
                     if (i === 0){
                         tagfilter = tagfilter.concat('user_metadata.expertise:"' + tagsArray[i] + '"')
@@ -128,17 +153,21 @@ function SearchUsers() {
                 }
             }
 
-            tagfilter = tagfilter.concat(newstring)
-            console.log(tagfilter); 
+            tagfilter = tagfilter.concat(newstring); 
 
-            const response = await fetch(`https://localhost:5001/UserSearch/Search/${tagfilter}/${currPage - 1}`);
+            if (DepArray.length > 0){
+                tagfilter = tagfilter.concat(" AND "); 
+                tagfilter = tagfilter.concat(filter); 
+            }
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${tagfilter}/${currPage - 1}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))
         }
         
         else {
-            const response = await fetch(`https://localhost:5001/UserSearch/Page/${currPage - 1}/${filter}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10))
@@ -261,7 +290,7 @@ function SearchUsers() {
                 <Grid item lg={4} > 
                     <Box m={5}>
                     <FormControl component="fieldset"> 
-                    <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight"fontSize={35}>  Refine</Box>
+                    <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight"fontSize={35}> Refine</Box>
 
                     <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight" fontSize={30} > <AssignmentIndIcon  fontSize={"large"} /> Departments</Box>
                     
@@ -297,6 +326,27 @@ function SearchUsers() {
                         label={<Typography variant="body2" color="textPrimary">Brighton and Sussex Medical School</Typography>}/>
                     </FormGroup> </FormControl>  
                     
+                    </Box>
+                    <Box m={5}>
+                        <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight" fontSize={30} > <ExtensionIcon  fontSize={"large"} /> Career Stage</Box>
+
+                        <FormGroup>
+                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("UG", e.target.checked)} />}
+                        label={<Typography variant="body2" color="textPrimary" >UG</Typography>} />
+
+                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Msc", e.target.checked)} />}
+                        label={<Typography variant="body2" color="textPrimary">Msc</Typography>}/>
+
+                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("PhD", e.target.checked)} />}
+                        label={<Typography variant="body2" color="textPrimary">PhD</Typography>} />    
+
+                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Postdoc", e.target.checked)} />}
+                        label={<Typography variant="body2" color="textPrimary">Postdoc</Typography>}/>
+
+                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Professional Services", e.target.checked)} />}
+                        label={<Typography variant="body2" color="textPrimary">Professional Services</Typography>}/>
+                        </FormGroup>
+
                     </Box>
                 </Grid>
                 <Grid item lg={8} > 
@@ -334,7 +384,7 @@ function SearchUsers() {
                                                     </Box>
                                                 </Box>
                                         </Box>
-                                        </Link>
+                                    </Link>
                                 </Grid>
                             </Grid>
                         )) : <> </>}

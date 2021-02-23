@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from './Navbar';
+import React, { useState } from 'react'
 import CreateEvent from './Forms/CreateEvent';
 import {
     BrowserRouter as Router, Switch, Route
@@ -12,6 +11,7 @@ import WelcomeScreen from './WelcomeScreen';
 import ViewUser from './ViewUser';
 import Sidebar from './Sidebar';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import viewEvents from './viewEvents';
 
 
 export default function Home() {
@@ -97,7 +97,14 @@ const classes = useStyles();
                         <SearchEvent/>
                         </main>
                     </Route>
+                    <main className={classes.content}>
                     <Route exact path='/users/:user_id' component={ViewUser}/>
+                    </main>
+                    <main className={classes.content}>
+                    <div className={classes.toolbar} />
+
+                    <Route exact path='/events/:event_id' component={viewEvents}/>
+                    </main>
                 </Switch>
             </Router>
             </div>

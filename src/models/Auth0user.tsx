@@ -33,7 +33,8 @@ interface Metadata
     "education" : Education,
     "research" : string, 
     "expertise" : string[], 
-    "interest" : string[]
+    "interest" : string[],
+    "events" : number[]
 }
 
 interface Social

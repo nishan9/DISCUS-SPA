@@ -7,11 +7,13 @@ import { Auth0Context } from '../context/Auth0Context';
 import { AllSubjects } from './TagSystem';
 import { useAuth0 } from '@auth0/auth0-react';
 import DepartmentObj from '../Department';
+import { useSnackbar } from 'notistack';
 
 function EditUserProfile() {
     const AuthContext = useContext(Auth0Context);
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
+    const { enqueueSnackbar } = useSnackbar();
 
     //Editable Fields
     const [name, setName] = useState<string>(""); 
@@ -60,6 +62,7 @@ function EditUserProfile() {
         setExpertise(expertise.filter(subject => subject !== e))
     }
 
+
     async function UpdateUser(){
         const stravail = available.toString(); 
         const postreq = (
@@ -81,7 +84,8 @@ function EditUserProfile() {
                 }
             }
         )
-        const response = await fetch('https://localhost:5001/UserSearch/UpdateUser', { 
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/UpdateUser/${AuthContext.data.user_id}`, { 
             method:"PATCH", 
             body: JSON.stringify(postreq),
             headers: {
@@ -90,15 +94,19 @@ function EditUserProfile() {
             }
         })
         if(response.ok){
-            alert("Success"); 
+            console.log('fdfd')
+            enqueueSnackbar('User has been updated', { variant : "success" });
             fetchData(); 
+            ChangeCancel(); 
         }else{
             console.error("Publishing failed");
         }
     }
 
+
+
     async function fetchData(){
-        const response = await fetch('https://localhost:5001/UserSearch/Me', { 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             headers: {
               'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',
