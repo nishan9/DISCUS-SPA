@@ -3,9 +3,8 @@ import React, { useContext } from 'react'
 import { Auth0Context } from './context/Auth0Context'
 import EditIcon from '@material-ui/icons/Edit';
 
-
 function Dashboard() {
-
+    
     const AuthContext = useContext(Auth0Context);
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({

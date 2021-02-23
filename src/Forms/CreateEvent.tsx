@@ -1,36 +1,63 @@
 import { Box, Button, Checkbox, FormControl, FormControlLabel, FormGroup, Grid, MenuItem, Select } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useAuth0 } from '@auth0/auth0-react';
+import { Auth0Context } from '../context/Auth0Context';
+import { Autocomplete } from '@material-ui/lab';
+import { AllSubjects } from '../components/TagSystem';
 
 function CreateEvent() {
 
     const Auth0 = useAuth0();    
-    const [selectedDate, setSelectedDate] = useState <Date | null>();
-    const [event, setEvent] = useState({title:"",dateTime:"",type:"",description:"",isDISCUS:true, url:""}); 
+    const [event, setEvent] = useState({title:"",dateTime: new Date().toISOString().slice(0, 19).replace('T', ' '), finishedDateTime: new Date().toISOString().slice(0, 19).replace('T', ' '), type:"", url:"", description:"",isDISCUS:true, isApproved : false, tags : "" }); 
     const [accessToken, setAccessToken] = useState("");
-    
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
-    };
+    const AuthContext = useContext(Auth0Context)
+    const [tags, setTags] = useState<string[]>([])
 
 
     useEffect(() => {
         if(Auth0.isAuthenticated){
             Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
         }
-        setEvent({...event,dateTime:String(selectedDate)})
-    },[Auth0,selectedDate]);
+        fetchData(); 
+    },[Auth0]);
 
+
+    async function fetchData(){
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
+            headers: {
+              'Authorization': `Bearer ${accessToken}`, 
+              'Content-Type': 'application/json',
+            }
+           });
+        AuthContext.setData(await response.json());  
+    }
 
     async function publishEvent(e:any){
         e.preventDefault();
-        const response = await fetch("https://localhost:5001/EventEntity", {
+        
+        let Alltags = ""; 
+        for (var i = 0; i < tags.length; i++) {
+            Alltags = Alltags.concat(tags[i] + ",");
+        }
+
+        const newEvent = {...event}
+        if(AuthContext.data.app_metadata !== null){
+            newEvent.isApproved = true;
+            setEvent(newEvent)
+        }
+
+        const newEventTags = {...event}
+        newEvent.tags = Alltags.slice(0,-1);
+        setEvent(newEventTags); 
+
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity`, {
             method:"POST", 
-            body: JSON.stringify(event),
+            body: JSON.stringify(newEvent),
             headers: {
                 "Content-Type": "application/json",
                 "Authorization" : `Bearer ${accessToken}`, 
@@ -43,6 +70,13 @@ function CreateEvent() {
         }
     }
 
+    const handleStartDate = (date: Date) => {
+        setEvent({...event, dateTime : date.toISOString().slice(0, 19).replace('T', ' ')})
+    };
+
+    const handleFinishDate = (date: Date) => {
+        setEvent({...event, finishedDateTime : date.toISOString().slice(0, 19).replace('T', ' ')})
+    };
 
     return (
         <Box m={3}>
@@ -64,12 +98,12 @@ function CreateEvent() {
                         <KeyboardDatePicker
                             disableToolbar
                             variant="inline"
-                            format="MM/dd/yyyy"
+                            format="yyyy-MM-dd"
                             margin="normal"
                             id="date-picker-inline"
                             label="Pick a Date"
-                            value={selectedDate}
-                            onChange={handleDateChange}
+                            value={new Date(event.dateTime)}
+                            onChange={(e : any) => handleStartDate(e)}
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
                             }}
@@ -79,9 +113,9 @@ function CreateEvent() {
                             <KeyboardTimePicker
                                 margin="normal"
                                 id="time-picker"
-                                label="Pick a Time"
-                                value={selectedDate}
-                                onChange={handleDateChange}
+                                label="Start Time"
+                                value={new Date(event.dateTime)}
+                                onChange={(e : any) => handleStartDate(e)}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change time',
                                 }}
@@ -90,7 +124,40 @@ function CreateEvent() {
                     </Grid>
                 </Grid>
                 </MuiPickersUtilsProvider>
-                
+
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <Grid container justify="space-around">
+                    <Grid container direction="row" alignItems="center">
+                        <Box p={1}> 
+                        <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="yyyy-MM-dd"
+                            margin="normal"
+                            id="date-picker-inline"
+                            label="Pick a Finish Date"
+                            value={new Date(event.finishedDateTime)}
+                            onChange={(e : any) => handleFinishDate(e)}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                        />
+                        </Box>
+                        <Box p={1}> 
+                            <KeyboardTimePicker
+                                margin="normal"
+                                id="time-picker"
+                                label="Finish Time"
+                                value={new Date(event.finishedDateTime)}
+                                onChange={(e : any) => handleFinishDate(e)}
+                                KeyboardButtonProps={{
+                                    'aria-label': 'change time',
+                                }}
+                            />
+                        </Box>
+                    </Grid>
+                </Grid>
+                </MuiPickersUtilsProvider>
 
                 <FormControl variant="outlined" className="formcontrol">
                 <Grid container direction="row" alignItems="center">
@@ -101,7 +168,6 @@ function CreateEvent() {
                         }}
                         onChange={(e) => setEvent({...event,type:String(e.target.value)})}
                         label="Event Type"
-                        defaultValue="Hackathon"
                     >
                         <MenuItem value="Hackathon">Hackathon</MenuItem>
                         <MenuItem value="Showcase">Showcase</MenuItem>
@@ -144,8 +210,22 @@ function CreateEvent() {
                         onChange={(e) => setEvent({...event,description:String(e.target.value)})}
                         variant="outlined"/>
                 </Box>
+
+                    <Box my={2}>
+                        <Autocomplete
+                            multiple
+                            limitTags={5}
+                            id="set Interest"
+                            onChange={(obj,value,reason) => setTags(value)}
+                            options={AllSubjects}
+                            getOptionLabel={(option) => option}
+                            renderInput={(params) => (
+                            <TextField {...params} variant="outlined" label="Tags" placeholder="Favorites" />
+                        )}
+                        />
+                    </Box>
                 <Box my={2}>
-                <Button variant="contained" color="secondary" type="submit" onClick={(e) =>publishEvent(e)} value="Submit">Submit</Button>
+                    <Button disabled={AuthContext.data === null} variant="contained" color="secondary" type="submit" onClick={(e) =>publishEvent(e)} value="Submit">Submit</Button>
                 </Box>
         </Box> 
     )

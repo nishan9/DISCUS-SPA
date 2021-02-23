@@ -5,8 +5,6 @@ import { Auth0Context } from './context/Auth0Context';
 import Dashboard from './Dashboard';
 import EnrichProfile from './components/EnrichProfile';
 import EditUserProfile from './components/EditUserProfile';
-import { createStyles, makeStyles, Theme } from '@material-ui/core';
-const drawerWidth = 140;
 
 function WelcomeScreen() {
     const Auth0 = useAuth0();
@@ -22,8 +20,7 @@ function WelcomeScreen() {
     }, [accessToken])
 
     async function fetchData(){
-        console.log(accessToken)
-        const response = await fetch('https://localhost:5001/UserSearch/Me', { 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             headers: {
               'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',
@@ -31,48 +28,11 @@ function WelcomeScreen() {
            });
         AuthContext.setData(await response.json());  
     }
-    const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      root: {
-        display: 'flex',
-      },
-      drawer: {
-        [theme.breakpoints.up('sm')]: {
-          width: drawerWidth,
-          flexShrink: 0,
-        },
-      },
-      appBar: {
-        [theme.breakpoints.up('sm')]: {
-          width: `calc(100% - ${drawerWidth}px)`,
-          marginLeft: drawerWidth,
-        },
-      },
-      menuButton: {
-        marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
-          display: 'none',
-        },
-      },
-      // necessary for content to be below app bar
-      toolbar: theme.mixins.toolbar,
-      drawerPaper: {
-        width: drawerWidth,
-      },
-      content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-      },
-    }),
-  );
-
-  const classes = useStyles();
-
 
     return (
         <>
         { AuthContext.data.user_metadata === null ? 
-                <EnrichProfile />
+                <EnrichProfile/>
             :   AuthContext.edit === false ?
                 <Dashboard/>
             :

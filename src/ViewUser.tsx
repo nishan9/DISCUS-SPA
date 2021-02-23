@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, ButtonBase, Chip, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Theme, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, Chip, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Theme, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import Auth0user from './models/Auth0user';
 import Navbar from './Navbar'
@@ -22,8 +22,8 @@ function ViewUser(props : any) {
     }, [])
 
     async function fetchData(){
-        console.log(`https://localhost:5001/UserSearch/${user_id}`); 
-        const response = await fetch(`https://localhost:5001/UserSearch/${user_id}`);
+        console.log(`${process.env.REACT_APP_API_URL}/UserSearch/${user_id}`); 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${user_id}`);
         setData(await response.json());
     }
 
@@ -41,7 +41,7 @@ function ViewUser(props : any) {
     async function saveData(e : any){
         e.preventDefault();
 
-        const response = await fetch(`https://localhost:5001/User/`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/User/`, {
             headers : {"Content-Type" : "application/json" }, 
             method:"POST", 
             body: JSON.stringify(data),
@@ -85,23 +85,21 @@ function ViewUser(props : any) {
     return (
         <div>
         {editMode ? 
-            
             <div>
-            <Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} /> 
             <Grid container spacing={3}>
-            <Grid item xs={12}>
-            <Box pt={3} >
-            <Typography variant="h3">{data?.name}</Typography>
-            </Box>
-            </Grid>
+                <Grid item xs={12}>
+                    <Box pt={3} >
+                        <Typography variant="h3">{data?.name}</Typography>
+                    </Box>
+                </Grid>
             <Grid item xs={3}>
-            <Box className="small" m={2} p={6} borderRadius="borderRadius">
-            <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
-            </Box>
-            <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-            <Typography variant="h3">Points</Typography>
-            <Typography variant="h4">5 Points</Typography>
-            </Box>
+                <Box className="small" m={2} p={6} borderRadius="borderRadius">
+                    <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
+                </Box>
+                <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
+                    <Typography variant="h3">Points</Typography>
+                    <Typography variant="h4">5 Points</Typography>
+                </Box>
             </Grid>
         <Grid item xs={9} >
         <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
@@ -208,12 +206,9 @@ function ViewUser(props : any) {
     </Grid>
 </Grid>
 </div>
-
-
         :
         
         <Grid>
-<Navbar changeLoginState={(val: boolean) => setLoginPressed(val)} /> 
 <div>
 <Grid container spacing={3}>
     <Grid item xs={12}>
@@ -263,7 +258,6 @@ function ViewUser(props : any) {
 const Subjects = [
     { Subject: 'Computer Stuff'},
     { Subject: 'Natural Language Engineering'},
-    { Subject: 'Julie'},
   ];
 
 export default ViewUser

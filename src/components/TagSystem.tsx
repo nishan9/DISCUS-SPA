@@ -1,6 +1,4 @@
 
-import React from 'react'
-
 export const TagSystem = {
     "Chemistry":0,
     "Architecture":0,
@@ -20,7 +18,7 @@ export const TagSystem = {
     }
  }
 
-export const AllSubjects = [ "Chemistry", "Architecture", "Julie", "Astro Physics", "Computer Stuff", "Natural Language Engineering", "Natural Language" ]
+export const AllSubjects = [ "Chemistry", "Architecture", "Astro Physics", "Computer Stuff", "Natural Language Engineering", "Natural Language" ]
  
  
 

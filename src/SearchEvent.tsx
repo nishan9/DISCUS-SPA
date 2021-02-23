@@ -1,65 +1,68 @@
-import DateFnsUtils from '@date-io/date-fns';
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Fab, FormControl, FormControlLabel, FormGroup, Grid, IconButton, InputLabel, Link, makeStyles, MenuItem, Modal, Select, TextField, Typography } from '@material-ui/core';
-import { KeyboardDatePicker, KeyboardTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import React, {useState, useEffect} from 'react'
+import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Fab, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
+import React, {useState, useEffect, useContext} from 'react'
 import EventEntity from './models/EventEntity';
 import AddIcon from '@material-ui/icons/Add';
 import CreateEvent from './Forms/CreateEvent';
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { Auth0Context } from './context/Auth0Context';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Link } from 'react-router-dom';
+import EditEvent from './components/EditEvent';
+import { EditEventContext } from './context/EditEventContext';
+import Metadata from './models/Metadata';
+import Auth0user from './models/Auth0user';
+
 
 function SearchEvent() {
     const [data, setData] = useState<EventEntity[]>([]);
     const [open, setOpen] = useState(false);
     const [openNE, setOpenNE] = useState(false); 
-    const [selectedDate, setSelectedDate] = useState <Date | null>();
-    const [currEvent, setCurrEvent] = useState<number>(0);
-    const [newEvent, setNewEvent] = useState<EventEntity>(); 
+    const Auth0 = useAuth0();
+    const AuthContext = useContext(Auth0Context);
+    const EventContext = useContext(EditEventContext)
+    const [accessToken, setAccessToken] = useState(''); 
+
 
     useEffect(() => {
         fetchData();
-    },[]);
+        fetchEventData();
+    }, [])
 
     async function fetchData(){
-        const response = await fetch('https://localhost:5001/EventEntity');
-        const data = await response.json();
-        setData(data);
+        const token = await Auth0.getAccessTokenSilently(); 
+        setAccessToken(token)
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
+            headers: {
+              'Authorization': `Bearer ${token}`, 
+              'Content-Type': 'application/json',
+            }
+        });
+        AuthContext.setData(await response.json());  
+    }
+
+    async function fetchEventData(){
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity`);
+        const recieved = await response.json();
+        setData(recieved);
     }
 
     const handleOpen = (i : number) => {
-        setCurrEvent(i);
-        setNewEvent(data[i])
-        setOpen(true);
+        EventContext.setEvent(data[i]); 
+        setOpen(true);        
     };
 
     const handleOpenNE = () => {
         setOpenNE(true);
     }
 
-    async function handleSave(e : any){
-        e.preventDefault();
-        const newid = newEvent?.id; 
-        const response = await fetch(`https://localhost:5001/EventEntity/${newid}`, {
-            headers : {"Content-Type" : "application/json" }, 
-            method:"POST", 
-            body: JSON.stringify(newEvent),
-        })
-        if(response.ok){
-            alert("Success"); 
-            handleClose();
-            fetchData();  
-        }else{
-            console.error("Publishing failed");
-        }
-    }
-
     async function deleteEvent(i : number){
-        const response = await fetch(`https://localhost:5001/EventEntity/${i}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${i}`, {
             method : "DELETE"
         });
         console.log(response);
-        fetchData(); 
+        fetchEventData(); 
     }
     
     const handleClose = () => {
@@ -68,15 +71,43 @@ function SearchEvent() {
 
     const handleCloseNE = () => {
         setOpenNE(false);
-        fetchData(); 
+        fetchEventData(); 
     };
 
-    const handleDateChange = (date: Date | null) => {
-        console.log(Date)
-        setSelectedDate(date);
-    };
 
-    
+    async function updateStatus(stat : any, id : number){
+        let obj; 
+        if (stat === true){
+            obj = {...AuthContext.data, user_metadata : {...AuthContext.data.user_metadata, events : AuthContext.data.user_metadata.events.concat([id])} }
+            AuthContext.setData(obj)
+        }else{
+            obj = {...AuthContext.data, user_metadata : {...AuthContext.data.user_metadata, events : AuthContext.data.user_metadata.events.filter(item => item !== id)} }
+            AuthContext.setData(obj)
+        }
+        sendreq(obj!);
+    }
+
+    async function sendreq(obj : Auth0user){
+
+        const newEvent : Metadata = { user_metadata : obj.user_metadata }
+
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, {
+            headers : {
+                'Authorization': `Bearer ${accessToken}`,
+                "Content-Type" : "application/json" 
+            }, 
+            method:"PATCH", 
+            body: JSON.stringify(newEvent),
+        })
+
+        if(response.ok){
+            console.log("succ add")
+        }else{
+            console.error("Publishing failed");
+        }
+        fetchEventData();
+    }
+
 
     const useStyles = makeStyles(theme => ({
     fab: {
@@ -104,140 +135,45 @@ function SearchEvent() {
     return (
         <div>
             <Box m={3} >
-                <Typography variant={"h3"}> Upcoming Events </Typography>
+                <Typography variant={"h5"}> Upcoming Events </Typography>
             </Box>
             {data.length > 0 ? 
             <Grid container>
             {data?.map ((e,i) => 
-                    <Box width="30%" borderRadius="borderRadius" border={1} m={3} p={4} className={classes.box}> 
+            <Box width="40%" borderRadius="borderRadius" border={2} m={3} p={3} className={classes.box}> 
                         <div className={classes.customizedButton} >
                             <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
                             <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
                         </div>
-                        <Typography variant={"h4"}>{e.title}</Typography>
-                            {e.dateTime}
-                        <Box>
-                            <Typography variant="body2">{e.type}</Typography>
-                            <Typography variant="body2">{e.url}</Typography>
-                            <Typography variant="body2"> Is DISCUS : {e.isDISCUS.toString()}</Typography>
-                            {e.description}
-                        </Box>  
-                    </Box> 
+                        <Link to={`/events/${e.id}`} style={{ textDecoration: 'none' }}>
+
+                        <Grid container justify="center">
+                            <Box>
+                                <Typography variant={"h3"}>{e.title}</Typography>
+                            </Box>
+                        </Grid>
+                            <Box>
+                                <Typography variant="body2">{e.type}</Typography>
+                                <Typography variant="body2">{e.url}</Typography>
+                                <Typography variant="body2"> Is DISCUS : {e.isDISCUS.toString()}</Typography>
+                                <Typography>{e.description}</Typography>
+                                <Typography>Start = {e.dateTime}</Typography>
+                                <Typography> Finish = {e.finishedDateTime}</Typography>
+                                <Typography> Tags - {e.tags}</Typography>
+                            </Box>  
+                        </Link> 
+                        Going? <Checkbox
+                            onChange={status => updateStatus(status.target.checked, e.id)}
+                            inputProps={{ 'aria-label': 'primary checkbox' }}
+                        />
+                </Box>
             )} 
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Edit the Event</DialogTitle>
                         <DialogContent>
-                                <TextField
-                                    autoFocus
-                                    defaultValue={newEvent ? newEvent.title : ""}
-                                    onChange={(e) => {
-                                        if (newEvent !== undefined){
-                                            setNewEvent({...newEvent,title : (e.target.value)})
-                                        }
-                                    }}
-                                    margin="dense"
-                                    id="title"
-                                    label="Title"
-                                    fullWidth
-                                />
-                            <FormControl variant="outlined" className="formcontrol">
-                                <InputLabel>Type</InputLabel>
-                                <Select
-                                    style={{ minWidth: 100 }}
-                                    label="Event Type"
-                                    defaultValue={newEvent ? newEvent.type : "Hackathon"}
-                                    onChange={(e : React.ChangeEvent<any>) => {
-                                        if (newEvent !== undefined){
-                                            setNewEvent({...newEvent,type : e.target.value})
-                                        }
-                                    }}
-                                >
-                                    <MenuItem value="Hackathon">Hackathon</MenuItem>
-                                    <MenuItem value="Showcase">Showcase</MenuItem>
-                                    <MenuItem value="Networking">Networking</MenuItem>
-                                    <MenuItem value="Generic">Generic</MenuItem>
-                                </Select>
-                            </FormControl>
-
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                            <Grid container justify="space-around">
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
-                                    format="MM/dd/yyyy"
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    label="Pick a Date"
-                                    value={selectedDate}
-                                    onChange={handleDateChange}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
-                            <KeyboardTimePicker
-                                margin="normal"
-                                id="time-picker"
-                                label="Pick a Time"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change time',
-                                }}
-                            />
-                            </Grid>
-                            </MuiPickersUtilsProvider>
-                
-                                <TextField
-                                    autoFocus
-                                    defaultValue={data ? data[currEvent].url : ""}
-                                    onChange={(e) => {
-                                        if (newEvent !== undefined){
-                                            setNewEvent({...newEvent,url : (e.target.value)})
-                                        }
-                                    }}
-                                    margin="dense"
-                                    id="name"
-                                    label="URL"
-                                    fullWidth
-                                />
-                    <FormGroup>
-                    <FormControlLabel
-                        control={
-                            <Checkbox 
-                                checked={newEvent ? newEvent.isDISCUS : true}
-                                name="isDiscus" 
-                                onChange={(e) => {
-                                    if (newEvent !== undefined){
-                                        setNewEvent({...newEvent,isDISCUS : (e.target.checked)})
-                                    }
-                                }}
-
-                                />
-                            }
-                        label="Is a DISCUS event"
-                    />
-                    </FormGroup>
-                    
-                                <TextField
-                                    autoFocus
-                                    defaultValue={data ? data[currEvent].description : ""}
-                                    onChange={(e) => {
-                                        if (newEvent !== undefined){
-                                            setNewEvent({...newEvent,description : (e.target.value)})
-                                        }
-                                    }}
-                                    margin="dense"
-                                    id="name"
-                                    multiline
-                                    label="Description"
-                                    fullWidth
-                                />
+                               <EditEvent/>
                         </DialogContent>
-                    <DialogActions>
-                      <Button onClick={handleClose} color="primary"> Cancel</Button>
-                      <Button onClick={(e) =>handleSave(e)} color="primary"> Save</Button>
-                    </DialogActions>
-                  </Dialog> 
+                    </Dialog> 
 
                            
             </Grid>
@@ -248,15 +184,13 @@ function SearchEvent() {
                 <Box display="flex" alignItems="center">
                     <Box flexGrow={1}> <Typography variant="h4">Create an event</Typography></Box>
                     <Box>
-                        <IconButton onClick={handleCloseNE}>
-                        <CancelIcon />
-                        </IconButton>
+                        <IconButton onClick={handleCloseNE}> <CancelIcon /> </IconButton>
                     </Box>
                 </Box>
                 </DialogTitle>
-            <DialogContent>
-                <CreateEvent/>
-            </DialogContent>
+                <DialogContent>
+                    <CreateEvent/>
+                </DialogContent>
             </Dialog>
 
             <Fab size="large" color="primary" aria-label="add" className={classes.fab}>

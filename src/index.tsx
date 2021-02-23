@@ -1,22 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Home from './Home';
-import {useAuth0,Auth0Provider} from "@auth0/auth0-react";
+import {Auth0Provider} from "@auth0/auth0-react";
 import { ThemeProvider } from '@material-ui/core';
 import theme from './theme';
 import { Auth0ContextProvider } from './context/Auth0Context';
+import { SnackbarProvider } from 'notistack';
+import { EditEventContextProvider } from './context/EditEventContext';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Auth0ContextProvider>
-      <Wrapper />
+      <EditEventContextProvider>
+        <SnackbarProvider maxSnack={3}>
+          <Wrapper />
+        </SnackbarProvider>
+      </EditEventContextProvider>
     </Auth0ContextProvider>, 
   </ThemeProvider>, 
   document.getElementById('root')
 );
 
 function Wrapper(){
-  const Auth0 = useAuth0();
   
   return(
     <Auth0Provider
