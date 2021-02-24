@@ -2,6 +2,7 @@ import { Grid, Box, Typography, Avatar, Button, Chip, makeStyles, createStyles, 
 import React, { useContext } from 'react'
 import { Auth0Context } from './context/Auth0Context'
 import EditIcon from '@material-ui/icons/Edit';
+import Points from './components/Points';
 
 function Dashboard() {
     
@@ -37,10 +38,7 @@ function Dashboard() {
                 <Box className="small" m={2} p={6} borderRadius="borderRadius">
                     <Avatar alt="Remy Sharp" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
                 </Box>
-                <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-                    <Typography variant="h3">Points</Typography>
-                    <Typography variant="h4">5 Points</Typography>
-                </Box>
+                <Points/>
             </Grid>
             <Grid item xs={8} >
                 <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 

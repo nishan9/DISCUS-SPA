@@ -165,7 +165,13 @@ function EditUserProfile() {
                         <Typography variant="h4"></Typography>
                         <Typography variant="body1">
                             
-                    <TextField variant="outlined"  label="Name" onChange={e => setName(e.target.value)} defaultValue={AuthContext.data?.name}/></Typography>
+                    <TextField 
+                        variant="outlined" 
+                        label="Name" 
+                        error={name.length === 0 ? true : false }
+                        onChange={e => setName(e.target.value)} 
+                        defaultValue={AuthContext.data?.name}/>
+                    </Typography>
                
                     <TextField
                      multiline

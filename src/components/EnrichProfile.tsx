@@ -8,6 +8,8 @@ import { AllSubjects } from './TagSystem';
 import signup from '../assets/signup.jpg'; 
 import { Auth0Context } from '../context/Auth0Context';
 import DepartmentObj from '../Department';
+import { useSnackbar } from 'notistack';
+
 
 function EnrichProfile() {
     const Auth0 = useAuth0();
@@ -19,6 +21,7 @@ function EnrichProfile() {
     const [expertise, setExpertise] = useState<String[]>([]);
     const context = useContext(Auth0Context)
     const CHARACTER_LIMIT = 499; 
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
@@ -58,7 +61,7 @@ function EnrichProfile() {
             }
         })
         if(response.ok){
-            alert("Success"); 
+            enqueueSnackbar('User has been updated', { variant : "success" });
             fetchData(); 
         }else{
             console.error("Publishing failed");
@@ -91,12 +94,10 @@ function EnrichProfile() {
         </Grid>
         <Grid item xs={6}>
                 <Box mt={6} px={7}>
-
                 <Box m={3} p={3} px={4} border={1} borderRadius={15} borderColor="primary.light">   
-
                 <Box my={2}>
-                <Typography variant={'h5'}> Sign up now...</Typography>
-            </Box>
+                    <Typography variant={'h5'}>Sign up now...</Typography>
+                </Box>
             <Grid container direction="row" alignItems="center">
        
 

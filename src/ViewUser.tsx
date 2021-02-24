@@ -1,7 +1,6 @@
 import { Avatar, Box, Button, Chip, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Theme, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import Auth0user from './models/Auth0user';
-import Navbar from './Navbar'
 import EditIcon from '@material-ui/icons/Edit';
 import DepartmentObj from './Department';
 import { Autocomplete, AutocompleteChangeReason } from '@material-ui/lab';
@@ -16,6 +15,9 @@ function ViewUser(props : any) {
     const [editMode, setEditMode] = useState(false);
     const [interests, setInterests] = useState<string[]>([])
     const AuthContext = useContext(Auth0Context)
+
+    console.log(props)
+    console.log("fdsfds")
 
     useEffect(() => {
         fetchData();
