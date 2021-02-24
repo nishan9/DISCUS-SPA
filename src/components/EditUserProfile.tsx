@@ -8,6 +8,7 @@ import { AllSubjects } from './TagSystem';
 import { useAuth0 } from '@auth0/auth0-react';
 import DepartmentObj from '../Department';
 import { useSnackbar } from 'notistack';
+import Points from './Points';
 
 function EditUserProfile() {
     const AuthContext = useContext(Auth0Context);
@@ -81,6 +82,7 @@ function EditUserProfile() {
                   "research": research,
                   "expertise": expertise,
                   "interest": interests, 
+                  "events" : AuthContext.data.user_metadata.events
                 }
             }
         )
@@ -152,10 +154,7 @@ function EditUserProfile() {
                 <Box className="small" m={2} p={6} borderRadius="borderRadius">
                     <Avatar alt="Remy Sharp" src={AuthContext.data ? AuthContext.data.picture : ""}/>
                 </Box>
-                <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-                    <Typography variant="h3">Points</Typography>
-                    <Typography variant="h4">5 Points</Typography>
-                </Box>
+                <Points/>
             </Grid>
             <Grid item xs={8} >
                 <Box borderRadius="borderRadius" m={2} p={3}> 
