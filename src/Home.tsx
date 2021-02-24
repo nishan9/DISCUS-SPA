@@ -11,7 +11,7 @@ import WelcomeScreen from './WelcomeScreen';
 import ViewUser from './ViewUser';
 import Sidebar from './Sidebar';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import viewEvents from './viewEvents';
+import ViewEventEntity from './ViewEventEntity';
 
 
 export default function Home() {
@@ -91,20 +91,27 @@ const classes = useStyles();
                         <CreateEvent/>
                         </main>
                     </Route>
+
                     <Route exact path="/searchEvent">
                     <main className={classes.content}>
                     <div className={classes.toolbar} />
                         <SearchEvent/>
                         </main>
                     </Route>
-                    <main className={classes.content}>
-                    <Route exact path='/users/:user_id' component={ViewUser}/>
-                    </main>
+
+
                     <main className={classes.content}>
                     <div className={classes.toolbar} />
+                      <Route exact path='/events/:event_id' render={(props) => <ViewEventEntity {...props}/> }/>
+                        </main>
 
-                    <Route exact path='/events/:event_id' component={viewEvents}/>
-                    </main>
+                  {
+                    // <main className={classes.content}>
+                  //  <Route exact path='/users/:user_id' render={(props) => <ViewUser {...props}/> }/>
+                  //  </main>
+                  }
+                   
+
                 </Switch>
             </Router>
             </div>

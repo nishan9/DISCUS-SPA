@@ -165,6 +165,7 @@ function SearchEvent() {
                         Going? <Checkbox
                             onChange={status => updateStatus(status.target.checked, e.id)}
                             inputProps={{ 'aria-label': 'primary checkbox' }}
+                            checked={AuthContext.data.user_metadata.events.includes(e.id)}
                         />
                 </Box>
             )} 
