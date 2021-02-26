@@ -16,6 +16,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import EventIcon from '@material-ui/icons/Event';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AppsIcon from '@material-ui/icons/Apps';
+import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 
 const drawerWidth = 140;
 
@@ -76,16 +77,19 @@ export default function ResponsiveDrawer(props: Props) {
         <List>
           <Grid container justify="center">
             <Box display="flex" flexDirection="column" p={1} m={1} bgcolor="primary">
-              <Box my={6}>
+              <Box my={5}>
                   <Button color="inherit" onClick={() => history.push("/")}><AppsIcon style={{ fontSize: 50 }}/></Button>
               </Box>
-              <Box my={6}>
+              <Box my={5}>
                 <Button color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 50 }}/></Button>
               </Box>
-              <Box my={6}>
+              <Box my={5}>
                 <Button color="inherit" onClick={() => history.push("/searchEvent")}><EventIcon style={{ fontSize: 50 }} /></Button>
               </Box>
-              <Box my={6}>
+              <Box my={5}>
+                <Button color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }} /></Button>
+              </Box>
+              <Box my={5}>
                 <Button color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }} /></Button>
               </Box>
             </Box>

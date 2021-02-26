@@ -7,8 +7,8 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AllSubjects } from './TagSystem';
 import signup from '../assets/signup.jpg'; 
 import { Auth0Context } from '../context/Auth0Context';
-import DepartmentObj from '../Department';
 import { useSnackbar } from 'notistack';
+import DepartmentObj from './Department';
 
 
 function EnrichProfile() {

@@ -3,7 +3,7 @@ import { Avatar, Box, Grid, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from './context/EditEventContext';
 import EventAttendance from './models/EventAttendance';
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
 function ViewEventEntity(props : any) {
     const EventContext = useContext(EditEventContext)
@@ -15,9 +15,7 @@ function ViewEventEntity(props : any) {
         { label: 'Email Address', key: 'email' },
         { label: 'Expertise', key: 'user_metadata.expertise' },
         { label: 'Interests', key: 'user_metadata.interest' },
-
       ];
-
 
     useEffect(() => {
         getEventInfo(); 
