@@ -3,13 +3,10 @@ import { Box, Button, Grid, Typography } from '@material-ui/core'
 import React from 'react'
 import logo from './assets/Reuss.svg';
 
-
 export default function Login() {
     const {loginWithRedirect } = useAuth0();
     return (
         <div>
-            Discus
-
             <Grid container >
         <Grid item xs={12} md={6} container className="background" direction="column" >
           <Box mt={40} ml={4}>

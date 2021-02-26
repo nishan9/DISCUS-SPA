@@ -93,7 +93,7 @@ const classes = useStyles();
                     <Route exact path="/AdminPanel">
                     <main className={classes.content}>
                     <div className={classes.toolbar} />
-                        <AdminPanel/>
+                    <AdminPanel/>
                         </main>
                     </Route>
 

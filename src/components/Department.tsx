@@ -1,5 +1,5 @@
 const DepartmentObj = {
-	"University of Sussex Business School" : ["Accounting and Finance, Economics", "Management, Strategy and Marketing", "SPRU – Science Policy Research Unit" ], 
+	"University of Sussex Business School" : ["Accounting and Finance" , "Economics", "Management, Strategy and Marketing", "Science Policy Research Unit" ], 
 	"School of Education and Social Work" : ["Education", "Social Work and Social Care"],
 	"School of Engineering and Informatics" : ["Engineering", "Informatics", "Product Design"], 
 	"School of Global Studies": ["Anthropology", "Geography", "International Development", "International Relations"], 

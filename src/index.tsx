@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './Home';
 import {Auth0Provider} from "@auth0/auth0-react";
 import { ThemeProvider } from '@material-ui/core';
 import theme from './theme';
 import { Auth0ContextProvider } from './context/Auth0Context';
 import { SnackbarProvider } from 'notistack';
 import { EditEventContextProvider } from './context/EditEventContext';
+import Home from './Home';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
