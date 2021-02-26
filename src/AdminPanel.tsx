@@ -1,41 +1,58 @@
 import { Box, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
+import PieChart from './components/Charts/PieChart';
+import StackedBarChart from './components/Charts/StackedBarChart';
 
 function AdminPanel() {
-    const [total, setTotal] = useState<number>(); 
-    const [users, setUsers] = useState<number>(); 
+    const [eventsTotal, setEventsTotal] = useState<number>(); 
+    const [usersTotal, setUsersTotal] = useState(); 
+    const [activeUsers, setActiveUsers] = useState<number>(); 
 
     useEffect(() => {
-        GetStats(); 
+        GetStats()
     }, [])
 
     async function GetStats(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Count`, { 
+        const events = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Count`, { 
                 headers: {
                 'Content-Type': 'application/json',
                 }
             });
-        setTotal(await response.json());  
+        setEventsTotal(await events.json());  
 
-        const res = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Count`, { 
+        const active = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/ActiveUsers`, { 
             headers: {
             'Content-Type': 'application/json',
             }
         });
-        setUsers(await response.json());  
+        setActiveUsers(await active.json());  
+
+        const total = await fetch(`https://localhost:5001/UserSearch/TotalUsers`, { 
+            headers: {
+            'Content-Type': 'application/json',
+            }
+        });
+        setUsersTotal(await total.json()); 
     }
 
 
 
     return (
         <div>
-            <p>dfd</p>f
-
             <Box>
-                <Typography variant="body2"> Total Hosted Event : {total}</Typography>
-                <Typography variant="body2"> Active Users {users}</Typography>
-                <Typography variant="h2">Authroize Events</Typography>
+                <Typography variant="body2"> Total Hosted Event : {eventsTotal}</Typography>
+                <Typography variant="body2"> Active Users {activeUsers}</Typography>
+                <Typography variant="body2">Total  Users {usersTotal} </Typography>
+                
 
+
+            <div style={{height : "400px", width : "100%"}}>
+                <StackedBarChart/>
+            </div>
+
+            <div style={{height : "300px", width : "600px"}}>
+                <PieChart/>
+            </div>
             </Box>
         </div>
     )

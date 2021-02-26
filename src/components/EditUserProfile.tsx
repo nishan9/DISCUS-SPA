@@ -6,9 +6,9 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import { Auth0Context } from '../context/Auth0Context';
 import { AllSubjects } from './TagSystem';
 import { useAuth0 } from '@auth0/auth0-react';
-import DepartmentObj from '../Department';
 import { useSnackbar } from 'notistack';
 import Points from './Points';
+import DepartmentObj from './Department';
 
 function EditUserProfile() {
     const AuthContext = useContext(Auth0Context);
