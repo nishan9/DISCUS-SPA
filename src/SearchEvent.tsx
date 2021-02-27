@@ -13,6 +13,7 @@ import EditEvent from './components/EditEvent';
 import { EditEventContext } from './context/EditEventContext';
 import Metadata from './models/Metadata';
 import Auth0user from './models/Auth0user';
+import Loading from './components/Loading';
 
 
 function SearchEvent() {
@@ -178,7 +179,7 @@ function SearchEvent() {
 
                            
             </Grid>
-            : <p>no data </p> }
+            : <Loading/>  }
                             
             <Dialog open={openNE} onClose={handleCloseNE} aria-labelledby="form-dialog-title">
                 <DialogTitle id="id">
