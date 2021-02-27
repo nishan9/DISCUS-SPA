@@ -9,7 +9,7 @@ function StackedBarChart() {
     }, []);
 
     async function GetData(){
-      const getData = await fetch(`https://localhost:5001/UserSearch/Chart`, { 
+      const getData = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Chart`, { 
         headers: {
         'Content-Type': 'application/json',
         }

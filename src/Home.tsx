@@ -13,16 +13,7 @@ import AdminPanel from './AdminPanel';
 
 export default function Home() {
     const Auth0 = useAuth0();
-    const [loginPressed, setLoginPressed] = useState(false);
-    const { user } = useAuth0();
-    const [accessToken, setAccessToken] = useState("");
-   /**    useEffect(() => {
-        if(Auth0.isAuthenticated){
-            Auth0.getAccessTokenSilently().then((accessToken => console.log(accessToken)));
-        }
-    },[Auth0]);                         //<div>Hello {user.name}</div>
 
-**/
 const drawerWidth = 140;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -65,7 +56,6 @@ const classes = useStyles();
     return (
         Auth0.isAuthenticated ? 
         <>
-            {/* if the user is authenticated */}
             <div className={classes.root}>
             <Router>
                 <Sidebar/>
@@ -115,7 +105,6 @@ const classes = useStyles();
                   //  <Route exact path='/users/:user_id' render={(props) => <ViewUser {...props}/> }/>
                   //  </main>
                   }
-                   
 
                 </Switch>
             </Router>
@@ -123,7 +112,7 @@ const classes = useStyles();
         </>
         :
         <>
-            <Login />
+            <Login/>
         </>
     )
 }

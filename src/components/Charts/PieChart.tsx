@@ -10,7 +10,7 @@ function PieChart() {
     }, [])
         
     async function getData(){
-        const getData = await fetch(`https://localhost:5001/UserSearch/PieChart`, { 
+        const getData = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/PieChart`, { 
             headers: {
             'Content-Type': 'application/json',
             }
