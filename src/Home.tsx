@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import CreateEvent from './Forms/CreateEvent';
+import React from 'react'
+import CreateEvent from './components/events/forms/CreateEvent';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SearchEvent from './SearchEvent';
 import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import WelcomeScreen from './WelcomeScreen';
 import Sidebar from './Sidebar';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import ViewEventEntity from './ViewEventEntity';
+import ViewEventEntity from './components/events/ViewEventEntity'
 import AdminPanel from './AdminPanel';
+import Events from './Events';
 
 export default function Home() {
     const Auth0 = useAuth0();
@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
-    // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
@@ -87,10 +86,10 @@ const classes = useStyles();
                         </main>
                     </Route>
 
-                    <Route exact path="/searchEvent">
+                    <Route exact path="/Events">
                     <main className={classes.content}>
                     <div className={classes.toolbar} />
-                        <SearchEvent/>
+                        <Events/>
                         </main>
                     </Route>
 

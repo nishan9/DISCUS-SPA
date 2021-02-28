@@ -1,22 +1,25 @@
 import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Fab, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
 import React, {useState, useEffect, useContext} from 'react'
-import EventEntity from './models/EventEntity';
+import EventEntity from '../../models/EventEntity'; 
 import AddIcon from '@material-ui/icons/Add';
-import CreateEvent from './Forms/CreateEvent';
+import CreateEvent from './forms/CreateEvent'
 import CancelIcon from '@material-ui/icons/Cancel';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Auth0Context } from './context/Auth0Context';
+import { Auth0Context } from '../../context/Auth0Context';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
-import EditEvent from './components/EditEvent';
-import { EditEventContext } from './context/EditEventContext';
-import Metadata from './models/Metadata';
-import Auth0user from './models/Auth0user';
-import Loading from './components/Loading';
+import EditEvent from './EditEvent'
+import { EditEventContext } from '../../context/EditEventContext';
+import Metadata from '../../models/Metadata';
+import Auth0user from '../../models/Auth0user';
+import Loading from '../../config/Loading'; 
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 
-
-function SearchEvent() {
+function UpcomingEvents() {
     const [data, setData] = useState<EventEntity[]>([]);
     const [open, setOpen] = useState(false);
     const [openNE, setOpenNE] = useState(false); 
@@ -24,6 +27,7 @@ function SearchEvent() {
     const AuthContext = useContext(Auth0Context);
     const EventContext = useContext(EditEventContext)
     const [accessToken, setAccessToken] = useState(''); 
+
 
 
     useEffect(() => {
@@ -44,7 +48,7 @@ function SearchEvent() {
     }
 
     async function fetchEventData(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Upcoming`);
         const recieved = await response.json();
         setData(recieved);
     }
@@ -135,9 +139,8 @@ function SearchEvent() {
 
     return (
         <div>
-            <Box m={3} >
-                <Typography variant={"h5"}> Upcoming Events </Typography>
-            </Box>
+
+
             {data.length > 0 ? 
             <Grid container>
             {data?.map ((e,i) => 
@@ -146,24 +149,55 @@ function SearchEvent() {
                             <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
                             <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
                         </div>
+                        
                         <Link to={`/events/${e.id}`} style={{ textDecoration: 'none' }}>
-
-                        <Grid container justify="center">
-                            <Box>
-                                <Typography variant={"h3"}>{e.title}</Typography>
-                            </Box>
+                        <Grid container>
+                        <Grid item xs={3}>
+                            <Grid container justify="center">
+                                <Box bgcolor="primary.main" p={1} borderRadius="borderRadius" >
+                                    <Box px={2}>
+                                        <Grid item xs={12}> <Typography> Nov </Typography> </Grid>
+                                        <Grid item xs={12}> <Typography> 23 </Typography></Grid>
+                                    </Box>
+                                </Box>
+                            </Grid>
                         </Grid>
-                            <Box>
-                                <Typography variant="body2">{e.type}</Typography>
-                                <Typography variant="body2">{e.url}</Typography>
+                        <Grid item xs={9}>
+                            <Grid item xs={12}>
+                                <Typography variant={"h3"}>{e.title}</Typography>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ScheduleIcon/> {e.dateTime} - {e.finishedDateTime}
+                            </Grid>
+
+                        </Grid> 
+                        </Grid>
+                            <Grid container>
+                                <Grid item xs={12}>
+                                    <Box my={2}>
+                                        <Typography>{e.description}</Typography>
+                                    </Box>
+                                    <Typography>{e.url}</Typography>
+                                </Grid>
+                        
+                                <Grid container>
+
+                                </Grid>
                                 <Typography variant="body2"> Is DISCUS : {e.isDISCUS.toString()}</Typography>
-                                <Typography>{e.description}</Typography>
-                                <Typography>Start = {e.dateTime}</Typography>
-                                <Typography> Finish = {e.finishedDateTime}</Typography>
+                          
                                 <Typography> Tags - {e.tags}</Typography>
-                            </Box>  
+
+                                    <Box bgcolor="primary.main" borderRadius="borderRadius" py={1} px={2}>
+                                        <Typography variant="body2"> <LocalOfferIcon/> {e.type}</Typography>
+                                    </Box>
+
+                            </Grid>  
                         </Link> 
-                        Going? <Checkbox
+                        <Typography> Going? </Typography> 
+                        <Checkbox
+                            icon={<CheckCircleOutlinedIcon  
+                            style={{ fill: '#8BC34A', fontSize : 40 }} />}
+                            checkedIcon={<CheckCircleIcon style={{ fill: '#8BC34A' , fontSize : 40  }} />}
                             onChange={status => updateStatus(status.target.checked, e.id)}
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                             checked={AuthContext.data.user_metadata.events.includes(e.id)}
@@ -173,11 +207,10 @@ function SearchEvent() {
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Edit the Event</DialogTitle>
                         <DialogContent>
-                               <EditEvent/>
+                               <EditEvent dialog={() => setOpen(false)}/>
                         </DialogContent>
                     </Dialog> 
 
-                           
             </Grid>
             : <Loading/>  }
                             
@@ -203,4 +236,4 @@ function SearchEvent() {
     )
 }
 
-export default SearchEvent
+export default UpcomingEvents

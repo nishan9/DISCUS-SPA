@@ -84,7 +84,7 @@ export default function ResponsiveDrawer(props: Props) {
                 <Button color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 50 }}/></Button>
               </Box>
               <Box my={5}>
-                <Button color="inherit" onClick={() => history.push("/searchEvent")}><EventIcon style={{ fontSize: 50 }} /></Button>
+                <Button color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 50 }} /></Button>
               </Box>
               <Box my={5}>
                 <Button color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }} /></Button>
@@ -120,7 +120,6 @@ export default function ResponsiveDrawer(props: Props) {
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
             container={container}

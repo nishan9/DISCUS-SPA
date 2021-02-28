@@ -1,14 +1,12 @@
 import { Box } from '@material-ui/core';
 import React from 'react'
-import ApproveEvents from './components/ApproveEvents';
-import PieChart from './components/Charts/PieChart';
-import StackedBarChart from './components/Charts/StackedBarChart';
+import ApproveEvents from './components/events/ApproveEvents';
+import PieChart from './components/charts/PieChart';
+import StackedBarChart from './components/charts/StackedBarChart';
 import Statistics from './components/Statistics';
 
 
 function AdminPanel() {
-
-
 
     return (
         <div>

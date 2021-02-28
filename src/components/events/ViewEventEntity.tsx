@@ -1,13 +1,13 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, Grid, TextField, Typography } from '@material-ui/core';
+import { Avatar, Box, Grid, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
-import { EditEventContext } from './context/EditEventContext';
-import EventAttendance from './models/EventAttendance';
+import { EditEventContext } from '../../context/EditEventContext';
+import EventAttendance from '../../models/EventAttendance';
 import { CSVLink } from "react-csv";
 import { Button, Dialog, DialogContent, DialogTitle, IconButton } from '@material-ui/core'
 import MailIcon from '@material-ui/icons/Mail';
 import CancelIcon from '@material-ui/icons/Cancel';
-import SendEmail from './SendEmail';
+import SendEmail from '../SendEmail';
 
 function ViewEventEntity(props : any) {
     const EventContext = useContext(EditEventContext)

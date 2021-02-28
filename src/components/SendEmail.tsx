@@ -1,9 +1,9 @@
 import { Box, Button, TextField, Typography } from '@material-ui/core'
 import React, { useContext, useEffect, useState } from 'react'
 import SendIcon from '@material-ui/icons/Send';
-import EmailAddress from './models/EmailAddress';
-import { EditEventContext } from './context/EditEventContext';
-import SendMail from './models/SendMail';
+import EmailAddress from '../models/EmailAddress'; 
+import { EditEventContext } from  '../context/EditEventContext'; 
+import SendMail from '../models/SendMail'; 
 
 function SendEmail() {
     const EventContext = useContext(EditEventContext)
@@ -21,7 +21,7 @@ function SendEmail() {
     }
 
     async function getRecipents(){
-        const response = await fetch(`https://localhost:5001/UserSearch/GetEmails`, { 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/GetEmails`, { 
             headers: {
               'Content-Type': 'application/json',
             }
@@ -39,7 +39,7 @@ function SendEmail() {
                 "subject" : subject, 
             }
 
-            const response = await fetch(`https://localhost:5001/UserSearch/SendEmail`, { 
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/SendEmail`, { 
                 method:"POST", 
                 body: JSON.stringify(sendObj),
                 headers: {

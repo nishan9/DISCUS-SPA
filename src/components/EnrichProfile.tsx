@@ -4,11 +4,11 @@ import { Box, FormControl, Grid, Checkbox, InputLabel, MenuItem, Select, Typogra
 import { Autocomplete } from '@material-ui/lab';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import React, { useContext, useEffect, useState } from 'react'
-import { AllSubjects } from './TagSystem';
+import { AllSubjects } from '../config/TagSystem'
 import signup from '../assets/signup.jpg'; 
 import { Auth0Context } from '../context/Auth0Context';
 import { useSnackbar } from 'notistack';
-import DepartmentObj from './Department';
+import DepartmentObj from '../config/Department'; 
 
 
 function EnrichProfile() {

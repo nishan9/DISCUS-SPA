@@ -10,7 +10,7 @@ import LabelOffIcon from '@material-ui/icons/LabelOff';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import SchoolIcon from '@material-ui/icons/School';
 import { Link } from 'react-router-dom';
-import { TagSystem } from './components/TagSystem';
+import { TagSystem } from './config/TagSystem'; 
 const JsonFind = require('json-find');
 
 function SearchUsers() {

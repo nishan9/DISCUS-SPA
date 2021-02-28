@@ -1,7 +1,7 @@
 import { Button, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react'
-import EventEntity from '../models/EventEntity';
+import EventEntity from '../../models/EventEntity'; 
 
 function ApproveEvents() {
     const [ eventsToApprove, setEventsToApprove] = useState<EventEntity[]>([]);
@@ -12,7 +12,7 @@ function ApproveEvents() {
     }, [])
         
     async function getData(){
-        const getData = await fetch(`https://localhost:5001/EventEntity/Unauthorized`, { 
+        const getData = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Unauthorized`, { 
             headers: {
             'Content-Type': 'application/json',
             }
@@ -21,7 +21,7 @@ function ApproveEvents() {
     }
 
     async function ApproveEvent(e : number){
-        const Authorize = await fetch(`https://localhost:5001/EventEntity/Approve/${e}`, { 
+        const Authorize = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Approve/${e}`, { 
             headers: {
             'Content-Type': 'application/json',
             }

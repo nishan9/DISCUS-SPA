@@ -5,14 +5,14 @@ import { InputLabel } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useAuth0 } from '@auth0/auth0-react';
-import { Auth0Context } from '../context/Auth0Context';
+import { Auth0Context } from '../../../context/Auth0Context';
 import { Autocomplete } from '@material-ui/lab';
-import { AllSubjects } from '../components/TagSystem';
+import { AllSubjects } from '../../../config/TagSystem';
 
 function CreateEvent() {
 
     const Auth0 = useAuth0();    
-    const [event, setEvent] = useState({title:"",dateTime: new Date().toISOString().slice(0, 19).replace('T', ' '), finishedDateTime: new Date().toISOString().slice(0, 19).replace('T', ' '), type:"", url:"", description:"",isDISCUS:true, isApproved : false, tags : "" }); 
+    const [event, setEvent] = useState({title:"",dateTime: new Date() , finishedDateTime: new Date(), type:"", url:"", description:"",isDISCUS:true, isApproved : false, tags : "" }); 
     const [accessToken, setAccessToken] = useState("");
     const AuthContext = useContext(Auth0Context)
     const [tags, setTags] = useState<string[]>([])
@@ -71,11 +71,11 @@ function CreateEvent() {
     }
 
     const handleStartDate = (date: Date) => {
-        setEvent({...event, dateTime : date.toISOString().slice(0, 19).replace('T', ' ')})
+        setEvent({...event, dateTime : date})
     };
 
     const handleFinishDate = (date: Date) => {
-        setEvent({...event, finishedDateTime : date.toISOString().slice(0, 19).replace('T', ' ')})
+        setEvent({...event, finishedDateTime : date})
     };
 
     return (
@@ -101,8 +101,9 @@ function CreateEvent() {
                             format="yyyy-MM-dd"
                             margin="normal"
                             id="date-picker-inline"
+                            disablePast
                             label="Pick a Date"
-                            value={new Date(event.dateTime)}
+                            value={event.dateTime}
                             onChange={(e : any) => handleStartDate(e)}
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
@@ -114,7 +115,7 @@ function CreateEvent() {
                                 margin="normal"
                                 id="time-picker"
                                 label="Start Time"
-                                value={new Date(event.dateTime)}
+                                value={event.dateTime}
                                 onChange={(e : any) => handleStartDate(e)}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change time',
@@ -133,10 +134,11 @@ function CreateEvent() {
                             disableToolbar
                             variant="inline"
                             format="yyyy-MM-dd"
+                            disablePast
                             margin="normal"
                             id="date-picker-inline"
                             label="Pick a Finish Date"
-                            value={new Date(event.finishedDateTime)}
+                            value={event.finishedDateTime}
                             onChange={(e : any) => handleFinishDate(e)}
                             KeyboardButtonProps={{
                                 'aria-label': 'change date',
@@ -148,7 +150,7 @@ function CreateEvent() {
                                 margin="normal"
                                 id="time-picker"
                                 label="Finish Time"
-                                value={new Date(event.finishedDateTime)}
+                                value={event.finishedDateTime}
                                 onChange={(e : any) => handleFinishDate(e)}
                                 KeyboardButtonProps={{
                                     'aria-label': 'change time',

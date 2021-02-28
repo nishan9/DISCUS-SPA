@@ -1,9 +1,9 @@
 import { Grid, Box, Typography, Avatar, Button, Chip, makeStyles, createStyles, Theme } from '@material-ui/core'
 import React, { useContext } from 'react'
-import { Auth0Context } from './context/Auth0Context'
+import { Auth0Context } from '../context/Auth0Context'
 import EditIcon from '@material-ui/icons/Edit';
-import Points from './components/Points';
-import lottie from './config/lottie.json'
+import Points from '../components/Points'; 
+import lottie from '../config/lottie.json'
 import { Player } from "@lottiefiles/react-lottie-player";
 
 function Dashboard() {
