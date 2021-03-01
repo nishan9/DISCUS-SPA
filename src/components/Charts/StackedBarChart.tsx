@@ -62,10 +62,7 @@ function StackedBarChart() {
                     }}
                   >
                   <CartesianGrid strokeDasharray="3 3" />
-                    
                     <XAxis dataKey="name" interval={0} />
-            
-
                     <YAxis />
                     <Tooltip content={
                     //@ts-ignore

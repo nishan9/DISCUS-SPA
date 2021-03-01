@@ -8,14 +8,20 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { Auth0Context } from '../../../context/Auth0Context';
 import { Autocomplete } from '@material-ui/lab';
 import { AllSubjects } from '../../../config/TagSystem';
+import { useSnackbar } from 'notistack';
 
-function CreateEvent() {
+interface CreateEventProps {
+    dialog : Function
+}
+
+function CreateEvent(props : CreateEventProps) {
 
     const Auth0 = useAuth0();    
     const [event, setEvent] = useState({title:"",dateTime: new Date() , finishedDateTime: new Date(), type:"", url:"", description:"",isDISCUS:true, isApproved : false, tags : "" }); 
     const [accessToken, setAccessToken] = useState("");
     const AuthContext = useContext(Auth0Context)
     const [tags, setTags] = useState<string[]>([])
+    const { enqueueSnackbar } = useSnackbar();
 
 
     useEffect(() => {
@@ -64,7 +70,15 @@ function CreateEvent() {
             }
         })
         if(response.ok){
-            alert("Success"); 
+            if (AuthContext.data.app_metadata !== null)
+            {
+                enqueueSnackbar('Event has been created!', { variant : "success" });
+            } else 
+            {
+                enqueueSnackbar('Event will be published once authorised!', { variant : "info" });
+
+            }
+            props.dialog(); 
         }else{
             console.error("Publishing failed");
         }

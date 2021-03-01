@@ -33,7 +33,7 @@ function UpcomingEvents() {
     useEffect(() => {
         fetchData();
         fetchEventData();
-    }, [])
+    }, [openNE, open])
 
     async function fetchData(){
         const token = await Auth0.getAccessTokenSilently(); 
@@ -145,10 +145,14 @@ function UpcomingEvents() {
             <Grid container>
             {data?.map ((e,i) => 
             <Box width="40%" borderRadius="borderRadius" border={2} m={3} p={3} className={classes.box}> 
+                       
+                       {AuthContext.data.app_metadata !== null ? 
                         <div className={classes.customizedButton} >
                             <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
                             <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
                         </div>
+                       : "" }
+                       
                         
                         <Link to={`/events/${e.id}`} style={{ textDecoration: 'none' }}>
                         <Grid container>
@@ -193,7 +197,7 @@ function UpcomingEvents() {
 
                             </Grid>  
                         </Link> 
-                        <Typography> Going? </Typography> 
+                        <Typography>Going?</Typography> 
                         <Checkbox
                             icon={<CheckCircleOutlinedIcon  
                             style={{ fill: '#8BC34A', fontSize : 40 }} />}
@@ -224,7 +228,7 @@ function UpcomingEvents() {
                 </Box>
                 </DialogTitle>
                 <DialogContent>
-                    <CreateEvent/>
+                    <CreateEvent dialog={() => setOpenNE(false)}/>
                 </DialogContent>
             </Dialog>
 

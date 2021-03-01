@@ -5,6 +5,7 @@ import logo from './assets/Reuss.svg';
 
 export default function Login() {
     const {loginWithRedirect } = useAuth0();
+    
     return (
         <Box bgcolor="primary.main">
           <Grid container>

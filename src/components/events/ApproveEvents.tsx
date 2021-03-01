@@ -39,7 +39,7 @@ function ApproveEvents() {
             {eventsToApprove.map (e => 
             <>
                 <Typography>{e.title}</Typography>
-                <Button onClick={ () => ApproveEvent(e.id)}>fdfd</Button>
+                <Button variant="contained" color="primary" onClick={ () => ApproveEvent(e.id)}> Approve Event </Button>
             </>
             )}
         </div>

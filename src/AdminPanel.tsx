@@ -1,4 +1,4 @@
-import { Box } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
 import PieChart from './components/charts/PieChart';
@@ -18,6 +18,7 @@ function AdminPanel() {
                 <div style={{height : "300px", width : "600px"}}>
                     <PieChart/>
                 </div>
+                <Typography variant={"h3"}> Approve Events </Typography>
                 <ApproveEvents/>
             </Box>
         </div>

@@ -18,8 +18,8 @@ function Dashboard() {
                 },
             },
             large: {
-                width: theme.spacing(35),
-                height: theme.spacing(35),
+                width: theme.spacing(20),
+                height: theme.spacing(20),
             },
             }),
         );
@@ -33,13 +33,14 @@ function Dashboard() {
         {AuthContext.data ? 
                 <Grid container spacing={3}>
 <Grid item xs={12}>
-    <Box pt={3} >
-        <Typography variant="h3">Overview</Typography>
-    </Box>
 </Grid>
 <Grid item xs={3}>
-    <Box className="small" m={2} p={6} borderRadius="borderRadius">
+    <Box className="small" m={3} p={6} borderRadius="borderRadius">
         <Avatar alt="Remy Sharp" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
+        <Box my={2}>
+            <Typography variant="h4">{AuthContext.data.name}</Typography>
+        </Box>
+
     </Box>
     <Points/>
 </Grid>
@@ -47,7 +48,6 @@ function Dashboard() {
     <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
             <Button onClick={changeEdit}> <EditIcon/> </Button>
             <Typography variant="h4">General</Typography>
-            <Typography variant="body1">Name - {AuthContext.data.name}</Typography>
             <Typography variant="body1">Email - {AuthContext.data.email}</Typography>
             <Typography> School - {AuthContext.data.user_metadata.education.school}</Typography>
             <Typography> Department - {AuthContext.data.user_metadata.education.department}</Typography>

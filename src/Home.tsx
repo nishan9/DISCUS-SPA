@@ -1,5 +1,4 @@
 import React from 'react'
-import CreateEvent from './components/events/forms/CreateEvent';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -10,6 +9,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 import ViewEventEntity from './components/events/ViewEventEntity'
 import AdminPanel from './AdminPanel';
 import Events from './Events';
+import ViewUser from './components/ViewUser';
 
 export default function Home() {
     const Auth0 = useAuth0();
@@ -59,54 +59,32 @@ const classes = useStyles();
             <Router>
                 <Sidebar/>
                 <Switch>
+                <main className={classes.content}>
+                <div className={classes.toolbar}/>
+
                     <Route exact path="/">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
                         <WelcomeScreen/>
-                    </main>
-                    </Route>
-                    <Route exact path="/searchUsers">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                        <SearchUsers/>
-                        </main>
                     </Route>
 
-                    <Route exact path="/createEvent">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                        <CreateEvent/>
-                        </main>
+                    <Route exact path="/searchUsers">
+                        <SearchUsers/>
                     </Route>
 
                     <Route exact path="/AdminPanel">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    <AdminPanel/>
-                        </main>
+                      <AdminPanel/>
                     </Route>
 
                     <Route exact path="/Events">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
                         <Events/>
-                        </main>
                     </Route>
 
+                    <Route exact path='/events/:event_id' render={(props) => <ViewEventEntity {...props}/> }/>
+                    <Route exact path='/users/:user_id' render={(props) => <ViewUser {...props}/> }/>
 
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                      <Route exact path='/events/:event_id' render={(props) => <ViewEventEntity {...props}/> }/>
-                        </main>
-
-                  {
-                    // <main className={classes.content}>
-                  //  <Route exact path='/users/:user_id' render={(props) => <ViewUser {...props}/> }/>
-                  //  </main>
-                  }
-
-                </Switch>
+              </main>
+              </Switch>
             </Router>
+       
             </div>
         </>
         :
