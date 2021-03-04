@@ -1,4 +1,4 @@
-import { Button, Typography } from '@material-ui/core';
+import { Button, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react'
 import EventEntity from '../../models/EventEntity'; 
@@ -34,14 +34,44 @@ function ApproveEvents() {
         getData();
     }
 
+    const useStyles = makeStyles({
+        table: {
+          minWidth: 650,
+        },
+      });
+
+      const classes = useStyles();
+
     return (
         <div>
-            {eventsToApprove.map (e => 
             <>
-                <Typography>{e.title}</Typography>
-                <Button variant="contained" color="primary" onClick={ () => ApproveEvent(e.id)}> Approve Event </Button>
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell align="left">Title</TableCell>
+                                <TableCell>Description</TableCell>
+                                <TableCell align="right">Start Date</TableCell>
+                                <TableCell align="right">Finish Date</TableCell>
+                                <TableCell align="right">Action</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    <TableBody>
+                    {eventsToApprove.map((row) => (
+            <TableRow>
+              <TableCell component="th" scope="row">
+                {row.description}
+              </TableCell>
+              <TableCell align="right">{row.description}</TableCell>
+              <TableCell align="right">{row.description}</TableCell>
+              <TableCell align="right">{row.description}</TableCell>
+              <TableCell align="right">{row.description}</TableCell>
+            </TableRow>
+          ))}
+                    </TableBody>
+                    </Table>
+                </TableContainer>
             </>
-            )}
         </div>
     )
 }

@@ -16,8 +16,8 @@ ReactDOM.render(
           <Wrapper />
         </SnackbarProvider>
       </EditEventContextProvider>
-    </Auth0ContextProvider>, 
-  </ThemeProvider>, 
+    </Auth0ContextProvider>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 

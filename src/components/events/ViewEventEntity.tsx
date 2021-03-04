@@ -78,21 +78,21 @@ async function getEventAttendance(){
 <Box>
     Total users {eventAttendance?.total}
 </Box>
-<Button onClick={handleOpen}><MailIcon/> ff</Button>
+<Button onClick={handleOpen}><MailIcon/>Email Users</Button>
 
-<Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="id">
-            <Box display="flex" alignItems="center">
-                <Box flexGrow={1}> <Typography variant="h4">Send Emails</Typography></Box>
-                <Box>
-                    <IconButton onClick={handleClose}> <CancelIcon /> </IconButton>
+    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+            <DialogTitle id="id">
+                <Box display="flex" alignItems="center">
+                    <Box flexGrow={1}> <Typography variant="h4">Send Emails</Typography></Box>
+                    <Box>
+                        <IconButton onClick={handleClose}> <CancelIcon /> </IconButton>
+                    </Box>
                 </Box>
-            </Box>
-        </DialogTitle>
-        <DialogContent>
-            <SendEmail/>
-        </DialogContent>
-</Dialog>
+            </DialogTitle>
+            <DialogContent>
+                <SendEmail/>
+            </DialogContent>
+    </Dialog>
 
         </div>
     )
