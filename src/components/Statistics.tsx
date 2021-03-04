@@ -1,5 +1,8 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
+import EventAvailableIcon from '@material-ui/icons/EventAvailable';
+import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
+import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 
 function Statistics() {
     const [eventsTotal, setEventsTotal] = useState<number>(); 
@@ -35,15 +38,51 @@ function Statistics() {
 
     return (
             <>
-                <Grid container spacing={3}>
+                <Grid container spacing={1}>
                     <Grid item xs={4}>
-                        <Typography variant="body2"> Total Hosted Event : {eventsTotal}</Typography>
+                            <Grid container justify="center">
+                                    <Box bgcolor="primary.light" borderRadius="5%" p={3}>
+                                        <EventAvailableIcon style={{ fontSize: 40 }} />
+                                        <Grid container>
+                                        <Box>
+                                            <Typography variant="body1"> Hosted Events </Typography>
+                                        </Box>
+                                        <Box m={2}>
+                                            <Typography variant="h5">{eventsTotal}</Typography>
+                                        </Box>
+                                        </Grid>
+                                    </Box>
+                            </Grid>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="body2"> Active Users {activeUsers}</Typography>
+                        <Grid container justify="center">
+                            <Box bgcolor="primary.light" borderRadius="5%" p={3}>
+                                <PeopleAltIcon style={{ fontSize: 40 }} />
+                                <Grid container>
+                                <Box>
+                                    <Typography variant="body1">Active Users</Typography>
+                                </Box>
+                                <Box m={2}>
+                                    <Typography variant="h5"> {activeUsers}</Typography>
+                                </Box>
+                                </Grid>
+                            </Box>
+                        </Grid>
                     </Grid>
                     <Grid item xs={4}>
-                        <Typography variant="body2">Total  Users {usersTotal} </Typography>
+                        <Grid container justify="center">
+                                <Box bgcolor="primary.light" borderRadius="5%" p={3}>
+                                    <PeopleOutlineIcon style={{ fontSize: 40 }} />
+                                    <Grid container>
+                                    <Box>
+                                        <Typography variant="body1">Users Total</Typography>
+                                    </Box>
+                                    <Box m={2}>
+                                        <Typography variant="h5"> {usersTotal}</Typography>
+                                    </Box>
+                                    </Grid>
+                                </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
             </>

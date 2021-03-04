@@ -1,3 +1,4 @@
+import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
   
@@ -49,6 +50,7 @@ function StackedBarChart() {
         <>
           {Bardata ? 
               <div style={{height : "100%", width : "100%"}}>
+                <Typography variant="h4"> User by School and Departments </Typography>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     width={500}
@@ -62,10 +64,7 @@ function StackedBarChart() {
                     }}
                   >
                   <CartesianGrid strokeDasharray="3 3" />
-                    
                     <XAxis dataKey="name" interval={0} />
-            
-
                     <YAxis />
                     <Tooltip content={
                     //@ts-ignore

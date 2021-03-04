@@ -4,11 +4,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
 import { Auth0Context } from '../context/Auth0Context';
-import { AllSubjects } from './TagSystem';
+import { AllSubjects } from '../config/TagSystem'
 import { useAuth0 } from '@auth0/auth0-react';
 import { useSnackbar } from 'notistack';
 import Points from './Points';
-import DepartmentObj from './Department';
+import DepartmentObj from '../config/Department'; 
 
 function EditUserProfile() {
     const AuthContext = useContext(Auth0Context);

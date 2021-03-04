@@ -1,14 +1,29 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Box, Button, Grid, Typography } from '@material-ui/core'
+import { Box, Button, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core'
 import React from 'react'
-import logo from './assets/Reuss.svg';
+import Reuss from './assets/Reuss.svg';
+
 
 export default function Login() {
     const {loginWithRedirect } = useAuth0();
+    
+
+    const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            display: 'flex',
+            minHeight : '100vh', backgroundImage: `url(${Reuss})`, backgroundRepeat : "no-repeat",
+            backgroundPosition : 'top right'
+        }
+        }),
+    );
+    const classes = useStyles();
+
+
     return (
-        <Box bgcolor="primary.main">
+        <div className={classes.root} >
           <Grid container>
-            <Grid item xs={12} md={6} container className="background" direction="column" >
+            <Grid item xs={12} md={6} container direction="column" >
               <Box mt={40} ml={4}>
                 <Typography variant="h1" gutterBottom>
                   DISCUS
@@ -21,10 +36,7 @@ export default function Login() {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12} md={6} direction="column">
-              <img alt="Colorful Pattern Background" src={logo} width="100%"/>
-            </Grid>
           </Grid>
-        </Box>
+        </div>
     )
 }

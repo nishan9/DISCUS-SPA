@@ -1,8 +1,8 @@
 interface Event {
     id: number,
     title: string,
-    dateTime: string,
-    finishedDateTime : string, 
+    dateTime: Date,
+    finishedDateTime : Date, 
     type: string;
     url: string;
     description: string;

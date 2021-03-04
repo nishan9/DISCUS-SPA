@@ -1,5 +1,4 @@
-
-export const TagSystem = {
+{
     "Chemistry":0,
     "Architecture":0,
     "Physics":{
@@ -17,8 +16,3 @@ export const TagSystem = {
        }
     }
  }
-
-export const AllSubjects = [ "Chemistry", "Architecture", "Astro Physics", "Computer Stuff", "Natural Language Engineering", "Natural Language" ]
- 
- 
-

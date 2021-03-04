@@ -10,7 +10,7 @@ import LabelOffIcon from '@material-ui/icons/LabelOff';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import SchoolIcon from '@material-ui/icons/School';
 import { Link } from 'react-router-dom';
-import { TagSystem } from './components/TagSystem';
+import Tags from './config/Tags.json'
 const JsonFind = require('json-find');
 
 function SearchUsers() {
@@ -70,7 +70,7 @@ function SearchUsers() {
                     return [...res, prefix + el];
             }, []);
 
-        const result = keyify(JsonFind(TagSystem).checkKey(Term));
+        const result = keyify(JsonFind(Tags).checkKey(Term));
         const arr = result.map( (val : string) => { return ( val.split(".").map( (item) => { return item}))})
         const subjectList = ([].concat.apply([], arr))
         return subjectList; 
@@ -359,34 +359,38 @@ function SearchUsers() {
                     <Box ml={4} mt={15}>
 
                         {data ? data.users.map( e => (
+                            <>
+                            {e.user_metadata !== null ?
                             <Grid container direction="row" alignItems="center" style={{ borderBottom: "1px solid #D3D3D3"}}>
-                                <Grid container>
-                                <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none' }}>
-
-                                        <Box style={{ display : "flex"}} >
-                                                    <Box  my={6} >
-                                                        <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
-                                                    </Box>
-                                                <Box m={5} className={classes.form} style={{ display : "flex", flexDirection : "column" }} >
-                                                    <Typography variant="h5"> {e.name}</Typography>
-                                                <Grid container direction="row" alignItems="center">
-                                                <Box pt={5}></Box>
-                                                <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
-                                                <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
-                                                </Grid>
-
-                                                    <Box my={2} className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
-                                                        {e.user_metadata.research}
-                                                        <Box my={2}>
-                                                            <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
-                                                            <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
-                                                        </Box>
+                            <Grid container>
+                            <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none' }}>
+                            
+                                    <Box style={{ display : "flex"}} >
+                                                <Box  my={6} >
+                                                    <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
+                                                </Box>
+                                            <Box m={5} className={classes.form} style={{ display : "flex", flexDirection : "column" }} >
+                                                <Typography variant="h5"> {e.name}</Typography>
+                                            <Grid container direction="row" alignItems="center">
+                                            <Box pt={5}></Box>
+                                            <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
+                                            <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
+                                            </Grid>
+                            
+                                                <Box my={2} className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
+                                                    {e.user_metadata.research}
+                                                    <Box my={2}>
+                                                        <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
+                                                        <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
                                                     </Box>
                                                 </Box>
-                                        </Box>
-                                    </Link>
-                                </Grid>
+                                            </Box>
+                                    </Box>
+                                </Link>
                             </Grid>
+                            </Grid> : ""
+                        }
+                            </>
                         )) : <> </>}
                     </Box>
                     <Pagination 

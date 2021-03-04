@@ -8,9 +8,8 @@ function Points() {
 
     return (
         <div>
-            <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-                <Typography variant="h3">Points</Typography>
-                <Typography variant="h4">{AuthContext.data.user_metadata.events.length} Points</Typography>
+            <Box m={1} p={3} bgcolor="primary.main" borderRadius="borderRadius">
+                <Typography>{AuthContext.data.user_metadata.events.length} Experience</Typography>
             </Box>
         </div>
     )

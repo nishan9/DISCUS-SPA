@@ -1,12 +1,12 @@
 import { Avatar, Box, Button, Chip, createStyles, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, TextField, Theme, Typography } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react'
-import Auth0user from './models/Auth0user';
+import Auth0user from '../models/Auth0user';
 import EditIcon from '@material-ui/icons/Edit';
 import { Autocomplete, AutocompleteChangeReason } from '@material-ui/lab';
 import SaveIcon from '@material-ui/icons/Save';
 import CancelIcon from '@material-ui/icons/Cancel';
-import { Auth0Context } from './context/Auth0Context';
-import DepartmentObj from './components/Department';
+import { Auth0Context } from '../context/Auth0Context'
+import DepartmentObj from '../config/Department';
 
 function ViewUser(props : any) {
     const [loginPressed, setLoginPressed] = useState(false);

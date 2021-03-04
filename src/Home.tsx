@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import CreateEvent from './Forms/CreateEvent';
+import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import SearchEvent from './SearchEvent';
 import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';
 import Login from './Login';
 import WelcomeScreen from './WelcomeScreen';
 import Sidebar from './Sidebar';
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import ViewEventEntity from './ViewEventEntity';
+import ViewEventEntity from './components/events/ViewEventEntity'
 import AdminPanel from './AdminPanel';
+import Events from './Events';
+import ViewUser from './components/ViewUser';
 
 export default function Home() {
     const Auth0 = useAuth0();
@@ -39,14 +39,12 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
-    // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
     },
   }),
 );
@@ -60,54 +58,32 @@ const classes = useStyles();
             <Router>
                 <Sidebar/>
                 <Switch>
+                <main className={classes.content}>
+                <div className={classes.toolbar}/>
+
                     <Route exact path="/">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
                         <WelcomeScreen/>
-                    </main>
-                    </Route>
-                    <Route exact path="/searchUsers">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                        <SearchUsers/>
-                        </main>
                     </Route>
 
-                    <Route exact path="/createEvent">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                        <CreateEvent/>
-                        </main>
+                    <Route exact path="/searchUsers">
+                        <SearchUsers/>
                     </Route>
 
                     <Route exact path="/AdminPanel">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                    <AdminPanel/>
-                        </main>
+                      <AdminPanel/>
                     </Route>
 
-                    <Route exact path="/searchEvent">
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                        <SearchEvent/>
-                        </main>
+                    <Route exact path="/Events">
+                        <Events/>
                     </Route>
 
+                    <Route exact path='/events/:event_id' render={(props) => <ViewEventEntity {...props}/> }/>
+                    <Route exact path='/users/:user_id' render={(props) => <ViewUser {...props}/> }/>
 
-                    <main className={classes.content}>
-                    <div className={classes.toolbar} />
-                      <Route exact path='/events/:event_id' render={(props) => <ViewEventEntity {...props}/> }/>
-                        </main>
-
-                  {
-                    // <main className={classes.content}>
-                  //  <Route exact path='/users/:user_id' render={(props) => <ViewUser {...props}/> }/>
-                  //  </main>
-                  }
-
-                </Switch>
+              </main>
+              </Switch>
             </Router>
+       
             </div>
         </>
         :

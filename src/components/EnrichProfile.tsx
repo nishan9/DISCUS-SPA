@@ -4,19 +4,17 @@ import { Box, FormControl, Grid, Checkbox, InputLabel, MenuItem, Select, Typogra
 import { Autocomplete } from '@material-ui/lab';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import React, { useContext, useEffect, useState } from 'react'
-import { AllSubjects } from './TagSystem';
+import { AllSubjects } from '../config/TagSystem'
 import signup from '../assets/signup.jpg'; 
 import { Auth0Context } from '../context/Auth0Context';
 import { useSnackbar } from 'notistack';
-import DepartmentObj from './Department';
+import DepartmentObj from '../config/Department'; 
 
 
 function EnrichProfile() {
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
-    const [metadata, setMetada] = useState({sussex : "", school:"",department:"",careerstage:"", research : "", expertise: [], intersts : [], available : "false", GraduationDate : ""}); 
-    const [selectedDate, setSelectedDate] = useState <Date | null>();
-    const date = selectedDate?.toString();
+    const [metadata, setMetada] = useState({sussex : "", school:"",department:"",careerstage:"", research : "", expertise: [], intersts : [], available : "false", GraduationDate : new Date()}); 
     const [interests, setInterests] = useState<String[]>([]); 
     const [expertise, setExpertise] = useState<String[]>([]);
     const context = useContext(Auth0Context)
@@ -27,11 +25,12 @@ function EnrichProfile() {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
     },[Auth0])
     
-    const handleDateChange = (date: Date | null) => {
-        setSelectedDate(date);
+    const handleDateChange = (date: Date ) => {
+        setMetada({...metadata, GraduationDate : date});
     };
 
     async function SaveMetada(e : any) {
+        const gradDate = metadata.GraduationDate.toString();
         const postreq = (
             { "user_metadata" : {
                 "social": {
@@ -41,7 +40,7 @@ function EnrichProfile() {
                     "School": metadata.school,
                     "Department": metadata.department,
                     "CareerStage": metadata.careerstage,
-                    "GraduationDate": date,
+                    "GraduationDate": gradDate,
                     "Available": metadata.available
                   },
                   "research": metadata.research,
@@ -188,8 +187,8 @@ function EnrichProfile() {
                             id="date-picker-dialog"
                             label="Graduation Date"
                             format="MM/dd/yyyy"
-                            value={selectedDate}
-                            onChange={handleDateChange}
+                            value={metadata.GraduationDate}
+                            onChange={(e : any) => handleDateChange(e)}
                             KeyboardButtonProps={{
                             'aria-label': 'change date',
                             }}

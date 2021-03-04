@@ -4,8 +4,8 @@ import EventEntity from "../models/EventEntity";
 const eventdeafultvalue : EventEntity = {
     "id": 0,
     "title": "",
-    "dateTime": "",
-    "finishedDateTime" : "", 
+    "dateTime": new Date(),
+    "finishedDateTime" : new Date(), 
     "type": "",
     "url": "",
     "description": "",
