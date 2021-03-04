@@ -3,7 +3,6 @@ import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
 import StackedBarChart from './components/charts/StackedBarChart';
 import Statistics from './components/Statistics';
-import PieChartExpertise from './components/charts/PieChartExpertise';
 
 
 function AdminPanel() {
@@ -23,7 +22,6 @@ function AdminPanel() {
                     </Grid>
                     <Grid item xs={6}>
                         <Box  p={3} style={{ width : "100%", height : '400px'}}>
-                            <PieChartExpertise/>
                         </Box>
                     </Grid>
                 </Grid>
