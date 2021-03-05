@@ -229,7 +229,7 @@ function SearchUsers() {
         <div>
             <Grid container style={{ background: "#ebebeb"}}>
             <Grid xs={12}> 
-                <Box mx="25vw" my={7} className={classes.box}>
+                <Box mx="10vw" my={6} className={classes.box}>
                     <Grid container direction="row" alignItems="center">
                         <Grid container>
                             {tags ?                                
@@ -288,11 +288,15 @@ function SearchUsers() {
         <Container style={{ maxWidth: "1500px"}}>
             <Grid container >
                 <Grid item lg={4} > 
-                    <Box m={5}>
+                    <Box m={4}>
                     <FormControl component="fieldset"> 
-                    <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight"fontSize={35}> Refine</Box>
+                    
+                    <Box p={1} fontSize={30}> Filter by: </Box>
 
-                    <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight" fontSize={30} > <AssignmentIndIcon  fontSize={"large"} /> Departments</Box>
+     
+
+                 
+                    <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={1} fontWeight="fontWeightLight" fontSize={25} > <AssignmentIndIcon  fontSize={"large"} /> Departments</Box>
                     
                     <FormGroup>
                         <FormControlLabel control={<Checkbox onChange={(e) => handleChange("University of Sussex Business School", e.target.checked)} />}
@@ -324,7 +328,9 @@ function SearchUsers() {
 
                         <FormControlLabel control={<Checkbox onChange={(e) => handleChange("Brighton and Sussex Medical School", e.target.checked)} />}
                         label={<Typography variant="body2" color="textPrimary">Brighton and Sussex Medical School</Typography>}/>
-                    </FormGroup> </FormControl>  
+                    </FormGroup> 
+                    </FormControl>  
+                    
                     
                     </Box>
                     <Box m={5}>
@@ -356,37 +362,41 @@ function SearchUsers() {
                     <Box>
                     </Box> 
                     }
-                    <Box ml={4} mt={15}>
 
+                    <Box ml={2}>
+                        <Box p={1}>
+                            <Typography variant="h4"> Results </Typography>
+                        </Box>
                         {data ? data.users.map( e => (
                             <>
                             {e.user_metadata !== null ?
                             <Grid container direction="row" alignItems="center" style={{ borderBottom: "1px solid #D3D3D3"}}>
                             <Grid container>
-                            <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none' }}>
-                            
+                     {//    <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none' }}>
+                     }       
                                     <Box style={{ display : "flex"}} >
                                                 <Box  my={6} >
                                                     <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
                                                 </Box>
-                                            <Box m={5} className={classes.form} style={{ display : "flex", flexDirection : "column" }} >
+                                            <Box m={5} mt={7} className={classes.form} style={{ display : "flex", flexDirection : "column" }} >
                                                 <Typography variant="h5"> {e.name}</Typography>
-                                            <Grid container direction="row" alignItems="center">
-                                            <Box pt={5}></Box>
-                                            <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
-                                            <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
-                                            </Grid>
+                                                <Grid container direction="row" alignItems="center">
+                                                    <Box pt={5}></Box>
+                                                    <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
+                                                    <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
+                                                </Grid>
                             
-                                                <Box my={2} className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
+                                                <Box className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
                                                     {e.user_metadata.research}
-                                                    <Box my={2}>
+                                                    <Box>
                                                         <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
                                                         <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
                                                     </Box>
                                                 </Box>
                                             </Box>
                                     </Box>
-                                </Link>
+                            {//</Grid></Link> 
+                            }    
                             </Grid>
                             </Grid> : ""
                         }
