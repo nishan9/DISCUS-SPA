@@ -1,8 +1,10 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
-import StackedBarChart from './components/charts/StackedBarChart';
+import StackedBarChart from './charts/StackedBarChart';
 import Statistics from './components/Statistics';
+import PieChartExpertise from './charts/PieChartExpertise';
+import PieChartInterest from './charts/PieChartInterest';
 
 
 function AdminPanel() {
@@ -18,10 +20,12 @@ function AdminPanel() {
                 <Grid container spacing={1}>
                     <Grid item xs={6}>
                         <Box p={3} style={{ width : "100%", height : '400px'}}>
+                            <PieChartExpertise/>
                         </Box>
                     </Grid>
                     <Grid item xs={6}>
                         <Box  p={3} style={{ width : "100%", height : '400px'}}>
+                            <PieChartInterest/>
                         </Box>
                     </Grid>
                 </Grid>

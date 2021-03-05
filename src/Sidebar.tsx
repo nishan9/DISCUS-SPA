@@ -72,7 +72,7 @@ export default function ResponsiveDrawer(props: Props) {
   };
 
   const drawer = (
-    <div>
+    <div style={{ borderRadius : 200}}>
       <div className={classes.toolbar} />
         <List>
           <Grid container justify="center">
