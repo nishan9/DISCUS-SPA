@@ -1,10 +1,10 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
-import StackedBarChart from './components/charts/StackedBarChart';
+import StackedBarChart from './charts/StackedBarChart';
 import Statistics from './components/Statistics';
-import PieChartExpertise from './components/charts/PieChartExpertise';
-import PieChartInterest from './components/charts/PieChartInterest';
+import PieChartExpertise from './charts/PieChartExpertise';
+import PieChartInterest from './charts/PieChartInterest';
 
 
 function AdminPanel() {
