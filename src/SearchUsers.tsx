@@ -1,5 +1,5 @@
 import ExtensionIcon from '@material-ui/icons/Extension';
-import { Avatar, Box, Button, Checkbox, Chip, Container, FormControl, FormControlLabel, FormGroup, Grid, InputBase, makeStyles, Switch, TextField, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, ButtonBase, Checkbox, Chip, createStyles, Divider, FormControlLabel, FormGroup, Grid, Hidden, IconButton, InputBase, makeStyles, Paper, Switch, TextField, Theme, Typography, withStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
@@ -11,6 +11,8 @@ import ApartmentIcon from '@material-ui/icons/Apartment';
 import SchoolIcon from '@material-ui/icons/School';
 import { Link } from 'react-router-dom';
 import Tags from './config/Tags.json'
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import theme from './theme';
 const JsonFind = require('json-find');
 
 function SearchUsers() {
@@ -100,7 +102,6 @@ function SearchUsers() {
                   } 
             }
         }
-        console.log(careerfilter)
 
         if (searchTerm.length > 2){
             let FinalQuery = ""
@@ -199,6 +200,13 @@ function SearchUsers() {
 
 
     const useStyles = makeStyles({
+        root: {
+            padding: '2px 4px',
+            display: 'flex',
+            alignItems: 'center',
+            width: 400,
+            margin : '15px'
+        },
         box: {
           textAlign: 'center', 
           padding : 4,
@@ -212,208 +220,258 @@ function SearchUsers() {
             textAlign: 'center',
             AlignItems: 'center', 
         },
-        inputbase : {
+        color : {
+            padding : '15px',
+            backgroundColor : '#EBEBEB',
         }, 
         large: {
             width: 90, 
             height: 90, 
         },
-        form: {
-            fontFamily : "Open Sans, sans-serif", 
-        },
+        input: {
+            marginLeft: theme.spacing(1),
+            flex: 1,
+          },
+          iconButton: {
+            padding: 10,
+          },
+          divider: {
+            height: 28,
+            margin: 4,
+          },
+          accordian : {
+            backgroundColor : "transparent", 
+            borderRadius : 10
+          },
+          MuiAccordionroot: {
+            "&.MuiAccordion-root:before": {
+              backgroundColor: "#FAFAFA"
+        }},
     });
+
+    const AntSwitch = withStyles((theme: Theme) =>
+        createStyles({
+        root: {
+        width: 28,
+        height: 16,
+        padding: 0,
+        display: 'flex',
+        },
+        switchBase: {
+        padding: 2,
+        color: theme.palette.grey[500],
+        '&$checked': {
+            transform: 'translateX(12px)',
+            color: theme.palette.common.white,
+            '& + $track': {
+            opacity: 1,
+            backgroundColor: theme.palette.primary.main,
+            borderColor: theme.palette.primary.main,
+            },
+        },
+        },
+        thumb: {
+        width: 12,
+        height: 12,
+        boxShadow: 'none',
+        },
+        track: {
+        border: `1px solid ${theme.palette.grey[500]}`,
+        borderRadius: 16 / 2,
+        opacity: 1,
+        backgroundColor: theme.palette.common.white,
+        },
+        checked: {},
+    }),
+    )(Switch);
 
     const classes = useStyles();
 
     return (
-        <div>
-            <Grid container style={{ background: "#ebebeb"}}>
-            <Grid xs={12}> 
-                <Box mx="10vw" my={6} className={classes.box}>
-                    <Grid container direction="row" alignItems="center">
-                        <Grid container>
-                            {tags ?                                
-                            <div style={{ display: "flex" , width : "100%" }}>
-                            <SearchIcon fontSize={"large"}/>
-                                <InputBase fullWidth={true} className={classes.inputbase} placeholder="Search" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}/> 
-                                <Button onClick={Changetag}>
-                                    <LabelOffIcon color={"error"} fontSize={"large"}/>
-                                </Button>
-                                </div>
-                                :
-                                <div style={{ display: "flex" , width : "100%" }}>
-                                <SearchIcon fontSize={"large"}/>
+        <Grid container>
+            <Grid container justify="center" className={classes.color}>                    
+                    <Paper component="form" className={classes.root}>
+                        {tags ?
+                        <>
+                            <InputBase
+                             className={classes.input}
+                             placeholder="Search"
+                             inputProps={{ 'aria-label': 'Search' }} />
+                            <IconButton disabled className={classes.iconButton} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                            <Divider className={classes.divider} orientation="vertical" />
+                            <ButtonBase onClick={Changetag}  className={classes.iconButton} aria-label="directions">
+                                    <LabelIcon/>
+                            </ButtonBase>
+                        </>
+                        :
+                        <>
+                            <Autocomplete
+                                multiple fullWidth onChange={(event, value, reason) => addtoState(value, reason)}
+                                className={classes.input} options={Subjects}
+                                getOptionLabel={(option) => option.Subject}
+                                renderInput={(params) => (
+                                    <TextField {...params} variant="outlined" size="small" placeholder="Search Tags" />
+                                )}
+                            />
+                            <IconButton disabled className={classes.iconButton} aria-label="search">
+                                <SearchIcon />
+                            </IconButton>
+                            <Divider className={classes.divider} orientation="vertical" />
+                            <ButtonBase onClick={Untag}  className={classes.iconButton} aria-label="directions">
+                                    <LabelOffIcon/>
+                            </ButtonBase>
+                        </>
+                        }
+                    </Paper>
 
-                                    <Autocomplete
-                                        multiple
-                                        fullWidth
-                                        onChange={(event, value, reason) => addtoState(value, reason)}
-                                        id="multiple-limit-tags"
-                                        options={Subjects}
-                                        getOptionLabel={(option) => option.Subject}
-                                        renderInput={(params) => (
-                                            <TextField {...params} variant="outlined" placeholder="Add Tags" />
-                                        )}
-                                    />
-
-                                <Button onClick={Untag}>
-                                    <LabelIcon color={"error"} fontSize={"large"}/>
-                                </Button>
-                                </div>
-                                }
-
+                    {tags ?  " " : 
+                        <Grid container justify="center"> 
+                            <>
+                                <Box alignContent="flex-start">
+                                <Grid component="label" container alignItems="center" spacing={1}>
+                                    <Grid item>Expertise</Grid>
+                                    <Grid item>
+                                        <AntSwitch checked={checked} onChange={toggleChecked} name="checkedC" />
+                                    </Grid>
+                                    <Grid item>Interests</Grid>
+                                </Grid>
+                                </Box>
+                            </>
                         </Grid>
-                        {tags ?  " " :      
-                        <div style={{ background: "#ebebeb", width : "100%"}}>
-                            <Box alignContent="flex-start">
-                                <Typography display="inline">Expertise</Typography>
-                                    <FormControlLabel
-                                        control={<Switch checked={checked} onChange={toggleChecked} />}
-                                        label="Interest"
-                                    />
-                                <Typography display="inline">Include All</Typography>
-                                <Checkbox 
-                                       checked={IncludeAll}
-                                        onChange={(e) => setIncludeAll(e.target.checked)}
-                                        />
-                            </Box>
-                        </div>
-}
-                  
-                    </Grid>
-                </Box> 
-            </Grid>
-            </Grid>
-
-        <Container style={{ maxWidth: "1500px"}}>
-            <Grid container >
-                <Grid item lg={4} > 
-                    <Box m={4}>
-                    <FormControl component="fieldset"> 
-                    
-                    <Box p={1} fontSize={30}> Filter by: </Box>
-
-     
-
-                 
-                    <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={1} fontWeight="fontWeightLight" fontSize={25} > <AssignmentIndIcon  fontSize={"large"} /> Departments</Box>
-                    
-                    <FormGroup>
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("University of Sussex Business School", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary" >University of Sussex Business School</Typography>} />
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Education and Social Work", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Education and Social Work</Typography>} />    
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Engineering and Informatics", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Engineering and Informatics</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Global Studies", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Global Studies</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Law, Policitics and Sociology", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Law, Policitics and Sociology</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Life Sciences", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Life Sciences</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Mathematical and Physical Sciences", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Mathematical and Physical Sciences</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Media, Arts and Humanities", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Media, Arts and Humanities</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("School of Psychology", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">School of Psychology</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChange("Brighton and Sussex Medical School", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">Brighton and Sussex Medical School</Typography>}/>
-                    </FormGroup> 
-                    </FormControl>  
-                    
-                    
-                    </Box>
-                    <Box m={5}>
-                        <Box style={{ display: "flex" , width : "100%" }} m="auto" fontFamily="Roboto" p={3} fontWeight="fontWeightLight" fontSize={30} > <ExtensionIcon  fontSize={"large"} /> Career Stage</Box>
-
-                        <FormGroup>
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("UG", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary" >UG</Typography>} />
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Msc", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">Msc</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("PhD", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">PhD</Typography>} />    
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Postdoc", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">Postdoc</Typography>}/>
-
-                        <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Professional Services", e.target.checked)} />}
-                        label={<Typography variant="body2" color="textPrimary">Professional Services</Typography>}/>
-                        </FormGroup>
-
-                    </Box>
-                </Grid>
-                <Grid item lg={8} > 
-                    {tags ? 
-                    <p> </p>
-                    : 
-                    <Box>
-                    </Box> 
                     }
 
-                    <Box ml={2}>
-                        <Box p={1}>
-                            <Typography variant="h4"> Results </Typography>
-                        </Box>
-                        {data ? data.users.map( e => (
-                            <>
-                            {e.user_metadata !== null ?
-                            <Grid container direction="row" alignItems="center" style={{ borderBottom: "1px solid #D3D3D3"}}>
-                            <Grid container>
-                     {//    <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none' }}>
-                     }       
-                                    <Box style={{ display : "flex"}} >
-                                                <Box  my={6} >
-                                                    <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
-                                                </Box>
-                                            <Box m={5} mt={7} className={classes.form} style={{ display : "flex", flexDirection : "column" }} >
-                                                <Typography variant="h5"> {e.name}</Typography>
-                                                <Grid container direction="row" alignItems="center">
-                                                    <Box pt={5}></Box>
-                                                    <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
-                                                    <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
-                                                </Grid>
-                            
-                                                <Box className={classes.form} lineHeight={1} fontWeight="fontWeightLight">
-                                                    {e.user_metadata.research}
-                                                    <Box>
-                                                        <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
-                                                        <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
-                                                    </Box>
+            </Grid>
+
+            <Grid container spacing={10} justify="center">
+                <Grid item xs={12} lg={3}>
+                
+                <Grid container justify="center">
+
+                { tags ? "" :
+                    <FormControlLabel
+                        control={<Checkbox 
+                        checked={IncludeAll}
+                        onChange={(e) => setIncludeAll(e.target.checked)}
+                        color="primary" />}
+                        label={ <Typography variant="body2">Search all tags with the heirachy </Typography>}
+                        labelPlacement="start" />
+                }
+                        <Accordion
+                            defaultExpanded
+                            elevation={0}
+                            classes={{
+                                root: classes.MuiAccordionroot
+                            }}
+                            className={classes.accordian}>
+                            <AccordionSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                            >
+                            <Box style={{ display: "flex" , width : "100%" }} m="auto" px={1} fontSize={25} > <AssignmentIndIcon  fontSize={"large"} /> Departments </Box>
+
+                            </AccordionSummary>
+                            <AccordionDetails>
+                                <FormGroup>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("University of Sussex Business School", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary" >University of Sussex Business School</Typography>} />
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Education and Social Work", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Education and Social Work</Typography>} />    
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Engineering and Informatics", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Engineering and Informatics</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Global Studies", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Global Studies</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Law, Policitics and Sociology", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Law, Policitics and Sociology</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Life Sciences", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Life Sciences</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Mathematical and Physical Sciences", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Mathematical and Physical Sciences</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Media, Arts and Humanities", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Media, Arts and Humanities</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Psychology", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Psychology</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("Brighton and Sussex Medical School", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Brighton and Sussex Medical School</Typography>}/>
+                                </FormGroup> 
+                            </AccordionDetails>
+                        </Accordion>
+
+                        <Accordion 
+                            elevation={0}
+                            classes={{
+                                root: classes.MuiAccordionroot
+                            }}
+                        className={classes.accordian}>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1a-content"
+                            id="panel1a-header"
+                        >
+
+                        <Box style={{ display: "flex" , width : "100%" }} m="auto" px={1} fontSize={25} > <ExtensionIcon  fontSize={"large"} /> Career Stage</Box>
+
+                        </AccordionSummary>
+                        <AccordionDetails>
+                        <FormGroup>
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("UG", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary" >UG</Typography>} />
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Msc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Msc</Typography>}/>
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("PhD", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">PhD</Typography>} />    
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Postdoc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Postdoc</Typography>}/>
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Professional Services", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Professional Services</Typography>}/>
+                        </FormGroup>
+                        </AccordionDetails>
+                    </Accordion>
+                    </Grid>
+                </Grid>
+                
+                <Hidden only="sm">
+                    <Grid item lg={1}></Grid>
+                </Hidden>
+
+                <Grid item xs={11} lg={7}>
+                <Grid container>
+                            <Grid item> 
+                                {data ? data.users.map( e => (
+                                <>
+                                {e.user_metadata !== null ?
+                                <Grid container direction="row" alignItems="center">
+                                    <Link to={`/users/${e.user_id}`} style={{ textDecoration: 'none', color : 'black' }}>
+                                        <Box style={{ display : "flex"}} >
+                                        <Box my={6} >
+                                            <Avatar alt="Cindy Baker" src={e.picture} className={classes.large} />
+                                        </Box>
+                                        <Box m={5} mt={7} style={{ display : "flex", flexDirection : "column" }} >
+                                            <Typography variant="h5"> {e.name}</Typography>
+                                            <Grid container direction="row" alignItems="center">
+                                                <Box pt={5}></Box>
+                                                <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
+                                                <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
+                                            </Grid>
+                                            <Box> 
+                                            {e.user_metadata.research} 
+                                                <Box>
+                                                    <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
+                                                    <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
                                                 </Box>
                                             </Box>
-                                    </Box>
-                            {//</Grid></Link> 
-                            }    
+                                        </Box>
+                                        </Box>
+                                        <Divider />
+                                    </Link>
+                                </Grid> 
+                                : ""
+                                }
+                                </>
+                                )) : <> </>}
+                                
                             </Grid>
-                            </Grid> : ""
-                        }
-                            </>
-                        )) : <> </>}
-                    </Box>
-                    <Pagination 
-                    count={Pagetotal} 
-                    color="primary" 
-                    page={currPage}
-                    onChange={(event, page) => setCurrPage(page)}
-                    />
+                        </Grid>
+                        <Box my={3}>
+                            <Pagination 
+                            count={Pagetotal} 
+                            color="primary" 
+                            page={currPage}
+                            onChange={(event, page) => setCurrPage(page)}
+                            />
+                        </Box>
                 </Grid>
             </Grid>
-        </Container>
-        </div>
-    )
+          
+        </Grid>
+    ); 
 }
 
 

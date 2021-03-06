@@ -3,8 +3,8 @@ import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
 import StackedBarChart from './charts/StackedBarChart';
 import Statistics from './components/Statistics';
-import PieChartExpertise from './charts/PieChartExpertise';
 import PieChartInterest from './charts/PieChartInterest';
+import PieChartExpertise from './PieChartExpertise';
 
 
 function AdminPanel() {
