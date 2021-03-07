@@ -443,8 +443,8 @@ function SearchUsers() {
                                             <Box> 
                                             {e.user_metadata.research} 
                                                 <Box>
-                                                    <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
-                                                    <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
+                                                    <Typography>Expertise</Typography> - {e.user_metadata.expertise.map(e => <Chip style={{backgroundColor:'#24CAC3', margin : 3}} label={e}></Chip>)}
+                                                    <Typography>Interest</Typography>  - {e.user_metadata.interest.map(e => <Chip style={{backgroundColor:'#24CAC3', margin : 3}} label={e}></Chip>)}
                                                 </Box>
                                             </Box>
                                         </Box>

@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, ButtonBase, Grid } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import PeopleIcon from '@material-ui/icons/People';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -17,8 +17,9 @@ import EventIcon from '@material-ui/icons/Event';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AppsIcon from '@material-ui/icons/Apps';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
+import discus from './assets/discus.svg'; 
 
-const drawerWidth = 140;
+const drawerWidth = 120;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,6 +44,13 @@ const useStyles = makeStyles((theme: Theme) =>
         display: 'none',
       },
     },
+    uirotate : {
+      transition : '0.5s', 
+      '&:hover' : {
+        transform : "rotate(60deg)",
+      },
+    },
+
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
@@ -51,6 +59,13 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
     },
+    ButtonBase : {
+      paddingTop : '30px',
+      paddingBottom : '30px' 
+    },
+    GridStack : {
+      height :`calc(100vh - ${drawerWidth}px)`
+    }
   }),
 );
 
@@ -72,29 +87,33 @@ export default function ResponsiveDrawer(props: Props) {
   };
 
   const drawer = (
-    <div style={{ borderRadius : 200}}>
+    <div>
       <div className={classes.toolbar} />
-        <List>
-          <Grid container justify="center">
-            <Box display="flex" flexDirection="column" p={1} m={1} bgcolor="primary">
-              <Box my={5}>
-                  <Button color="inherit" onClick={() => history.push("/")}><AppsIcon style={{ fontSize: 50 }}/></Button>
-              </Box>
-              <Box my={5}>
-                <Button color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 50 }}/></Button>
-              </Box>
-              <Box my={5}>
-                <Button color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 50 }} /></Button>
-              </Box>
-              <Box my={5}>
-                <Button color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }} /></Button>
-              </Box>
-              <Box my={5}>
-                <Button color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }} /></Button>
-              </Box>
-            </Box>
-          </Grid>
-        </List>
+      
+      <Grid
+          container
+          spacing={1}
+          justify="center"
+          direction="column"
+          className={classes.GridStack}
+      > 
+        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/")}>
+          <img className={classes.uirotate} src={discus} height='auto' width='60px' alt="DISCUS Logo"/>
+        </ButtonBase>
+
+        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 50 }}/>
+        </ButtonBase>
+
+        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 50 }}/>
+        </ButtonBase>
+
+        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }}/>
+        </ButtonBase>
+
+        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }}/>
+        </ButtonBase>
+
+      </Grid>
     </div>
   );
 
@@ -106,7 +125,7 @@ export default function ResponsiveDrawer(props: Props) {
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
           <IconButton
-            color="inherit"
+            color="secondary"
             aria-label="open drawer"
             edge="start"
             onClick={handleDrawerToggle}
@@ -114,9 +133,6 @@ export default function ResponsiveDrawer(props: Props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            DISCUS Database
-          </Typography>
         </Toolbar>
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">

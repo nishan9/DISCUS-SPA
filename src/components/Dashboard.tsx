@@ -10,7 +10,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
 import DomainIcon from '@material-ui/icons/Domain';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
-import SnoozeIcon from '@material-ui/icons/Snooze';
+import SchoolIcon from '@material-ui/icons/School';
 import IsAvailable from './IsAvailable';
 import uosLogo from '../assets/logo.svg'; 
 
@@ -27,8 +27,8 @@ function Dashboard() {
                 backgroundPosition : 'center bottom'
             },
             large: {
-                width: theme.spacing(15),
-                height: theme.spacing(15),
+                width: theme.spacing(20),
+                height: theme.spacing(20),
             },
             glass : {
                 backgroundColor: 'rgba(0,0,0,0.06)'            
@@ -43,7 +43,7 @@ function Dashboard() {
     }
 
     return (<>
-    {AuthContext.data ? 
+    {AuthContext.data.name !== "" ? 
             <div className={classes.root} > 
             <Grid container>
                 <Grid item xs={12}>
@@ -53,7 +53,7 @@ function Dashboard() {
                                     <Grid container justify = "center">
                                         <Box m={2}>
                                             <Box className="small" borderRadius="borderRadius">
-                                            <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
+                                                <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
                                             </Box>
                                         </Box>
                                     </Grid>
@@ -78,10 +78,10 @@ function Dashboard() {
                                                     alignItems: 'center',
                                                     flexWrap: 'wrap',
                                                 }}>
-                                                    <Box m={1}> <SnoozeIcon/></Box>
-                                                    <Box m={1}> {AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
-                                                    <Box m={1}><LinkedInIcon/> </Box>
                                                     <Box m={1}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box>
+                                                    <Box m={1}><LinkedInIcon/> </Box>
+                                                    <Box my={1}><SchoolIcon/></Box>
+                                                    <Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
                                                 </div>
                                             </Grid>
                                         </Grid>
@@ -99,7 +99,7 @@ function Dashboard() {
                                 </Grid>
                                 <Grid item xs={9}>
                                     <Box>
-                                        <Box m={5} p={3} borderRadius={8} bgcolor="secondary.main">
+                                        <Box m={3} p={3} borderRadius={8} bgcolor="secondary.main">
                                             <Grid container>
                                                 <Grid item xs={6}>
                                                     <Typography><EmailIcon/> {AuthContext.data.email}</Typography>

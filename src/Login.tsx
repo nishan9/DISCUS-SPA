@@ -10,6 +10,10 @@ export default function Login() {
 
     const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+      html  : {
+        margin: 0,
+        padding: 0,
+    },
         root: {
             display: 'flex',
             minHeight : '100vh', backgroundImage: `url(${Reuss})`, backgroundRepeat : "no-repeat",
@@ -23,19 +27,17 @@ export default function Login() {
     return (
         <div className={classes.root} >
           <Grid container>
-            <Grid item xs={12} md={6} container direction="column" >
-              <Box mt={40} ml={4}>
-                <Typography variant="h1" gutterBottom>
+              <Box mx="3rem" my="6rem" alignSelf="flex-end">
+              <Grid item xs={12} lg={3}>
+              <Typography variant="h1" gutterBottom>
                   DISCUS
                 </Typography>
                 <Typography variant="body1" gutterBottom>
                   DISCUS is the Data Intensive Science Centre at the University of Sussex, a research unit built to address real social and economic challenges by applying data interpretation techniques developed by a cross-disciplinary team over a number of years.
                 </Typography>
-                <Box mt={5}>
-                  <Button variant="contained" color="secondary" onClick={() => loginWithRedirect()}>Portal</Button> 
-                </Box>
+                <Button variant="contained" color="secondary" onClick={() => loginWithRedirect()}>Portal</Button>          
+                </Grid>
               </Box>
-            </Grid>
           </Grid>
         </div>
     )

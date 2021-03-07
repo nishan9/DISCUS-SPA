@@ -7,6 +7,7 @@ import { Auth0ContextProvider } from './context/Auth0Context';
 import { SnackbarProvider } from 'notistack';
 import { EditEventContextProvider } from './context/EditEventContext';
 import Home from './Home';
+import './index.css'; 
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>

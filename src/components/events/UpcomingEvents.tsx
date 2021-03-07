@@ -18,6 +18,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import Moment from 'react-moment';
 
 function UpcomingEvents() {
     const [data, setData] = useState<EventEntity[]>([]);
@@ -139,8 +140,6 @@ function UpcomingEvents() {
 
     return (
         <div>
-
-
             {data.length > 0 ? 
             <Grid container>
             {data?.map ((e,i) => 
@@ -171,7 +170,7 @@ function UpcomingEvents() {
                                 <Typography variant={"h3"}>{e.title}</Typography>
                             </Grid>
                             <Grid item xs={12}>
-                                <ScheduleIcon/> {e.dateTime} - {e.finishedDateTime}
+                                <ScheduleIcon/> <Moment format="DD/MM/YYYY HH:mm">{e.dateTime}</Moment> - <Moment format="DD/MM/YYYY HH:mm">{e.finishedDateTime}</Moment> 
                             </Grid>
 
                         </Grid> 
@@ -190,7 +189,6 @@ function UpcomingEvents() {
                                 <Typography variant="body2"> Is DISCUS : {e.isDISCUS.toString()}</Typography>
                           
                                 <Typography> Tags - {e.tags}</Typography>
-
                                     <Box bgcolor="primary.main" borderRadius="borderRadius" py={1} px={2}>
                                         <Typography variant="body2"> <LocalOfferIcon/> {e.type}</Typography>
                                     </Box>
