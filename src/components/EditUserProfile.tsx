@@ -381,7 +381,6 @@ function EditUserProfile() {
                     onChange={e => setResearch(e.target.value)}
                     label="Your research interests"
                     defaultValue={research}/>
-
                     </Box>
                 </Grid>
             </Grid>
