@@ -350,14 +350,25 @@ function SearchUsers() {
                 <Grid container justify="center">
 
                 { tags ? "" :
-                    <FormControlLabel
-                        control={<Checkbox 
-                        checked={IncludeAll}
-                        onChange={(e) => setIncludeAll(e.target.checked)}
-                        color="primary" />}
-                        label={ <Typography variant="body2">Search all tags with the heirachy </Typography>}
-                        labelPlacement="start" />
+                    <>
+                        <FormControlLabel
+                        value="start"
+                        control={
+                            <Switch
+                             checked={IncludeAll}
+                             onChange={(e) => setIncludeAll(e.target.checked)}
+                             name="Search"
+                             inputProps={{ 'aria-label': 'secondary checkbox' }}
+                            />
+                        }
+                        label="Search within tag heirachy"
+                        labelPlacement="start"
+                        />
+                        
+                        
+                    </>
                 }
+
                         <Accordion
                             defaultExpanded
                             elevation={0}
