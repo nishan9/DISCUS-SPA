@@ -1,4 +1,4 @@
-import { ButtonBase, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import { ButtonBase, Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react'
 import EventEntity from '../../models/EventEntity'; 
@@ -53,19 +53,17 @@ function ApproveEvents() {
     }
 
     const useStyles = makeStyles({
-        table: {
-          minWidth: 650,
-        },
+
       });
 
       const classes = useStyles();
 
     return (
-        <div>
+        <Grid item xs={12} lg={12}>
             <>
-                <Typography variant={"h3"}> Approve Events </Typography>
+                <Typography variant={"h4"}> Approve Events </Typography>
                 <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
+                    <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
                                 <TableCell align="left">Title</TableCell>
@@ -98,7 +96,7 @@ function ApproveEvents() {
                     </Table>
                 </TableContainer>
             </>
-        </div>
+        </Grid>
     )
 }
 
