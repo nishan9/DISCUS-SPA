@@ -1,4 +1,4 @@
-import { Grid, Box, Typography, Avatar, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Checkbox } from '@material-ui/core';
+import { Grid, Box, Typography, Avatar, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Checkbox, createStyles, makeStyles, Theme, FormControlLabel } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React, { useContext, useEffect, useState } from 'react'
 import SaveIcon from '@material-ui/icons/Save';
@@ -9,6 +9,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { useSnackbar } from 'notistack';
 import Points from './Points';
 import DepartmentObj from '../config/Department'; 
+import EmailIcon from '@material-ui/icons/Email';
+import SchoolIcon from '@material-ui/icons/School';
+import mySvg from '../assets/Wave.svg';
+
 
 function EditUserProfile() {
     const AuthContext = useContext(Auth0Context);
@@ -142,178 +146,248 @@ function EditUserProfile() {
             }
         }
     }
+
+    const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        root: {
+            display: 'flex',
+            minHeight : '100vh', backgroundImage: `url(${mySvg})`, backgroundRepeat : "no-repeat",
+            backgroundPosition : 'center bottom',
+        },
+        large: {
+            width: theme.spacing(20),
+            height: theme.spacing(20),
+            [theme.breakpoints.down('xs')]: {
+                width: theme.spacing(10),
+                height: theme.spacing(10),
+              },
+        },
+        glass : {
+            backgroundColor: 'rgba(0,0,0,0.06)'            
+        }
+        }),
+    );
+    const classes = useStyles();
+
     
     return (
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <Box pt={3} >
-                    <Typography variant="h3">Edit Mode</Typography>
-                </Box>
-            </Grid>
-            <Grid item xs={3}>
-                <Box className="small" m={2} p={6} borderRadius="borderRadius">
-                    <Avatar alt="Remy Sharp" src={AuthContext.data ? AuthContext.data.picture : ""}/>
-                </Box>
-                <Points/>
-            </Grid>
-            <Grid item xs={8} >
-                <Box borderRadius="borderRadius" m={2} p={3}> 
-                    <div>
-                        <Button onClick={ChangeCancel}> <CancelIcon/> </Button>
-                        <Button onClick={UpdateUser}>  <SaveIcon/> </Button>
-                        <Typography variant="h4"></Typography>
-                        <Typography variant="body1">
-                            
-                    <TextField 
-                        variant="outlined" 
-                        label="Name" 
-                        error={name.length === 0 ? true : false }
-                        onChange={e => setName(e.target.value)} 
-                        defaultValue={AuthContext.data?.name}/>
-                    </Typography>
-               
-                    <TextField
-                     multiline
-                     variant="outlined"
-                     fullWidth
-                     onChange={e => setSussexURL(e.target.value)}
-                     label="Sussex URL"
-                     defaultValue={sussexURL}/>
-
-
-                    <TextField
-                     multiline
-                     rows={4}
-                     variant="outlined"
-                     fullWidth
-                     onChange={e => setResearch(e.target.value)}
-                     label="research"
-                     defaultValue={research}/>
-
-                     <Typography>Available?</Typography> <Checkbox value={available} checked={available} onChange={e => setAvailable(e.target.checked)}/>
-
-                    <Box m={1}>
-                        <Typography color={"secondary"}> Leave blank if you do not wish to change</Typography>
+        <>
+        <Box my={11}>
+        </Box>
+        <div className={classes.root}>
+        <Grid container justify="center">
+        <Grid item xs={12} lg={9}>
+            <Box borderRadius={5} className={classes.glass}>
+            <Grid container>
+            <Grid item lg={3} xs={2}>
+                <Grid container justify = "center">
+                    <Box m={2}>
+                    <Box className="small" borderRadius="borderRadius">
+                    <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
                     </Box>
-
-                    <Grid container direction="row" alignItems="center">
-
-                    <Box my={3}>
-                        <FormControl variant="outlined" style={{minWidth: 150}}>
-                        <InputLabel>Career Stage</InputLabel>
-                            <Select 
+                    </Box>
+                </Grid>
+            </Grid>
+            <Grid item lg={8} xs={8}>
+                <Box borderRadius={2}>
+                <Grid container>
+                <Grid item xs={12}>
+                <Grid container >
+                <Box m={1}>
+                    <TextField 
+                    variant="outlined" 
+                    label="Name" 
+                    margin="dense"
+                    error={name.length === 0 ? true : false }
+                    onChange={e => setName(e.target.value)} 
+                    defaultValue={AuthContext.data?.name}/>
+                </Box>
+                <Box m={2} >
+                    <FormControlLabel
+                     control={<Checkbox value={available} checked={available} onChange={e => setAvailable(e.target.checked)}/>}
+                     label="Available for Ad Hoc Project Work"
+                    />       
+                </Box>
+                </Grid>
+    
+                </Grid>
+                <Grid container>
+                <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                }}>
+                <Box m={1}>         
+                <TextField
+                    multiline
+                    margin="dense"
+                    variant="outlined"
+                    fullWidth
+                    onChange={e => setSussexURL(e.target.value)}
+                    label="Sussex URL"
+                    defaultValue={sussexURL}/> 
+         </Box>
+    
+                    <Box my={1}><SchoolIcon/></Box>
+                    <Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
+                </div>
+                </Grid>
+                </Grid>
+                </Box>
+            </Grid>
+            <Grid item lg={1} xs={1}>
+                <Box m={2}><Button onClick={ChangeCancel}> <CancelIcon/> </Button></Box>
+                <Box m={2}><Button onClick={UpdateUser}>  <SaveIcon/> </Button></Box>
+            </Grid>
+            </Grid>
+            <Grid container>
+                <Grid item xs={12} lg={3}>
+                    <Box my={7}>
+                        <Points/>
+                    </Box>
+                </Grid>
+                <Grid item xs={12} lg={9}>
+                    <Box>
+                        <Box m={3} p={3} borderRadius={8} bgcolor="secondary.main">
+                            <Grid container>
+                            <Grid item lg={6} xs={12}>
+                                <Typography><EmailIcon/> {AuthContext.data.email}</Typography>
+                            </Grid>
+                            <Grid item lg={6} xs={12}>
+                                <FormControl variant="outlined" style={{minWidth: 120}}>
+                                <InputLabel>School</InputLabel>
+                                    <Select onChange={(e : any) => setSchool(e.target.value)} label="School" >
+                                        <MenuItem value="University of Sussex Business School">University of Sussex Business School</MenuItem>
+                                        <MenuItem value="School of Education and Social Work">School of Education and Social Work</MenuItem>
+                                        <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
+                                        <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item lg={6} xs={12}>
+                                <FormControl variant="outlined" style={{minWidth: 150}}>
+                                <InputLabel>Career Stage</InputLabel>
+                                <Select 
                                 defaultValue={careerStage} 
                                 onChange={ (e : any) => setCareerStage(e.target.value)} 
                                 label="Career Stage" >
-                            <MenuItem value="UG">UG</MenuItem>
-                            <MenuItem value="PhD">PhD</MenuItem>
-                            <MenuItem value="PhD">PostDoc</MenuItem>
-                            <MenuItem value="MSc">MSc</MenuItem>
-
-                            <MenuItem value="Professional Services">Professional Services</MenuItem>
-                            </Select>
-                        </FormControl>
+                                <MenuItem value="UG">UG</MenuItem>
+                                <MenuItem value="PhD">PhD</MenuItem>
+                                <MenuItem value="PhD">PostDoc</MenuItem>
+                                <MenuItem value="MSc">MSc</MenuItem>
+    
+                                <MenuItem value="Professional Services">Professional Services</MenuItem>
+                                </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item lg={6} xs={12}>
+                                    { school === "" ? 
+                                        <FormControl variant="outlined" style={{minWidth: 200}} disabled>
+                                        <InputLabel>Department</InputLabel>
+                                        <Select /> 
+                                        </FormControl> 
+                                        :
+                                        <Box my={2}> 
+                                        <FormControl variant="outlined" style={{minWidth: 200}}>
+                                        <InputLabel>Department</InputLabel>
+                                            <Select
+                                                onChange={(e : any) => setDepartment(e.target.value)} label="Department"
+                                                >
+                                                { school === "University of Sussex Business School" ?  
+                                                (DepartmentObj['University of Sussex Business School'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem> 
+                                                ))
+                                                : school === "School of Education and Social Work" ?  
+                                                (DepartmentObj['School of Education and Social Work'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))
+                                                : school === "School of Engineering and Informatics" ?  
+                                                (DepartmentObj['School of Engineering and Informatics'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))
+                                                : school === "School of Global Studies" ?  
+                                                (DepartmentObj['School of Global Studies'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))
+                                                : school === "School of Law, Politics and Sociology" ?  
+                                                (DepartmentObj['School of Law, Politics and Sociology'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))
+                                                : school === "School of Life Sciences" ?  
+                                                (DepartmentObj['School of Life Sciences'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))
+                                                : school === "School of Media, Arts and Humanities" ?  
+                                                (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))                                
+                                                : school === "School of Media, Arts and Humanities" ?
+                                                (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))  
+                                                : <p></p>
+                                                }
+                                            </Select>
+                                        </FormControl>
+                                        </Box>
+                                    }
+    
+                            </Grid>
+                            </Grid>
+                        </Box>
                     </Box>
-
-
-
-                <Box my={1} mr={3}>
-                <FormControl variant="outlined" style={{minWidth: 120}}>
-                <InputLabel>School</InputLabel>
-                    <Select onChange={(e : any) => setSchool(e.target.value)} label="School" >
-                    <MenuItem value="University of Sussex Business School">University of Sussex Business School</MenuItem>
-                    <MenuItem value="School of Education and Social Work">School of Education and Social Work</MenuItem>
-                    <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
-                    <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
-                    </Select>
-                </FormControl>
-                </Box>
-
-                { school === "" ? 
-                <FormControl variant="outlined" style={{minWidth: 200}} disabled>
-                <InputLabel>Department</InputLabel>
-                <Select /> 
-                </FormControl> 
-                :
-                <Box my={2}> 
-                <FormControl variant="outlined" style={{minWidth: 200}}>
-                <InputLabel>Department</InputLabel>
-                    <Select
-                        onChange={(e : any) => setDepartment(e.target.value)}
-                        label="Department"
-                        >
-                        {   school === "University of Sussex Business School" ?  
-                        (DepartmentObj['University of Sussex Business School'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem> 
-                        ))
-                        : school === "School of Education and Social Work" ?  
-                        (DepartmentObj['School of Education and Social Work'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))
-                        : school === "School of Engineering and Informatics" ?  
-                        (DepartmentObj['School of Engineering and Informatics'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))
-                        : school === "School of Global Studies" ?  
-                        (DepartmentObj['School of Global Studies'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))
-                        : school === "School of Law, Politics and Sociology" ?  
-                        (DepartmentObj['School of Law, Politics and Sociology'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))
-                        : school === "School of Life Sciences" ?  
-                        (DepartmentObj['School of Life Sciences'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))
-                        : school === "School of Media, Arts and Humanities" ?  
-                        (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))                                
-                        : school === "School of Media, Arts and Humanities" ?
-                        (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
-                        <MenuItem value={dep}>{dep}</MenuItem>
-                        ))  
-                        : <p></p>
-                        }
-                    </Select>
-                </FormControl>
-                </Box>
-                }
                 </Grid>
-
-                    <Box my={3}>
-                        <Autocomplete
-                            fullWidth
-                            onChange={(event, value, reason) => changeInterest(value)}
-                            id="multiple-limit-tags"
-                            inputValue={mes}
-                            options={AllSubjects}
-                            getOptionLabel={(option) => option}
-                            renderInput={(params) => <TextField {...params} label="Add interests" variant="outlined" />}
-                        />
-                        {interests.map( (e) => <Chip label={e} onDelete={() => DeleteChipIntrest(e)} ></Chip>)}
+            </Grid>
+            <Grid container>
+                <Grid item xs={11} lg={6}>
+                    <Autocomplete
+                    fullWidth
+                    onChange={(event, value, reason) => changeInterest(value)}
+                    id="multiple-limit-tags"
+                    inputValue={mes}
+                    options={AllSubjects}
+                    getOptionLabel={(option) => option}
+                    renderInput={(params) => <TextField {...params} label="Add Expertise" variant="outlined" />}
+                />
+                    <Box my={2}>
+                        {interests.map( (e) => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e} onDelete={() => DeleteChipIntrest(e)} ></Chip>)}
                     </Box>
-
-                    <Box my={3}>
-                        <Autocomplete
-                            fullWidth
-                            onChange={(event, value, reason) => changeExpertise(value)}
-                            id="multiple-limit-tags"
-                            inputValue={mes}
-                            options={AllSubjects}
-                            getOptionLabel={(option) => option}
-                            renderInput={(params) => <TextField {...params} label="Add interests" variant="outlined" />}
-                        />
-                        {expertise.map( (e) => <Chip label={e} onDelete={() => DeleteChipExpertise(e)} ></Chip>)}
-                    </Box>
-                    </div>
-
+    
+                </Grid>
+                <Grid item xs={11} lg={6}>
+                    <Autocomplete
+                    fullWidth
+                    onChange={(event, value, reason) => changeExpertise(value)}
+                    id="multiple-limit-tags"
+                    inputValue={mes}
+                    options={AllSubjects}
+                    getOptionLabel={(option) => option}
+                    renderInput={(params) => <TextField {...params} label="Add interests" variant="outlined" />}
+                />
+                <Box my={2}>
+                    {AuthContext.data.user_metadata.expertise.map(e => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e}></Chip>)}
                 </Box>
+                
+                </Grid>
+            </Grid>
+            </Box>
+                <Grid item xs={12} alignItems="center" >
+                    <Box borderRadius={5} className={classes.glass} my={4}>                        
+                    <TextField
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    fullWidth
+                    onChange={e => setResearch(e.target.value)}
+                    label="Your research interests"
+                    defaultValue={research}/>
 
-
+                    </Box>
+                </Grid>
             </Grid>
         </Grid>
+    </div>
+    </>
     )
 }
 

@@ -25,6 +25,7 @@ function Dashboard() {
                 display: 'flex',
                 minHeight : '100vh', backgroundImage: `url(${mySvg})`, backgroundRepeat : "no-repeat",
                 backgroundPosition : 'center bottom',
+                padding : '1px',
             },
             large: {
                 width: theme.spacing(20),
