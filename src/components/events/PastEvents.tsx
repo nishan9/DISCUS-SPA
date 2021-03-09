@@ -11,6 +11,7 @@ import { EditEventContext } from '../../context/EditEventContext';
 import Loading from '../../config/Loading'; 
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import Moment from 'react-moment';
 
 function PastEvents() {
     const [data, setData] = useState<EventEntity[]>([]);
@@ -77,6 +78,9 @@ function PastEvents() {
         right: -26,
         top: -27,
     }, 
+    eventContainer : {
+        backgroundColor : "yellow", 
+    }, 
     box : {
         position : "relative", 
     }
@@ -89,59 +93,38 @@ function PastEvents() {
             {data.length > 0 ? 
             <Grid container>
             {data?.map ((e,i) => 
-            <Box width="40%" borderRadius="borderRadius" border={2} m={3} p={3} className={classes.box}> 
-
-                       {AuthContext.data.app_metadata !== null ? 
-                        <div className={classes.customizedButton} >
-                            <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
-                            <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
-                        </div>
-                       : "" }
-                        
-                        <Link to={`/events/${e.id}`} style={{ textDecoration: 'none' }}>
+            <Grid item xs={12} md={4}>
+                <Box borderRadius="borderRadius" border={2} m={3} py={2} className={classes.box}>              
+                    {AuthContext.data.app_metadata !== null ? 
+                    <div className={classes.customizedButton} >
+                        <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
+                        <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
+                    </div>
+                    : "" }
                         <Grid container>
-                        <Grid item xs={3}>
-                            <Grid container justify="center">
-                                <Box bgcolor="primary.main" p={1} borderRadius="borderRadius" >
-                                    <Box px={2}>
-                                        <Grid item xs={12}> <Typography> Nov </Typography> </Grid>
-                                        <Grid item xs={12}> <Typography> 23 </Typography></Grid>
-                                    </Box>
-                                </Box>
+                            <Grid item xs={10}>
+                                <Link to={`/events/${e.id}`} style={{ textDecoration: 'none', color : 'black' }}>
+                                    <Grid container>
+                                        <Grid item xs={5}>
+                                            <Box className={classes.eventContainer} borderRadius={3} p={1} mx={2}>
+                                                <Grid container direction="column" justify="center" alignItems="center">
+                                                    <Grid item><Typography><Moment format="MMMM">{e.dateTime.toString()}</Moment> </Typography></Grid>
+                                                    <Grid item><Typography><Moment format="Do">{e.dateTime.toString()}</Moment></Typography></Grid>
+                                                </Grid>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xs={7}>
+                                            <Typography gutterBottom>{e.title}</Typography>
+                                            <Grid container>
+                                                <ScheduleIcon/><Typography><Moment format="LT">{e.dateTime.toString()}</Moment></Typography>  -  <Typography><Moment format="LT">{e.finishedDateTime.toString()}</Moment></Typography>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Link> 
                             </Grid>
                         </Grid>
-                        <Grid item xs={9}>
-                            <Grid item xs={12}>
-                                <Typography variant={"h3"}>{e.title}</Typography>
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ScheduleIcon/> {e.dateTime} - {e.finishedDateTime}
-                            </Grid>
-
-                        </Grid> 
-                        </Grid>
-                            <Grid container>
-                                <Grid item xs={12}>
-                                    <Box my={2}>
-                                        <Typography>{e.description}</Typography>
-                                    </Box>
-                                    <Typography>{e.url}</Typography>
-                                </Grid>
-                        
-                                <Grid container>
-
-                                </Grid>
-                                <Typography variant="body2"> Is DISCUS : {e.isDISCUS.toString()}</Typography>
-                          
-                                <Typography> Tags - {e.tags}</Typography>
-
-                                    <Box bgcolor="primary.main" borderRadius="borderRadius" py={1} px={2}>
-                                        <Typography variant="body2"> <LocalOfferIcon/> {e.type}</Typography>
-                                    </Box>
-
-                            </Grid>  
-                        </Link> 
-                </Box>
+                    </Box>
+                </Grid>
             )} 
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                         <DialogTitle id="form-dialog-title">Edit the Event</DialogTitle>
