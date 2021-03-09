@@ -63,6 +63,7 @@ function ApproveEvents() {
     return (
         <div>
             <>
+                <Typography variant={"h3"}> Approve Events </Typography>
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="simple table">
                         <TableHead>

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
 import StackedBarChart from './charts/StackedBarChart';
@@ -11,22 +11,25 @@ function AdminPanel() {
 
     return (
         <div>
-            <Box>
-                <Statistics/>   
-                <Box my={7}>
-                    <Typography variant={"h3"}> Approve Events </Typography>
+            <Grid container>
+                <Grid item xs={12}>
+                    <Statistics/>
+                </Grid>
+                <Grid item xs={12}>
                     <ApproveEvents/>
-                </Box> 
-                <Grid container spacing={1}>
-                    <Grid item xs={6}>
-                        <Box p={3} style={{ width : "100%", height : '400px'}}>
-                            <PieChartExpertise/>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={6}>
-                        <Box  p={3} style={{ width : "100%", height : '400px'}}>
-                            <PieChartInterest/>
-                        </Box>
+                </Grid>
+                <Grid item xs={12}>
+                    <Grid container spacing={1}>
+                        <Grid item lg={6} xs={12}>
+                            <Box style={{ width : "100%", height : '400px'}}>
+                                <PieChartExpertise/>
+                            </Box>
+                        </Grid>
+                        <Grid item lg={6} xs={12}>
+                            <Box style={{ width : "100%", height : '400px'}}>
+                                <PieChartInterest/>
+                            </Box>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Box my={7}>
@@ -34,7 +37,7 @@ function AdminPanel() {
                         <StackedBarChart/>
                     </div>
                 </Box>
-            </Box>
+            </Grid>
         </div>
     )
 }

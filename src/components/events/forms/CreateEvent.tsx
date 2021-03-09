@@ -22,7 +22,7 @@ function CreateEvent(props : CreateEventProps) {
     const AuthContext = useContext(Auth0Context)
     const [tags, setTags] = useState<string[]>([])
     const { enqueueSnackbar } = useSnackbar();
-
+    const [validated, setValidated] = useState(true); 
 
     useEffect(() => {
         if(Auth0.isAuthenticated){
@@ -42,8 +42,7 @@ function CreateEvent(props : CreateEventProps) {
         AuthContext.setData(await response.json());  
     }
 
-    async function publishEvent(e:any){
-        e.preventDefault();
+    async function publishEvent(){
         
         let Alltags = ""; 
         for (var i = 0; i < tags.length; i++) {
@@ -93,19 +92,20 @@ function CreateEvent(props : CreateEventProps) {
     };
 
     return (
-        <Box m={3}>
-                <TextField 
-                    required
-                    margin="normal" 
-                    label="Title" 
-                    variant="outlined" 
-                    type="text"
-                    fullWidth={true} 
-                    name="title" 
-                    onChange={(e) => setEvent({...event,title: String(e.target.value)})}
-                />
-                
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <>
+        <form noValidate autoComplete="off">
+            <div>
+            <TextField
+                required
+                error={!validated}
+                label="Title"
+                fullWidth={true} 
+                variant="outlined"
+                defaultValue=""
+                onChange={(e) => setEvent({...event,title: String(e.target.value)})}
+                helperText={validated ? "" : "Field cannot be blank."}
+            />
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
                     <Grid container direction="row" alignItems="center">
                         <Box p={1}> 
@@ -138,113 +138,119 @@ function CreateEvent(props : CreateEventProps) {
                         </Box>
                     </Grid>
                 </Grid>
-                </MuiPickersUtilsProvider>
-
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <Grid container justify="space-around">
-                    <Grid container direction="row" alignItems="center">
-                        <Box p={1}> 
-                        <KeyboardDatePicker
-                            disableToolbar
-                            variant="inline"
-                            format="yyyy-MM-dd"
-                            disablePast
+            </MuiPickersUtilsProvider>
+            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <Grid container justify="space-around">
+                <Grid container direction="row" alignItems="center">
+                    <Box p={1}> 
+                    <KeyboardDatePicker
+                        disableToolbar
+                        variant="inline"
+                        format="yyyy-MM-dd"
+                        disablePast
+                        margin="normal"
+                        id="date-picker-inline"
+                        label="Pick a Finish Date"
+                        value={event.finishedDateTime}
+                        onChange={(e : any) => handleFinishDate(e)}
+                        KeyboardButtonProps={{
+                            'aria-label': 'change date',
+                        }}
+                    />
+                    </Box>
+                    <Box p={1}> 
+                        <KeyboardTimePicker
                             margin="normal"
-                            id="date-picker-inline"
-                            label="Pick a Finish Date"
+                            id="time-picker"
+                            label="Finish Time"
                             value={event.finishedDateTime}
                             onChange={(e : any) => handleFinishDate(e)}
                             KeyboardButtonProps={{
-                                'aria-label': 'change date',
+                                'aria-label': 'change time',
                             }}
                         />
-                        </Box>
-                        <Box p={1}> 
-                            <KeyboardTimePicker
-                                margin="normal"
-                                id="time-picker"
-                                label="Finish Time"
-                                value={event.finishedDateTime}
-                                onChange={(e : any) => handleFinishDate(e)}
-                                KeyboardButtonProps={{
-                                    'aria-label': 'change time',
-                                }}
+                    </Box>
+                </Grid>
+            </Grid>
+            </MuiPickersUtilsProvider>
+
+            <InputLabel>Type</InputLabel>
+            <Select
+                style={{
+                }}
+                onChange={(e) => setEvent({...event,type:String(e.target.value)})}
+                label="Event Type"
+            >
+                <MenuItem value="Hackathon">Hackathon</MenuItem>
+                <MenuItem value="Showcase">Showcase</MenuItem>
+                <MenuItem value="Networking">Networking</MenuItem>
+                <MenuItem value="Generic">Generic</MenuItem>
+            </Select>
+            <Box mx={10}>
+                <FormControlLabel
+                    control={
+                        <Checkbox 
+                            checked={event.isDISCUS} name="isDiscus" 
+                            onChange={(e) => setEvent({...event,isDISCUS:Boolean(e.target.checked)})}
                             />
-                        </Box>
-                    </Grid>
-                </Grid>
-                </MuiPickersUtilsProvider>
+                        }
+                label="A discus event"/>
+            </Box>
+            <Box my={1}>
+                <TextField 
+                    margin="normal" 
+                    label="registration" 
+                    variant="outlined" 
+                    fullWidth={true}
+                    type="text" 
+                    name="registration" 
+                    onChange={(e) => setEvent({...event,url:e.target.value})}/>
+            </Box>
+            <Box my={1} >
+                <TextField
+                    id="outlined-multiline-static"
+                    label="Description"
+                    multiline
+                    fullWidth={true}
+                    rows={4}
+                    onChange={(e) => setEvent({...event,description:String(e.target.value)})}
+                    variant="outlined"/>
+            </Box>
 
-                <FormControl variant="outlined" className="formcontrol">
-                <Grid container direction="row" alignItems="center">
-
-                    <InputLabel>Type</InputLabel>
-                    <Select
-                        style={{
-                        }}
-                        onChange={(e) => setEvent({...event,type:String(e.target.value)})}
-                        label="Event Type"
-                    >
-                        <MenuItem value="Hackathon">Hackathon</MenuItem>
-                        <MenuItem value="Showcase">Showcase</MenuItem>
-                        <MenuItem value="Networking">Networking</MenuItem>
-                        <MenuItem value="Generic">Generic</MenuItem>
-                    </Select>
-                    <Box mx={10}>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox 
-                                        checked={event.isDISCUS} name="isDiscus" 
-                                        onChange={(e) => setEvent({...event,isDISCUS:Boolean(e.target.checked)})}
-                                        />
-                                    }
-                            label="A discus event"/>
-                        </FormGroup>
-                    </Box>
-                </Grid>
-                </FormControl>
-
-                <Box my={1}>
-                    <TextField 
-                        required
-                        margin="normal" 
-                        label="registration" 
-                        variant="outlined" 
-                        fullWidth={true}
-                        type="text" 
-                        name="registration" 
-                        onChange={(e) => setEvent({...event,url:e.target.value})}/>
-                </Box>
-                <Box my={1} >
-                    <TextField
-                        id="outlined-multiline-static"
-                        label="Description"
-                        multiline
-                        fullWidth={true}
-                        rows={4}
-                        onChange={(e) => setEvent({...event,description:String(e.target.value)})}
-                        variant="outlined"/>
-                </Box>
-
-                    <Box my={2}>
-                        <Autocomplete
-                            multiple
-                            limitTags={5}
-                            id="set Interest"
-                            onChange={(obj,value,reason) => setTags(value)}
-                            options={AllSubjects}
-                            getOptionLabel={(option) => option}
-                            renderInput={(params) => (
-                            <TextField {...params} variant="outlined" label="Tags" placeholder="Favorites" />
-                        )}
-                        />
-                    </Box>
-                <Box my={2}>
-                    <Button disabled={AuthContext.data === null} variant="contained" color="secondary" type="submit" onClick={(e) =>publishEvent(e)} value="Submit">Submit</Button>
-                </Box>
-        </Box> 
-    )
+            <Box my={2}>
+                <Autocomplete
+                    multiple
+                    limitTags={5}
+                    id="set Interest"
+                    onChange={(obj,value,reason) => setTags(value)}
+                    options={AllSubjects}
+                    getOptionLabel={(option) => option}
+                    renderInput={(params) => (
+                    <TextField {...params} variant="outlined" label="Tags" placeholder="Favorites" />
+                )}
+                />
+            </Box>
+    
+            <Button disabled={AuthContext.data === null} variant="contained" value="Submit" color="secondary" 
+                onClick = 
+                    { () => {
+                            if (event.title === "") 
+                            {
+                                setValidated(false);
+                            } 
+                            else 
+                            {
+                                setValidated(true);
+                                publishEvent(); 
+                            }
+                        }
+                    } 
+            > Submit </Button>
+        
+        </div>
+        </form>
+        </>
+    );
 }
 
 export default CreateEvent

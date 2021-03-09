@@ -39,9 +39,9 @@ function Statistics() {
     return (
             <>
                 <Grid container spacing={1}>
-                    <Grid item xs={4}>
+                    <Grid item lg={4} xs={12}>
                             <Grid container justify="center">
-                                    <Box bgcolor="primary.light" borderRadius="5%" p={3}>
+                                    <Box bgcolor="primary.light" borderRadius="5%" p={3} style={{ width : '50%'}}>
                                         <EventAvailableIcon style={{ fontSize: 40 }} />
                                         <Grid container>
                                         <Box>
@@ -54,9 +54,9 @@ function Statistics() {
                                     </Box>
                             </Grid>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item lg={4} xs={12}>
                         <Grid container justify="center">
-                            <Box bgcolor="primary.light" borderRadius="5%" p={3}>
+                            <Box bgcolor="primary.light" borderRadius="5%" p={3} style={{ width : '50%'}}>
                                 <PeopleAltIcon style={{ fontSize: 40 }} />
                                 <Grid container>
                                 <Box>
@@ -69,9 +69,9 @@ function Statistics() {
                             </Box>
                         </Grid>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item lg={4} xs={12}>
                         <Grid container justify="center">
-                                <Box bgcolor="primary.light" borderRadius="5%" p={3}>
+                                <Box bgcolor="primary.light" borderRadius="5%" p={3} style={{ width : '50%'}}>
                                     <PeopleOutlineIcon style={{ fontSize: 40 }} />
                                     <Grid container>
                                     <Box>
