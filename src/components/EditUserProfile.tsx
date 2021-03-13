@@ -342,32 +342,30 @@ function EditUserProfile() {
                 <Grid item xs={11} lg={6}>
                     <Autocomplete
                     fullWidth
-                    onChange={(event, value, reason) => changeInterest(value)}
-                    id="multiple-limit-tags"
+                    onChange={(event, value, reason) => changeExpertise(value)}
                     inputValue={mes}
                     options={AllSubjects}
                     getOptionLabel={(option) => option}
                     renderInput={(params) => <TextField {...params} label="Add Expertise" variant="outlined" />}
                 />
-                    <Box my={2}>
-                        {interests.map( (e) => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e} onDelete={() => DeleteChipIntrest(e)} ></Chip>)}
-                    </Box>
-    
+                <Box my={2}>
+                    {expertise.map( (e) => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e} onDelete={() => DeleteChipExpertise(e)} ></Chip>)}
+                </Box>
+                
                 </Grid>
                 <Grid item xs={11} lg={6}>
                     <Autocomplete
                     fullWidth
-                    onChange={(event, value, reason) => changeExpertise(value)}
-                    id="multiple-limit-tags"
+                    onChange={(event, value, reason) => changeInterest(value)}
                     inputValue={mes}
                     options={AllSubjects}
                     getOptionLabel={(option) => option}
-                    renderInput={(params) => <TextField {...params} label="Add interests" variant="outlined" />}
+                    renderInput={(params) => <TextField {...params} label="Add Interests" variant="outlined" />}
                 />
-                <Box my={2}>
-                    {AuthContext.data.user_metadata.expertise.map(e => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e}></Chip>)}
-                </Box>
-                
+                    <Box my={2}>
+                        {interests.map( (e) => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e} onDelete={() => DeleteChipIntrest(e)} ></Chip>)}
+                    </Box>
+    
                 </Grid>
             </Grid>
             </Box>

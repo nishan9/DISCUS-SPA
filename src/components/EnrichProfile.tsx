@@ -81,18 +81,18 @@ function EnrichProfile() {
     return (
         <>
         <Grid container justify="center">
-        <Grid item xs={6}>
+        <Grid item lg={4} xs={12}>
             <Grid container justify="center">
                 <Box mt={7}>
-                    <Typography variant={"h3"}> Enrich your profile! </Typography> 
+                    <Typography variant={"h4"}> Enrich your profile! </Typography> 
+                </Box>
+                <Box display="flex" mt={11} flexDirection="column-reverse" width="100%">
+                    <img src={signup} height='auto' width='80%' alt="SignupImage"/>
                 </Box>
             </Grid>
-            <Box display="flex" mt={11} flexDirection="column-reverse" width="100%">
-                <img src={signup} height='auto' width='100%' alt="SignupImage"/>
-            </Box>
         </Grid>
-        <Grid item xs={6}>
-                <Box mt={6} px={7}>
+        <Grid item lg={6} xs={12}>
+                <Box mt={6} >
                 <Box m={3} p={3} px={4} border={1} borderRadius={15} borderColor="primary.light">   
                 <Box my={2}>
                     <Typography variant={'h5'}>Sign up now...</Typography>
@@ -196,7 +196,7 @@ function EnrichProfile() {
                     </MuiPickersUtilsProvider>
                 </Box>
                 <Box m={4}>
-                    <Typography>Available? <Checkbox onChange={(e) => setMetada({...metadata,available: String(e.target.checked)})}/> </Typography>
+                    <Typography>Available for ad Hoc project work? <Checkbox onChange={(e) => setMetada({...metadata,available: String(e.target.checked)})}/> </Typography>
                 </Box>
                
                 </Grid> 
