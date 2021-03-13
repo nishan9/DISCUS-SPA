@@ -24,8 +24,8 @@ function SearchUsers() {
     const [CareerStage, setCareerStage] = useState<string[]>([]);
     const [tags, setTags] = useState(true)
     const [checked, setChecked] = useState(false);
-    const [tagsArray, setTagsArray] = useState<String[]>([]); 
-    const [newArr, setnewArr] = useState<String[]>([]); 
+    const [tagsArray, setTagsArray] = useState<string[]>([]); 
+    const [newArr, setnewArr] = useState<string[]>([]); 
     const [IncludeAll, setIncludeAll] = useState(false); 
 
       function handleChangeCareer (checkbocName: string, state: boolean) {
@@ -53,7 +53,6 @@ function SearchUsers() {
         { Subject: 'Chemistry'},
         { Subject: 'Computer Stuff'},
         { Subject: 'Physics'},
-
       ];
       
     useEffect(() => {
@@ -78,100 +77,104 @@ function SearchUsers() {
         return subjectList; 
     }
 
+    function testFunction(filter: string, arr: string[], cond: string ){
+        for (var i = 0; i < arr.length; i++) {
+            if (i === 0){
+                filter = filter.concat(`user_metadata.${cond}:"` + arr[i] + '"')
+            }else {
+                filter = filter.concat( ` OR user_metadata.${cond}:"` + arr[i] + '"')
+            }
+        }
+        console.log(filter);
+        return filter;
+    }
+
 
     async function fetchData(){
+
+        const DepFilter = DepArray.length > 0 ? testFunction("",DepArray,"education.school") : "";
+        const careerFilter = CareerStage.length > 0 ? testFunction("",CareerStage,"education.CareerStage") : "";
         
-        let filter = "ALL"; 
-        if (DepArray.length > 0){
-            filter = ""; 
-            for (var i = 0; i < DepArray.length; i++) {
-                if (i === 0){
-                  filter = filter.concat('user_metadata.education.school:"' + DepArray[i] + '"')
-                }else {
-                  filter = filter.concat( ' OR user_metadata.education.school:"' + DepArray[i] + '"')
-                }
-            }
+        var SidebarFilterOptions = "";
+        if (DepFilter.length > 0 && careerFilter.length > 0){
+            SidebarFilterOptions = DepFilter + " AND " + careerFilter; 
+        }else if (DepFilter.length > 0){
+            SidebarFilterOptions = DepFilter; 
+        } else if (careerFilter.length > 0){
+            SidebarFilterOptions = careerFilter;
         }
-        let careerfilter = ""; 
-        if (CareerStage.length > 0){
-            for (var i = 0; i < CareerStage.length; i++) {
-                if (i === 0){
-                    careerfilter = careerfilter.concat('user_metadata.education.CareerStage:"' + CareerStage[i] + '"')
-                  }else {
-                    careerfilter = careerfilter.concat( ' OR user_metadata.education.CareerStage:"' + CareerStage[i] + '"')
-                  } 
-            }
+
+        // Default no filter options have been set
+        if (searchTerm.length < 2 && SidebarFilterOptions.length === 0 && tagsArray.length === 0){
+            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
+            const data : Auth0userList = await response.json();
+            setData(data);
+            setPagetotal(Math.ceil(data.total/10)); 
         }
+
+        tags ? NameSearch(SidebarFilterOptions) : TagSearch(SidebarFilterOptions)     
+    }
+
+
+    async function TagSearch(filter : string ){
+        //Block for Tag-based search
+        console.log('Tag based seach'); 
+        if (tagsArray.length > 0 && filter !== ""){
+            let tagfilter = ""
+            
+            checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise")
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter} AND ${filter}`);
+            const data : Auth0userList = await response.json();
+            setData(data);
+            setPagetotal(Math.ceil(data.total/10)); 
+
+        } else if (tagsArray.length > 0){
+            let tagfilter = ""
+            checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise");
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter}`);
+            const data : Auth0userList = await response.json();
+            setData(data);
+            setPagetotal(Math.ceil(data.total/10)); 
+        } else {
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
+                const data : Auth0userList = await response.json();
+                setData(data);
+                setPagetotal(Math.ceil(data.total/10));    
+        }
+    }
+
+    async function NameSearch(filter : string){
 
         if (searchTerm.length > 2){
-            let FinalQuery = ""
-
+            let FinalQuery = ""; 
             if (DepArray.length > 0){
                 FinalQuery = "name:*" + searchTerm + "* AND "+ filter; 
             }else {
                 FinalQuery = "name:*" + searchTerm + "*"; 
             }
-
-            if (CareerStage.length > 0){
-                FinalQuery = "AND " + careerfilter; 
-            }
+            
+            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${FinalQuery}/${currPage - 1}`); 
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${FinalQuery}/${currPage - 1}`);
             const data : Auth0userList = await response.json();
             setData(data);
-            setPagetotal(Math.ceil(data.total/10))
+            setPagetotal(Math.ceil(data.total/10)); 
 
-        } else if (tagsArray.length > 0){
-            let tagfilter = ""
-            if (checked === true){
-                //Interests 
-                for (var i = 0; i < tagsArray.length; i++) {
-                    if (i === 0){
-                        tagfilter = tagfilter.concat('user_metadata.interest:"' + tagsArray[i] + '"')
-                    }else {
-                        tagfilter = tagfilter.concat(' AND user_metadata.interset:"' + tagsArray[i] + '"')
-                    }
-                }
-            }else {
-                //Expertise 
-                for (var i = 0; i < tagsArray.length; i++) {
-                    if (i === 0){
-                        tagfilter = tagfilter.concat('user_metadata.expertise:"' + tagsArray[i] + '"')
-                    }else {
-                        tagfilter = tagfilter.concat(' AND user_metadata.expertise:"' + tagsArray[i] + '"')
-                    }
-                }
-            }
+        }
 
-            let newstring = ""
-            if (IncludeAll === true){
-                if (checked === true){
-                    newstring = newstring.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
-                } 
-                else{
-                    for (var i = 0; i < newArr.length; i++) {
-                        newstring = newstring.concat(' OR user_metadata.expertise:"' + newArr[i] + '"')
-                    }
-                }
-            }
-
-            tagfilter = tagfilter.concat(newstring); 
-
-            if (DepArray.length > 0){
-                tagfilter = tagfilter.concat(" AND "); 
-                tagfilter = tagfilter.concat(filter); 
-            }
-
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${tagfilter}/${currPage - 1}`);
+        if (searchTerm.length < 2 && filter.length === 0 && tagsArray.length === 0){
+            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
             const data : Auth0userList = await response.json();
             setData(data);
-            setPagetotal(Math.ceil(data.total/10))
-        }
-        
-        else {
+            setPagetotal(Math.ceil(data.total/10)); 
+        } else if (searchTerm.length < 2){
+            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
             const data : Auth0userList = await response.json();
             setData(data);
-            setPagetotal(Math.ceil(data.total/10))
+            setPagetotal(Math.ceil(data.total/10)); 
         }
     }
 
@@ -296,12 +299,14 @@ function SearchUsers() {
                             <InputBase
                              className={classes.input}
                              placeholder="Search"
+                             value={searchTerm}
+                             onChange={e => setSearchTerm(e.target.value)}
                              inputProps={{ 'aria-label': 'Search' }} />
                             <IconButton disabled className={classes.iconButton} aria-label="search">
                                 <SearchIcon />
                             </IconButton>
                             <Divider className={classes.divider} orientation="vertical" />
-                            <ButtonBase onClick={Changetag}  className={classes.iconButton} aria-label="directions">
+                            <ButtonBase onClick={Changetag} className={classes.iconButton} aria-label="directions">
                                     <LabelIcon/>
                             </ButtonBase>
                         </>
@@ -418,7 +423,7 @@ function SearchUsers() {
                         <AccordionDetails>
                         <FormGroup>
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("UG", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary" >UG</Typography>} />
-                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Msc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Msc</Typography>}/>
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("MSc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">MSc</Typography>}/>
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("PhD", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">PhD</Typography>} />    
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Postdoc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Postdoc</Typography>}/>
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Professional Services", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Professional Services</Typography>}/>
