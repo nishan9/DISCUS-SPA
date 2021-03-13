@@ -119,11 +119,22 @@ function SearchUsers() {
 
     async function TagSearch(filter : string ){
         //Block for Tag-based search
-        console.log('Tag based seach'); 
         if (tagsArray.length > 0 && filter !== ""){
             let tagfilter = ""
             
             checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise")
+
+            if (IncludeAll){
+                if (checked){
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }else {
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }
+            }
 
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter} AND ${filter}`);
             const data : Auth0userList = await response.json();
@@ -133,11 +144,25 @@ function SearchUsers() {
         } else if (tagsArray.length > 0){
             let tagfilter = ""
             checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise");
+
+            if (IncludeAll){
+                if (checked){
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }else {
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }
+            }
+            
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
         } else {
+                console.log(filter); 
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
                 const data : Auth0userList = await response.json();
                 setData(data);
@@ -198,6 +223,7 @@ function SearchUsers() {
         })
         setnewArr(newTags); 
         setTagsArray(value.map ( x => x.Subject)); 
+
     }
 
 
