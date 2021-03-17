@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Avatar, Box, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from '../../context/EditEventContext';
 import EventAttendance from '../../models/EventAttendance';
 import { CSVLink } from "react-csv";
@@ -11,6 +11,7 @@ import SendEmail from '../SendEmail';
 import events from '../../assets/events.svg'; 
 import Moment from 'react-moment';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import React from 'react';
 
 function ViewEventEntity(props : any) {
 
