@@ -28,15 +28,20 @@ function Dashboard() {
                 padding : '1px',
             },
             large: {
-                width: theme.spacing(20),
-                height: theme.spacing(20),
+                width: theme.spacing(15),
+                height: theme.spacing(15),
                 [theme.breakpoints.down('xs')]: {
                     width: theme.spacing(10),
                     height: theme.spacing(10),
                   },
             },
             glass : {
-                backgroundColor: 'rgba(0,0,0,0.06)'            
+                backgroundColor: 'rgba(0,0,0,0.02)',
+                border : '1px solid rgba(0,0,0,0.05)', 
+                padding : '50px', 
+                [theme.breakpoints.down('xs')]: {
+                    padding : 0
+                  },          
             }
             }),
         );

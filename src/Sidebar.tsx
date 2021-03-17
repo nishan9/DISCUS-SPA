@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
@@ -15,6 +15,7 @@ import EventIcon from '@material-ui/icons/Event';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import discus from './assets/discus.svg'; 
+import { Auth0Context } from './context/Auth0Context';
 
 const drawerWidth = 120;
 
@@ -77,7 +78,7 @@ export default function ResponsiveDrawer(props: Props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const history = useHistory(); 
   const Auth0 = useAuth0();
-
+  const Authcontext = useContext(Auth0Context)
   
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -104,8 +105,14 @@ export default function ResponsiveDrawer(props: Props) {
         <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 50 }}/>
         </ButtonBase>
 
-        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }}/>
-        </ButtonBase>
+        {Authcontext.data.app_metadata ?         
+          <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }}/>
+          </ButtonBase>
+        :
+          <>
+          </>
+        }
+
 
         <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }}/>
         </ButtonBase>
