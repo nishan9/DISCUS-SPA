@@ -32,8 +32,8 @@ function Dashboard() {
                 width: theme.spacing(15),
                 height: theme.spacing(15),
                 [theme.breakpoints.down('xs')]: {
-                    width: theme.spacing(10),
-                    height: theme.spacing(10),
+                    width: theme.spacing(15),
+                    height: theme.spacing(15),
                   },
             },
             glass : {
@@ -48,8 +48,13 @@ function Dashboard() {
                 [theme.breakpoints.down('xs')]: {
                     paddingLeft : '10px',
                     paddingRight : '10px',
-                  },          
-            },
+                  },  
+                },
+            centerSVG : {
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                },
             }),
         );
     const classes = useStyles();
@@ -73,7 +78,7 @@ function Dashboard() {
                 <Grid item xs={12} lg={9}>
                     <Box borderRadius={5} className={classes.glass}>
                     <Grid container>
-                    <Grid item lg={4} xs={4}>
+                    <Grid item lg={4} xs={9}>
                         <Grid container justify = "center">
                             <Box m={2}>
                                 <Box className="small" borderRadius="borderRadius">
@@ -82,10 +87,15 @@ function Dashboard() {
                             </Box>
                         </Grid>
                     </Grid>
+                    <Hidden only={['md', 'lg', 'xl', 'sm']}>
+                    <Grid item xs={2}>
+                    <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
+                    </Grid>
+                    </Hidden>
                     <Grid item lg={8} xs={8}>
                         <Box borderRadius={2}>
                         <Grid container>
-                        <Grid item xs={12}>
+                        <Grid item xs={11}>
                         <Grid container >
                         <Box my={1}>
                             <Typography variant="h4"> {AuthContext.data.name} </Typography>
@@ -94,8 +104,14 @@ function Dashboard() {
                             {AuthContext.data.user_metadata.education.available === 'true' ? <IsAvailable/> : ""}
                         </Box>
                         </Grid>
+                        
 
                         </Grid>
+                        <Hidden xsDown>
+                            <Grid item lg={1} xs={1}>
+                                <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
+                            </Grid>
+                        </Hidden>
                         <Grid container>
                         <div style={{
                         display: 'flex',
@@ -136,7 +152,6 @@ function Dashboard() {
                                     <Box pb={2}>
                                         <Points/>
                                     </Box>
-                                    
                                 </Grid>
                             </Grid>
                         </Grid>
@@ -144,7 +159,12 @@ function Dashboard() {
                                 <Box mx={3} p={4} borderRadius={8} bgcolor="secondary.main">
                                     <Grid container>
                                         <Grid item lg={6} xs={12}>
-                                            <Typography><EmailIcon/> {AuthContext.data.email}</Typography>
+                                            <Box className={classes.centerSVG}>
+                                                <EmailIcon/>
+                                                <Box mx={0.5}>
+                                                </Box>
+                                                <Typography>{AuthContext.data.email}</Typography>
+                                            </Box>  
                                         </Grid>
                                         <Grid item lg={6} xs={12}>
                                             <Typography><DomainIcon/> {AuthContext.data.user_metadata.education.school}</Typography>
@@ -182,6 +202,7 @@ function Dashboard() {
                         </Grid>
                     </Grid>
                 </Grid>
+
             </div>
         </>
     :
