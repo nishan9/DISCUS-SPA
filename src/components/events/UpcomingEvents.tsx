@@ -26,7 +26,7 @@ function UpcomingEvents() {
     const [openNE, setOpenNE] = useState(false); 
     const Auth0 = useAuth0();
     const AuthContext = useContext(Auth0Context);
-    const EventContext = useContext(EditEventContext)
+    const EventContext = useContext(EditEventContext);
     const [accessToken, setAccessToken] = useState(''); 
 
 

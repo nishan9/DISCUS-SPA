@@ -1,4 +1,4 @@
-import { Box, Card, Grid } from '@material-ui/core';
+import { Box, Grid, Hidden } from '@material-ui/core';
 import React from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
 import StackedBarChart from './charts/StackedBarChart';
@@ -27,11 +27,13 @@ function AdminPanel() {
                     <PieChartExpertise/>
                 </Box>
             </Grid>
-            <Grid item lg={12} xs={12}>
-                <div style={{height : "400px", width : "100%"}}>
-                    <StackedBarChart/>
-                </div>
-            </Grid>
+            <Hidden mdDown>
+                <Grid item lg={12} xs={12}>
+                    <div style={{height : "400px", width : "100%"}}>
+                        <StackedBarChart/>
+                    </div>
+                </Grid>
+            </Hidden>
         </Grid>
     )
 }

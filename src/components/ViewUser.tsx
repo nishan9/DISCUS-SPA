@@ -3,35 +3,39 @@ import React, { useContext, useEffect, useState } from 'react'
 import Auth0user from '../models/Auth0user';
 import EditIcon from '@material-ui/icons/Edit';
 import { Autocomplete, AutocompleteChangeReason } from '@material-ui/lab';
-import SaveIcon from '@material-ui/icons/Save';
-import CancelIcon from '@material-ui/icons/Cancel';
 import { Auth0Context } from '../context/Auth0Context'
-import DepartmentObj from '../config/Department';
+import IsAvailable from './IsAvailable';
+import Loading from '../config/Loading';
+import Wave from '../assets/Wave.svg';
+import EmailIcon from '@material-ui/icons/Email';
+import PersonIcon from '@material-ui/icons/Person';
+import DomainIcon from '@material-ui/icons/Domain';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import SchoolIcon from '@material-ui/icons/School';
+import uosLogo from '../assets/logo.svg'; 
+import EditUser from './EditUser';
+import { SelectedUserContext } from '../context/SelectedUserContext';
 
 function ViewUser(props : any) {
+
     const [loginPressed, setLoginPressed] = useState(false);
-    const [data, setData] = useState<Auth0user>()
     const user_id = props.match.params.user_id; 
     const [editMode, setEditMode] = useState(false);
     const [interests, setInterests] = useState<string[]>([])
-    const AuthContext = useContext(Auth0Context)
-
-    console.log(props)
-    console.log("fdsfds")
+    const UserContext = useContext(SelectedUserContext); 
 
     useEffect(() => {
         fetchData();
     }, [])
 
     async function fetchData(){
-        console.log(`${process.env.REACT_APP_API_URL}/UserSearch/${user_id}`); 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${user_id}`);
-        setData(await response.json());
+        UserContext.setData(await response.json());
     }
 
     function changeEdit(){
-        if (data !== undefined){
-            setInterests(data?.user_metadata.interest)
+        if (UserContext.data !== undefined){
+            setInterests(UserContext.data?.user_metadata.interest)
         }
         setEditMode(true); 
     }
@@ -46,7 +50,7 @@ function ViewUser(props : any) {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/User/`, {
             headers : {"Content-Type" : "application/json" }, 
             method:"POST", 
-            body: JSON.stringify(data),
+            body: JSON.stringify(UserContext.data),
         })
         if(response.ok){
             alert("Success"); 
@@ -66,200 +70,160 @@ function ViewUser(props : any) {
         setInterests(value.map ( x => x.Subject)); 
     }
     
-
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
-        root: {
-            display: 'flex',
-            '& > *': {
-            margin: theme.spacing(1),
+            root: {
+                display: 'flex',
+                minHeight : '100vh', backgroundImage: `url(${Wave})`, backgroundRepeat : "no-repeat",
+                backgroundPosition : 'center bottom',
+                padding : '1px',
             },
-        },
-        large: {
-            width: theme.spacing(35),
-            height: theme.spacing(35),
-        },
-        }),
-    );
-
+            large: {
+                width: theme.spacing(20),
+                height: theme.spacing(20),
+                [theme.breakpoints.down('xs')]: {
+                    width: theme.spacing(10),
+                    height: theme.spacing(10),
+                  },
+            },
+            glass : {
+                backgroundColor: 'rgba(0,0,0,0.06)'            
+            }
+            }),
+        );
     const classes = useStyles();
+
     
     return (
-        <div>
-        {editMode ? 
-            <div>
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <Box pt={3} >
-                        <Typography variant="h3">{data?.name}</Typography>
+        <>
+        {editMode ? <EditUser id={UserContext.data?.user_id}/> : 
+            <>
+            {UserContext.data ? 
+                    <>
+                    <Box my={11}>
                     </Box>
-                </Grid>
-            <Grid item xs={3}>
-                <Box className="small" m={2} p={6} borderRadius="borderRadius">
-                    <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
-                </Box>
-                <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-                    <Typography variant="h3">Points</Typography>
-                    <Typography variant="h4">5 Points</Typography>
-                </Box>
-            </Grid>
-        <Grid item xs={9} >
-        <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
-            <div>                
-                <Button onClick={changeEdit}> <SaveIcon/> </Button>
-                <Button onClick={Cancel}> <CancelIcon/> </Button>
-                <Typography variant="body1">Name <TextField defaultValue={data?.name}/></Typography>
-                <Typography variant="body1">
-                    <TextField 
-                        defaultValue={data?.email}
-                    />
-                </Typography>
-
-                <Box my={3}>
-            <FormControl variant="outlined" style={{minWidth: 120}}>
-                <InputLabel>School</InputLabel>
-                <Select 
-                defaultValue={data?.user_metadata.education.school}
-                label="School" >
-                    <MenuItem value="University of Sussex Business School">University of Sussex Business School</MenuItem>
-                    <MenuItem value="School of Education and Social Work">School of Education and Social Work</MenuItem>
-                    <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
-                    <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
-                </Select>
-            </FormControl>
-        </Box>
-
-        <Box my={3}> 
-            <FormControl variant="outlined" style={{minWidth: 200}}>
-            <InputLabel>Department</InputLabel>
-                <Select
-                label="Department"
-                >
-                {   data?.user_metadata.education.school === "University of Sussex Business School" ?  
-                (DepartmentObj['University of Sussex Business School'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem> 
-                ))
-                : data?.user_metadata.education.school === "School of Education and Social Work" ?  
-                (DepartmentObj['School of Education and Social Work'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))
-                : data?.user_metadata.education.school === "School of Engineering and Informatics" ?  
-                (DepartmentObj['School of Engineering and Informatics'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))
-                : data?.user_metadata.education.school === "School of Global Studies" ?  
-                (DepartmentObj['School of Global Studies'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))
-                : data?.user_metadata.education.school === "School of Law, Politics and Sociology" ?  
-                (DepartmentObj['School of Law, Politics and Sociology'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))
-                : data?.user_metadata.education.school === "School of Life Sciences" ?  
-                (DepartmentObj['School of Life Sciences'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))
-                : data?.user_metadata.education.school === "School of Media, Arts and Humanities" ?  
-                (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))                                
-                : data?.user_metadata.education.school === "School of Media, Arts and Humanities" ?
-                (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
-                <MenuItem value={dep}>{dep}</MenuItem>
-                ))  
-                : <p></p>
-                }
-                </Select>
-            </FormControl>
-            </Box>
-
-                <Autocomplete
-                    multiple
-                    fullWidth
-                    onChange={(event, value, reason) => addtoState(value, reason)}
-                    id="multiple-limit-tags"
-                    options={Subjects}
-                    getOptionLabel={(option) => option.Subject}
-                    renderInput={(params) => (
-                    <TextField {...params} variant="outlined" placeholder="Add Tags" />
-                    )}
-                />
-
-                {data?.user_metadata.expertise.map(e => <Chip label={e} ></Chip>)}
-                
-            </div>
-        </Box>
-        <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}>
-            <div >
-                <Typography variant="body1"></Typography>
-                <Typography variant="body1"></Typography>
-                
-                <TextField id="outlined-basic"           
-                    multiline
-                    rows={4} 
-                    fullWidth
-                    label="Research" 
-                    variant="outlined" 
-                    defaultValue={data?.user_metadata.research}/>
-                    
-                {data?.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
-            </div>
-        </Box>
-    </Grid>
-</Grid>
-</div>
-        :
+                    <div className={classes.root}>
+                        <Grid container justify="center">
+                        <Grid item xs={12} lg={9}>
+                            <Box borderRadius={5} className={classes.glass}>
+                            <Grid container>
+                            <Grid item lg={3} xs={2}>
+                                <Grid container justify = "center">
+                                    <Box m={2}>
+                                    <Box className="small" borderRadius="borderRadius">
+                                    <Avatar alt="Profile Picture" className={classes.large} src={UserContext.data ? UserContext.data.picture : ""}/>
+                                    </Box>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                            <Grid item lg={8} xs={8}>
+                                <Box borderRadius={2}>
+                                <Grid container>
+                                    <Grid item xs={12}>
+                                        <Grid container >
+                                            <Box m={1}>
+                                                <Typography variant="h4"> {UserContext.data.name} </Typography>
+                                            </Box>
+                                            <Box m={2} >
+                                                {UserContext.data.user_metadata.education.available === 'true' ? <IsAvailable/> : ""}
+                                            </Box>
+                                        </Grid>
+                                    </Grid>
+                                <Grid container>
+                                <div style={{
+                                 display: 'flex',
+                                 alignItems: 'center',
+                                 flexWrap: 'wrap',
+                                }}>
+                                
+                                { UserContext.data.user_metadata.social.sussex !== null ?      
+                                    <>
+                                        <a href={UserContext.data.user_metadata.social.sussex} target="_blank" rel="noopener noreferrer">
+                                            <Box m={1}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box>
+                                        </a>
+                                    </>
+                                    :
+                                    <>
+                                    </>
+                                }
         
-        <Grid>
-<div>
-<Grid container spacing={3}>
-    <Grid item xs={12}>
-        <Box pt={3} >
-            <Typography variant="h3">{data?.name}</Typography>
-        </Box>
-    </Grid>
-    <Grid item xs={3}>
-        <Box className="small" m={2} p={6} borderRadius="borderRadius">
-            <Avatar alt="Remy Sharp" className={classes.large} src={data ? data?.picture : ""}/>
-        </Box>
-        <Box m={1} p={2} bgcolor="info.main" borderRadius="borderRadius">
-            <Typography variant="h3">Points</Typography>
-            <Typography variant="h4">5 Points</Typography>
-        </Box>
-    </Grid>
-    <Grid item xs={8} >
-        <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}> 
-            <div>
-                {AuthContext?.data.app_metadata === null ? <></> : <p> <Button onClick={changeEdit}> <EditIcon/> </Button> </p>}
-                <Typography variant="body1">Name {data?.name}</Typography>
-                <Typography variant="body1">{data?.email}</Typography>
-                <Typography>{data?.user_metadata.education.school}</Typography>
-                <Typography>{data?.user_metadata.education.department}</Typography>
-                {data?.user_metadata.expertise.map(e => <Chip label={e}></Chip>)}
-            </div>
-        </Box>
-        <Box bgcolor="info.main" borderRadius="borderRadius" m={2} p={3}>
-        <Typography variant="h4">Academic</Typography>
-            <div >
-            <Typography variant="body1"></Typography>
-            <Typography variant="body1"></Typography>
-            <Typography>{data?.user_metadata.research}</Typography>
-                {data?.user_metadata.interest.map(e => <Chip label={e}></Chip>)}
-            </div>
-        </Box>
-    </Grid>
-</Grid>
-</div>
-</Grid>
-
-        }
-        </div>
+                                { UserContext.data.user_metadata.social.linkedIn !== null ?
+                                    <>
+                                        <a href={UserContext.data.user_metadata.social.linkedIn} target="_blank" rel="noopener noreferrer">
+                                            <LinkedInIcon/>
+                                        </a>
+                                    </>
+                                    :
+                                    <>
+                                    </>
+                                }
+                                
+                                <Box my={1}><SchoolIcon/></Box>
+                                <Box m={1}>{UserContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
+                                </div>
+                                </Grid>
+                                </Grid>
+                                </Box>
+                            </Grid>
+                            <Grid item lg={1} xs={1}>
+                                <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
+                            </Grid>
+                            </Grid>
+                            <Grid container>
+                                <Grid item xs={12} lg={3}>
+                                    <Box my={7}>
+                                    <Box m={1} p={3} bgcolor="primary.main" borderRadius="borderRadius">
+                                        <Typography>{UserContext.data.user_metadata.events.length} Experience</Typography>
+                                    </Box>
+                                    </Box>
+                                </Grid>
+                                <Grid item xs={12} lg={9}>
+                                    <Box>
+                                        <Box m={3} p={3} borderRadius={8} bgcolor="secondary.main">
+                                            <Grid container>
+                                            <Grid item lg={6} xs={12}>
+                                            <Typography><EmailIcon/> {UserContext.data.email}</Typography>
+                                            </Grid>
+                                            <Grid item lg={6} xs={12}>
+                                            <Typography><DomainIcon/> {UserContext.data.user_metadata.education.school}</Typography>
+                                            </Grid>
+                                            <Grid item lg={6} xs={12}>
+                                            <Typography><PersonIcon/> {UserContext.data.user_metadata.education.careerStage}</Typography>
+                                            </Grid>
+                                            <Grid item lg={6} xs={12}>
+                                            <Typography><DomainIcon/> {UserContext.data.user_metadata.education.department}</Typography>
+                                            </Grid>
+                                            </Grid>
+                                        </Box>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                            <Grid container>
+                                <Grid item xs={11} lg={6}>
+                                    <Typography>Expertise : {UserContext.data.user_metadata.expertise.map(e => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e}></Chip>)} </Typography>
+                                </Grid>
+                                <Grid item xs={11} lg={6}>
+                                    <Typography>Interest : {UserContext.data.user_metadata.interest.map(e => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e}></Chip>)} </Typography>
+                                </Grid>
+                            </Grid>
+                            </Box>
+                                <Grid item xs={12} alignItems="center" >
+                                    <Box borderRadius={5} className={classes.glass} my={4}>
+                                        <Typography gutterBottom > Research from {UserContext.data.name}</Typography>
+                                        <Typography>{UserContext.data.user_metadata.research}</Typography>
+                                    </Box>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </div>
+                    </>
+            :
+                <Loading/>
+            }
+            </>
+            }
+        </>
     )
 }
-
-const Subjects = [
-    { Subject: 'Computer Stuff'},
-    { Subject: 'Natural Language Engineering'},
-  ];
 
 export default ViewUser

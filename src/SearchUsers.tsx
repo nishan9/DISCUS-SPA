@@ -119,11 +119,22 @@ function SearchUsers() {
 
     async function TagSearch(filter : string ){
         //Block for Tag-based search
-        console.log('Tag based seach'); 
         if (tagsArray.length > 0 && filter !== ""){
             let tagfilter = ""
             
             checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise")
+
+            if (IncludeAll){
+                if (checked){
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }else {
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }
+            }
 
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter} AND ${filter}`);
             const data : Auth0userList = await response.json();
@@ -133,11 +144,25 @@ function SearchUsers() {
         } else if (tagsArray.length > 0){
             let tagfilter = ""
             checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise");
+
+            if (IncludeAll){
+                if (checked){
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }else {
+                    for (var i = 0; i < newArr.length; i++) {
+                        tagfilter = tagfilter.concat(' OR user_metadata.interest:"' + newArr[i] + '"')
+                    }
+                }
+            }
+            
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter}`);
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
         } else {
+                console.log(filter); 
                 const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
                 const data : Auth0userList = await response.json();
                 setData(data);
@@ -198,6 +223,7 @@ function SearchUsers() {
         })
         setnewArr(newTags); 
         setTagsArray(value.map ( x => x.Subject)); 
+
     }
 
 
@@ -297,11 +323,13 @@ function SearchUsers() {
                         {tags ?
                         <>
                             <InputBase
-                             className={classes.input}
-                             placeholder="Search"
-                             value={searchTerm}
-                             onChange={e => setSearchTerm(e.target.value)}
-                             inputProps={{ 'aria-label': 'Search' }} />
+                              className={classes.input}
+                              placeholder="Search"
+                              value={searchTerm}
+                              onChange={e => setSearchTerm(e.target.value)}
+                              inputProps={{ 'aria-label': 'Search' }} 
+                              onKeyPress={(e) => { e.key === 'Enter' && e.preventDefault(); }}
+                             />
                             <IconButton disabled className={classes.iconButton} aria-label="search">
                                 <SearchIcon />
                             </IconButton>
@@ -373,6 +401,8 @@ function SearchUsers() {
                         
                     </>
                 }
+                    <Grid container>
+
 
                         <Accordion
                             defaultExpanded
@@ -426,16 +456,16 @@ function SearchUsers() {
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("MSc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">MSc</Typography>}/>
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("PhD", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">PhD</Typography>} />    
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Postdoc", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Postdoc</Typography>}/>
+                            <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Faculty", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Faculty</Typography>}/>
                             <FormControlLabel control={<Checkbox onChange={(e) => handleChangeCareer("Professional Services", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">Professional Services</Typography>}/>
                         </FormGroup>
                         </AccordionDetails>
                     </Accordion>
                     </Grid>
+                    </Grid>
                 </Grid>
                 
-                <Hidden only="sm">
-                    <Grid item lg={1}></Grid>
-                </Hidden>
+
 
                 <Grid item xs={11} lg={7}>
                 <Grid container>
@@ -477,10 +507,10 @@ function SearchUsers() {
                         </Grid>
                         <Box my={3}>
                             <Pagination 
-                            count={Pagetotal} 
-                            color="primary" 
-                            page={currPage}
-                            onChange={(event, page) => setCurrPage(page)}
+                             count={Pagetotal} 
+                             color="primary" 
+                             page={currPage}
+                             onChange={(event, page) => setCurrPage(page)}
                             />
                         </Box>
                 </Grid>
@@ -489,6 +519,5 @@ function SearchUsers() {
         </Grid>
     ); 
 }
-
 
 export default SearchUsers

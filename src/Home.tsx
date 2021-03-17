@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SearchUsers from './SearchUsers';
 import { useAuth0 } from '@auth0/auth0-react';

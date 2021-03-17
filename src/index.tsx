@@ -6,6 +6,7 @@ import theme from './theme';
 import { Auth0ContextProvider } from './context/Auth0Context';
 import { SnackbarProvider } from 'notistack';
 import { EditEventContextProvider } from './context/EditEventContext';
+import { SelectedUserContextProvider } from './context/SelectedUserContext';
 import Home from './Home';
 import './index.css'; 
 
@@ -13,9 +14,11 @@ ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Auth0ContextProvider>
       <EditEventContextProvider>
+        <SelectedUserContextProvider>
         <SnackbarProvider maxSnack={3}>
           <Wrapper />
         </SnackbarProvider>
+        </SelectedUserContextProvider>
       </EditEventContextProvider>
     </Auth0ContextProvider>
   </ThemeProvider>,

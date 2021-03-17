@@ -10,7 +10,6 @@ import EditEvent from './EditEvent';
 import { EditEventContext } from '../../context/EditEventContext';
 import Loading from '../../config/Loading'; 
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Moment from 'react-moment';
 
 function PastEvents() {

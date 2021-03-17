@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { ResponsivePie } from '@nivo/pie'
-import { Box, Typography } from '@material-ui/core';
 
 function PieChartExpertise() {
 

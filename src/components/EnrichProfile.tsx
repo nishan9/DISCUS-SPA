@@ -5,7 +5,7 @@ import { Autocomplete } from '@material-ui/lab';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import React, { useContext, useEffect, useState } from 'react'
 import { AllSubjects } from '../config/TagSystem'
-import signup from '../assets/signup.jpg'; 
+import signup from '../assets/scientist.svg'; 
 import { Auth0Context } from '../context/Auth0Context';
 import { useSnackbar } from 'notistack';
 import DepartmentObj from '../config/Department'; 
@@ -14,7 +14,7 @@ import DepartmentObj from '../config/Department';
 function EnrichProfile() {
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
-    const [metadata, setMetada] = useState({sussex : "", school:"",department:"",careerstage:"", research : "", expertise: [], intersts : [], available : "false", GraduationDate : new Date()}); 
+    const [metadata, setMetada] = useState({sussex : "", linkedin : "", school:"",department:"",careerstage:"", research : "", expertise: [], intersts : [], available : "false", GraduationDate : new Date()}); 
     const [interests, setInterests] = useState<String[]>([]); 
     const [expertise, setExpertise] = useState<String[]>([]);
     const context = useContext(Auth0Context)
@@ -35,6 +35,7 @@ function EnrichProfile() {
             { "user_metadata" : {
                 "social": {
                     "sussex": metadata.sussex,
+                    "linkedIn" : metadata.linkedin, 
                   },
                   "education": {
                     "School": metadata.school,
@@ -81,13 +82,13 @@ function EnrichProfile() {
     return (
         <>
         <Grid container justify="center">
-        <Grid item lg={4} xs={12}>
+        <Grid item lg={6} xs={12}>
             <Grid container justify="center">
                 <Box mt={7}>
                     <Typography variant={"h4"}> Enrich your profile! </Typography> 
                 </Box>
                 <Box display="flex" mt={11} flexDirection="column-reverse" width="100%">
-                    <img src={signup} height='auto' width='80%' alt="SignupImage"/>
+                    <img src={signup} height='auto' width='100%' alt="SignupImage"/>
                 </Box>
             </Grid>
         </Grid>
@@ -98,9 +99,7 @@ function EnrichProfile() {
                     <Typography variant={'h5'}>Sign up now...</Typography>
                 </Box>
             <Grid container direction="row" alignItems="center">
-       
-
-                <Box my={1} mr={3}>
+                <Box my={2} mr={3}>
                     <FormControl variant="outlined" style={{minWidth: 120}}>
                         <InputLabel>School</InputLabel>
                         <Select onChange={(e) => setMetada({...metadata,school: String(e.target.value)})} label="School" >
@@ -108,6 +107,12 @@ function EnrichProfile() {
                             <MenuItem value="School of Education and Social Work">School of Education and Social Work</MenuItem>
                             <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
                             <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
+                            <MenuItem value="School of Law, Politics and Sociology">School of Law, Politics and Sociology</MenuItem>
+                            <MenuItem value="School of Mathematical and Physical Sciences">School of Mathematical and Physical Sciences</MenuItem>
+                            <MenuItem value="School of Media, Arts and Humanities">School of Media, Arts and Humanities</MenuItem>
+                            <MenuItem value="School of Psychology">School of Psychology</MenuItem>
+                            <MenuItem value="Brighton and Sussex Medical School">Brighton and Sussex Medical School</MenuItem>
+                            <MenuItem value="Doctoral School and research groups">Doctoral School and research groups</MenuItem>
                         </Select>
                     </FormControl>
                 </Box>
@@ -167,20 +172,25 @@ function EnrichProfile() {
      
                 <Grid container direction="row" alignItems="center">
 
-                <Box my={3}>
-                    <FormControl variant="outlined" style={{minWidth: 150}}>
-                    <InputLabel>CareerStage</InputLabel>
-                    <Select onChange={(e) => setMetada({...metadata,careerstage: String(e.target.value)})} label="Career Stage" >
-                    <MenuItem value="UG">UG</MenuItem>
-                    <MenuItem value="MSc">MSc</MenuItem>
-                    <MenuItem value="PhD">PhD</MenuItem>
-                    <MenuItem value="PhD">PostDoc</MenuItem>
-                    <MenuItem value="Professional Services">Professional Services</MenuItem>
-                    </Select>
-                    </FormControl>
-                </Box>
+                <div style={{ width : '100%'}}>
+                    <Box my={2}>
+                        <FormControl variant="outlined" style={{minWidth: 150}}>
+                        <InputLabel>CareerStage</InputLabel>
+                        <Select onChange={(e) => setMetada({...metadata,careerstage: String(e.target.value)})} label="Career Stage" >
+                        <MenuItem value="UG">UG</MenuItem>
+                        <MenuItem value="MSc">MSc</MenuItem>
+                        <MenuItem value="PhD">PhD</MenuItem>
+                        <MenuItem value="PhD">PostDoc</MenuItem>
+                        <MenuItem value="Faculty">Faculty</MenuItem>
+                        <MenuItem value="Professional Services">Professional Services</MenuItem>
+                        </Select>
+                        </FormControl>
+                    </Box>
+                </div>
 
-                <Box ml={5}>
+                <div style={{ width : '100%'}}>
+
+                <Box>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker
                             margin="normal"
@@ -195,7 +205,9 @@ function EnrichProfile() {
                         />
                     </MuiPickersUtilsProvider>
                 </Box>
-                <Box m={4}>
+                </div>
+
+                <Box my={2}>
                     <Typography>Available for ad Hoc project work? <Checkbox onChange={(e) => setMetada({...metadata,available: String(e.target.checked)})}/> </Typography>
                 </Box>
                
@@ -215,6 +227,10 @@ function EnrichProfile() {
                     />
                     <Box my={2}>
                         <TextField fullWidth id="outlined-basic" onChange={(e) => setMetada({...metadata, sussex: String(e.target.value)})} label="Sussex Profile URL" variant="outlined" />
+                    </Box>
+
+                    <Box my={2}>
+                        <TextField fullWidth id="outlined-basic" onChange={(e) => setMetada({...metadata, linkedin: String(e.target.value)})} label="LinkedIn URL" variant="outlined" />
                     </Box>
 
                     <Box my={2}>
@@ -249,10 +265,7 @@ function EnrichProfile() {
                         </Box>
                     </Grid>
                 </Box>
-
                 </Box>
-        
-               
                 </Grid>
         </Grid>
         </>   
