@@ -12,13 +12,14 @@ import DepartmentObj from '../config/Department';
 import EmailIcon from '@material-ui/icons/Email';
 import SchoolIcon from '@material-ui/icons/School';
 import mySvg from '../assets/Wave.svg';
+import Auth0user from '../models/Auth0user';
 
-
-function EditUserProfile() {
+function EditUser(props : any) {
     const AuthContext = useContext(Auth0Context);
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
     const { enqueueSnackbar } = useSnackbar();
+    const [data, setData] = useState<Auth0user>();
 
     //Editable Fields
     const [name, setName] = useState<string>(""); 
@@ -34,94 +35,65 @@ function EditUserProfile() {
     const [linkedIn, setLinkedIn] = useState<string>(""); 
     let mes = ""
 
-    useEffect(() => {
-        LoadStates(); 
-    }, []);
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
+        fetchData(); 
     },[Auth0])
 
-    function LoadStates(){
-        if (AuthContext.data !== undefined ){
-            setName(AuthContext.data.name); 
-            setSchool(AuthContext.data.user_metadata.education.school); 
-            setDepartment(AuthContext.data.user_metadata.education.department); 
-            setCareerStage(AuthContext.data.user_metadata.education.careerStage); 
-            setGraduation(AuthContext.data.user_metadata.education.graduationDate)
-            setInterest(AuthContext.data.user_metadata.interest); 
-            setResearch(AuthContext.data.user_metadata.research);
-            setSussexURL(AuthContext.data.user_metadata.social.sussex);
-            setLinkedIn(AuthContext.data.user_metadata.social.linkedIn);
-            setExpertise(AuthContext.data.user_metadata.expertise); 
-            if (AuthContext.data.user_metadata.education.available === "true")
-            {
-                setAvailable(true)
-            }
-        }
+    async function fetchData(){
     }
 
     function DeleteChipIntrest(e : String){
-        setInterest(interests.filter(subject => subject !== e));
+        setInterest(interests.filter(subject => subject !== e))
     }
 
     function DeleteChipExpertise(e : String){
-        setExpertise(expertise.filter(subject => subject !== e));
+        setExpertise(expertise.filter(subject => subject !== e))
     }
 
 
     async function UpdateUser(){
-        const stravail = available.toString(); 
-        const postreq = (
-            {   "name" : name, 
-                "user_metadata" : {
-                "social": {
-                    "sussex": sussexURL,
-                    "linkedIn" : linkedIn,
-                  },
-                  "education": {
-                    "School": school,
-                    "Department": department,
-                    "CareerStage": careerStage,
-                    "GraduationDate": graduation,
-                    "Available": stravail
-                  },
-                  "research": research,
-                  "expertise": expertise,
-                  "interest": interests, 
-                  "events" : AuthContext.data.user_metadata.events
+        if (data !== undefined){
+            const postreq = (
+                {   "name" : data.name, 
+                    "user_metadata" : {
+                    "social": {
+                        "sussex": data.user_metadata.social.linkedIn,
+                        "linkedIn": data.user_metadata.social.linkedIn,
+                      },
+                      "education": {
+                        "School": data.user_metadata.education.school,
+                        "Department": data.user_metadata.education.department,
+                        "CareerStage": data.user_metadata.education.careerStage,
+                        "GraduationDate": data.user_metadata.education.graduationDate,
+                        "Available": data.user_metadata.education.available
+                      },
+                      "research": data.user_metadata.research,
+                      "expertise": data.user_metadata.expertise,
+                      "interest": data.user_metadata.interest, 
+                      "events" : data.user_metadata.events
+                    }
                 }
-            }
-        )
-
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/UpdateUser/${AuthContext.data.user_id}`, { 
-            method:"PATCH", 
-            body: JSON.stringify(postreq),
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization" : `Bearer ${accessToken}`, 
-            }
-        })
-        if(response.ok){
-            console.log('fdfd')
-            enqueueSnackbar('User has been updated', { variant : "success" });
-            fetchData(); 
-            ChangeCancel(); 
-        }else{
-            console.error("Publishing failed");
+            )
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/UpdateUser/${AuthContext.data.user_id}`, { 
+                method:"PATCH", 
+                body: JSON.stringify(postreq),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization" : `Bearer ${accessToken}`, 
+                }
+            }); 
+            if(response.ok){
+                enqueueSnackbar('User has been updated', { variant : "success" });
+                fetchData(); 
+                ChangeCancel(); 
+            }else{
+                console.error("Publishing failed");
+            }  
         }
-    }
 
 
-
-    async function fetchData(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
-            headers: {
-              'Authorization': `Bearer ${accessToken}`, 
-              'Content-Type': 'application/json',
-            }
-        });
-        AuthContext.setData(await response.json());  
     }
 
     function ChangeCancel(){
@@ -408,4 +380,4 @@ function EditUserProfile() {
     )
 }
 
-export default EditUserProfile
+export default EditUser

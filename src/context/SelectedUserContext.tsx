@@ -40,20 +40,20 @@ const dataDefaultValue : Auth0user = {
         "isAdmin" : false
     }
 }
-export const Auth0Context = createContext({
+export const SelectedUserContext = createContext({
     data : dataDefaultValue,
     setData : (user : Auth0user) => {}, 
     edit : false, 
     setEdit : (user : boolean) => {}
 });
 
-export const Auth0ContextProvider : React.FC = ({children}) => {
+export const SelectedUserContextProvider : React.FC = ({children}) => {
     const [data, setData] = useState<Auth0user>(dataDefaultValue)
     const [edit, setEdit] = useState(false)
 
     return(
-        <Auth0Context.Provider value={{data, setData, edit, setEdit}}>
+        <SelectedUserContext.Provider value={{data, setData, edit, setEdit}}>
             {children}
-        </Auth0Context.Provider>
+        </SelectedUserContext.Provider>
     )
 }

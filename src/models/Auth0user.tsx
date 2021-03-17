@@ -39,7 +39,8 @@ interface Metadata
 
 interface Social
 {
-    "sussex" : string
+    "sussex" : string,
+    "linkedIn" : string, 
 }
 
 interface Education
