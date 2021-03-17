@@ -27,13 +27,13 @@ export default function Login() {
     return (
         <div className={classes.root} >
           <Grid container>
-              <Box mx="3rem" my="6rem" alignSelf="flex-end">
+              <Box mx="1rem" my="2rem" alignSelf="flex-end">
               <Grid item xs={12} lg={3}>
-              <Typography variant="h1" gutterBottom>
+              <Typography variant="h2" gutterBottom>
                   DISCUS
                 </Typography>
                 <Typography variant="body1" gutterBottom>
-                  DISCUS is the Data Intensive Science Centre at the University of Sussex, a research unit built to address real social and economic challenges by applying data interpretation techniques developed by a cross-disciplinary team over a number of years.
+                  DISCUS is the Data Intensive Science Centre at the University of Sussex, a research unit built to address real social and economic challenges by applying data interpretation techniques developed by a cross-disciplinary team.
                 </Typography>
                 <Button variant="contained" color="secondary" onClick={() => loginWithRedirect()}>Portal</Button>          
                 </Grid>

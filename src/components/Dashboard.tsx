@@ -13,6 +13,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import SchoolIcon from '@material-ui/icons/School';
 import IsAvailable from './IsAvailable';
 import uosLogo from '../assets/logo.svg'; 
+import Loading from '../config/Loading';
 
 function Dashboard() {
     
@@ -91,8 +92,27 @@ function Dashboard() {
                         alignItems: 'center',
                         flexWrap: 'wrap',
                         }}>
-                        <Box m={1}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box>
-                        <Box m={1}><LinkedInIcon/> </Box>
+                        {
+                        AuthContext.data.user_metadata.social.sussex === "" ? 
+                            <></>
+                            :
+                            <a href={AuthContext.data.user_metadata.social.sussex} target="_blank" rel="noopener noreferrer">
+                            <Box mr={2}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box> 
+                        </a>
+                        }                        
+            
+                        {AuthContext.data.user_metadata.social.linkedIn === "" ?  
+                            <></> 
+                            :
+                            <Box mr={2}>
+                                <a href={AuthContext.data.user_metadata.social.linkedIn} target="_blank" rel="noopener noreferrer"> 
+                                    <LinkedInIcon/>
+                                </a>
+                            </Box>
+                        }
+                         
+                       
+                        
                         <Box my={1}><SchoolIcon/></Box>
                         <Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
                         </div>
@@ -151,12 +171,7 @@ function Dashboard() {
             </div>
         </>
     :
-        <Player
-         autoplay
-         loop
-         src={lottie}
-         style={{ height: "20%", width: "20%"}}>
-        </Player>
+        <Loading/>
     }
         </>
     )
