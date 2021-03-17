@@ -56,25 +56,25 @@ function ViewEventEntity(props : any) {
     }
 
     const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            minHeight : '100vh', 
-            backgroundImage: `url(${events})`, 
-            backgroundRepeat : "no-repeat",
-            backgroundSize: '40%', 
-            backgroundPosition : 'right bottom',
-            opacity : '0.9'
-        },
-        large: {
-            width: theme.spacing(20),
-            height: theme.spacing(20),
-        },
-        glass : {
-            backgroundColor: 'rgba(255,255,255,0.9)',  
-        }
-        }),
-    );
+        createStyles({
+            root: {
+                display: 'flex',
+                minHeight : '100vh', 
+                backgroundImage: `url(${events})`, 
+                backgroundRepeat : "no-repeat",
+                backgroundSize: '40%', 
+                backgroundPosition : 'right bottom',
+                opacity : '0.9'
+            },
+            large: {
+                width: theme.spacing(20),
+                height: theme.spacing(20),
+            },
+            glass : {
+                backgroundColor: 'rgba(255,255,255,0.9)',  
+            }
+            }),
+        );
     const classes = useStyles();
 
     return (
@@ -126,11 +126,6 @@ function ViewEventEntity(props : any) {
             </Box>
               
             </Grid>  
-
-
-
- 
-
 
             </Grid> 
         </Grid>
