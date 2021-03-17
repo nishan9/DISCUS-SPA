@@ -9,6 +9,7 @@ import ViewEventEntity from './components/events/ViewEventEntity'
 import AdminPanel from './AdminPanel';
 import Events from './Events';
 import ViewUser from './components/ViewUser';
+import React from "react";
 
 export default function Home() {
     const Auth0 = useAuth0();
