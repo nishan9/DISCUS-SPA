@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { Avatar, Box, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from '../../context/EditEventContext';
 import EventAttendance from '../../models/EventAttendance';
 import { CSVLink } from "react-csv";
