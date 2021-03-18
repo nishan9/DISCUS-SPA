@@ -1,63 +1,22 @@
-import { Grid, Box, Typography, Avatar, Button, Chip, makeStyles, createStyles, Theme, Paper, CssBaseline, Hidden } from '@material-ui/core'
+import { Grid, Box, Typography, Avatar, Button, Chip, Hidden } from '@material-ui/core'
 import React, { useContext } from 'react'
 import { Auth0Context } from '../context/Auth0Context'
 import EditIcon from '@material-ui/icons/Edit';
 import Points from '../components/Points'; 
-import lottie from '../config/lottie.json'
-import { Player } from "@lottiefiles/react-lottie-player";
-import mySvg from '../assets/Wave.svg';
 import EmailIcon from '@material-ui/icons/Email';
 import PersonIcon from '@material-ui/icons/Person';
-import DomainIcon from '@material-ui/icons/Domain';
 import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import SchoolIcon from '@material-ui/icons/School';
 import IsAvailable from './IsAvailable';
 import uosLogo from '../assets/logo.svg'; 
 import Loading from '../config/Loading';
-
+import SchoolIconScout from '../assets/school.svg';
+import CareerStageIconScout from '../assets/briefcase.svg'; 
+import UserTheme from '../themes/UserTheme'; 
 function Dashboard() {
     
     const AuthContext = useContext(Auth0Context);
-    const drawerWidth = 140;
-
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            root: {
-                display: 'flex',
-                minHeight : '100vh', backgroundImage: `url(${mySvg})`, backgroundRepeat : "no-repeat",
-                backgroundPosition : 'center bottom',
-                padding : '1px',
-            },
-            large: {
-                width: theme.spacing(15),
-                height: theme.spacing(15),
-                [theme.breakpoints.down('xs')]: {
-                    width: theme.spacing(15),
-                    height: theme.spacing(15),
-                  },
-            },
-            glass : {
-                backgroundColor: 'rgba(0,0,0,0.02)',
-                border : '1px solid rgba(0,0,0,0.05)', 
-                padding : '40px', 
-                [theme.breakpoints.down('xs')]: {
-                    padding : 0
-                  },          
-            },
-            mobilePadding : {
-                [theme.breakpoints.down('xs')]: {
-                    paddingLeft : '10px',
-                    paddingRight : '10px',
-                  },  
-                },
-            centerSVG : {
-                display: 'flex',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                },
-            }),
-        );
-    const classes = useStyles();
+    const classes = UserTheme();
 
 
     function changeEdit(){
@@ -74,10 +33,10 @@ function Dashboard() {
                 </Box>
             </Hidden>
             <div className={classes.root}>
-                <Grid container justify="center">
+                <Grid container justify="center" className={classes.centerMobile}>
                 <Grid item xs={12} lg={9}>
                     <Box borderRadius={5} className={classes.glass}>
-                    <Grid container>
+                    <Grid container className={classes.centerMobile}>
                     <Grid item lg={4} xs={9}>
                         <Grid container justify = "center">
                             <Box m={2}>
@@ -85,18 +44,18 @@ function Dashboard() {
                                 <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
                                 </Box>
                             </Box>
+                            <Hidden only={['md', 'lg', 'xl', 'sm']}>
+                            <Button onClick={changeEdit}> <EditIcon/> </Button>
+                            </Hidden>
                         </Grid>
+
                     </Grid>
-                    <Hidden only={['md', 'lg', 'xl', 'sm']}>
-                    <Grid item xs={2}>
-                    <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
-                    </Grid>
-                    </Hidden>
-                    <Grid item lg={8} xs={8}>
+
+                    <Grid item lg={8} xs={8} className={classes.centerMobile}>
                         <Box borderRadius={2}>
-                        <Grid container>
-                        <Grid item xs={11}>
-                        <Grid container >
+                        <Grid container className={classes.centerMobile}>
+                        <Grid item xs={11} className={classes.centerMobile}>
+                        <Grid container className={classes.centerMobile}>
                         <Box my={1}>
                             <Typography variant="h4"> {AuthContext.data.name} </Typography>
                         </Box>
@@ -112,12 +71,8 @@ function Dashboard() {
                                 <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
                             </Grid>
                         </Hidden>
-                        <Grid container>
-                        <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        flexWrap: 'wrap',
-                        }}>
+                        <Grid container className={classes.centerMobile}>
+                        <div className={classes.centerSVG}>
                         {
                         AuthContext.data.user_metadata.social.sussex === "" ? 
                             <></>
@@ -158,22 +113,37 @@ function Dashboard() {
                         <Grid item xs={12} lg={8}>
                                 <Box mx={3} p={4} borderRadius={8} bgcolor="secondary.main">
                                     <Grid container>
-                                        <Grid item lg={6} xs={12}>
+                                        <Grid item lg={5} xs={12}>
+                                            <Box className={classes.centerSVG}>
+                                                <img src={CareerStageIconScout} alt="School Icon"  height='25px' width='25px' />
+                                                <Box mx={0.5}>
+                                                </Box>
+                                                <Typography>{AuthContext.data.user_metadata.education.careerStage}</Typography>
+                                            </Box>  
+                                        </Grid>
+                                        <Grid item lg={7} xs={12}>
                                             <Box className={classes.centerSVG}>
                                                 <EmailIcon/>
                                                 <Box mx={0.5}>
                                                 </Box>
                                                 <Typography>{AuthContext.data.email}</Typography>
-                                            </Box>  
+                                            </Box> 
                                         </Grid>
-                                        <Grid item lg={6} xs={12}>
-                                            <Typography><DomainIcon/> {AuthContext.data.user_metadata.education.school}</Typography>
+                                        <Grid item lg={5} xs={12}>
+                                            <Box className={classes.centerSVG}>
+                                                <PersonIcon/>
+                                                <Box mx={0.5}>
+                                                    <Typography>{AuthContext.data.user_metadata.education.department}</Typography>
+                                                </Box>
+                                            </Box> 
                                         </Grid>
-                                        <Grid item lg={6} xs={12}>
-                                            <Typography><PersonIcon/> {AuthContext.data.user_metadata.education.careerStage}</Typography>
-                                        </Grid>
-                                        <Grid item lg={6} xs={12}>
-                                            <Typography> <DomainIcon/> {AuthContext.data.user_metadata.education.department}</Typography>
+                                        <Grid item lg={7} xs={12}>
+                                            <Box className={classes.centerSVG}>
+                                                <img src={SchoolIconScout} alt="School Icon"  height='25px' width='25px' />
+                                                <Box mx={0.5}>
+                                                </Box>
+                                                <Typography>{AuthContext.data.user_metadata.education.school}</Typography>
+                                            </Box> 
                                         </Grid>
                                     </Grid>
                                 </Box>
@@ -192,11 +162,13 @@ function Dashboard() {
                         </Grid>
                     </Grid>
                     </Box>
-                        <Grid item xs={12}  className={classes.mobilePadding} alignItems="center" >
+                        <Grid item xs={12}  className={classes.mobilePadding}>
                             <Box borderRadius={5} className={classes.glass} my={4} >
                                 <Box p={2}>
-                                    <Typography gutterBottom > Research from {AuthContext.data.name}</Typography>
-                                    <Typography>{AuthContext.data.user_metadata.research}</Typography>
+                                    <Typography variant="h6" gutterBottom > Research from {AuthContext.data.name}</Typography>
+                                    <Box bgcolor="#FAFAFA" p={1} borderRadius={3}>
+                                        <Typography>{AuthContext.data.user_metadata.research}</Typography>
+                                    </Box>
                                 </Box>
                             </Box>
                         </Grid>

@@ -11,7 +11,9 @@ const eventdeafultvalue : EventEntity = {
     "description": "",
     "isDISCUS": true,
     "isApproved" : false,
-    "tags" : ""
+    "tags" : "",
+    "linkedInterests" : false,
+    "linkedExpertise" : false, 
 }
 
 export const EditEventContext = createContext({
