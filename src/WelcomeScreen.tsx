@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard'
 import EnrichProfile from './components/EnrichProfile';
 import EditUserProfile from './components/EditUserProfile';
 
+
 function WelcomeScreen() {
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')

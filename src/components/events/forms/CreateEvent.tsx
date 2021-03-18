@@ -103,7 +103,7 @@ function CreateEvent(props : CreateEventProps) {
                 variant="outlined"
                 defaultValue=""
                 onChange={(e) => setEvent({...event,title: String(e.target.value)})}
-                helperText={validated ? "" : "Field cannot be blank."}
+                helperText={validated ? "" : "Title cannot be blank."}
             />
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
@@ -174,36 +174,44 @@ function CreateEvent(props : CreateEventProps) {
             </Grid>
             </MuiPickersUtilsProvider>
 
-            <InputLabel>Type</InputLabel>
-            <Select
-                style={{
-                }}
-                onChange={(e) => setEvent({...event,type:String(e.target.value)})}
-                label="Event Type"
-            >
-                <MenuItem value="Hackathon">Hackathon</MenuItem>
-                <MenuItem value="Showcase">Showcase</MenuItem>
-                <MenuItem value="Networking">Networking</MenuItem>
-                <MenuItem value="Generic">Generic</MenuItem>
-            </Select>
-            <Box mx={10}>
-                <FormControlLabel
-                    control={
-                        <Checkbox 
-                            checked={event.isDISCUS} name="isDiscus" 
-                            onChange={(e) => setEvent({...event,isDISCUS:Boolean(e.target.checked)})}
-                            />
-                        }
-                label="A discus event"/>
+            <Grid container>
+                <Grid item xs={6}>
+                    <Box m={1}>
+                        <InputLabel>Type</InputLabel>
+                        <Select
+                        style={{minWidth: 220}}
+                        onChange={(e) => setEvent({...event,type:String(e.target.value)})}
+                        label="Event Type"
+                        >
+                        <MenuItem value="Hackathon">Hackathon</MenuItem>
+                        <MenuItem value="Showcase">Showcase</MenuItem>
+                        <MenuItem value="Networking">Networking</MenuItem>
+                        <MenuItem value="Generic">Generic</MenuItem>
+                        </Select>
+                    </Box>
+                </Grid>
+                <Grid item xs={6}>
+                    <Box m={1}>
+                        <FormControlLabel 
+                            control={ <Checkbox 
+                                    checked={event.isDISCUS} name="isDiscus" 
+                                    onChange={(e) => setEvent({...event,isDISCUS:Boolean(e.target.checked)})}
+                                    /> }
+                            label="A discus event"/>
+                   </Box>
+                </Grid>
+            </Grid>
+
+            <Box>
+
             </Box>
             <Box my={1}>
                 <TextField 
                     margin="normal" 
-                    label="registration" 
+                    label="Registration" 
                     variant="outlined" 
                     fullWidth={true}
                     type="text" 
-                    name="registration" 
                     onChange={(e) => setEvent({...event,url:e.target.value})}/>
             </Box>
             <Box my={1} >

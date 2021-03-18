@@ -1,4 +1,4 @@
-import { Grid, Box, Typography, Avatar, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Checkbox, createStyles, makeStyles, Theme, FormControlLabel } from '@material-ui/core';
+import { Grid, Box, Avatar, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Checkbox, createStyles, makeStyles, Theme, FormControlLabel, Hidden } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React, { useContext, useEffect, useState } from 'react'
 import SaveIcon from '@material-ui/icons/Save';
@@ -12,6 +12,7 @@ import DepartmentObj from '../config/Department';
 import EmailIcon from '@material-ui/icons/Email';
 import SchoolIcon from '@material-ui/icons/School';
 import mySvg from '../assets/Wave.svg';
+import UserTheme from '../themes/UserTheme';
 
 
 function EditUserProfile() {
@@ -150,108 +151,98 @@ function EditUserProfile() {
         }
     }
 
-    const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        root: {
-            display: 'flex',
-            minHeight : '100vh', backgroundImage: `url(${mySvg})`, backgroundRepeat : "no-repeat",
-            backgroundPosition : 'center bottom',
-        },
-        large: {
-            width: theme.spacing(20),
-            height: theme.spacing(20),
-            [theme.breakpoints.down('xs')]: {
-                width: theme.spacing(10),
-                height: theme.spacing(10),
-              },
-        },
-        glass : {
-            backgroundColor: 'rgba(0,0,0,0.06)'            
-        }
-        }),
-    );
-    const classes = useStyles();
+    const classes = UserTheme(); 
 
     
     return (
         <>
-        <Box my={11}>
+        <Box my={4}>
         </Box>
+        <Hidden xsDown>
+            <Box my={7}>
+            </Box>
+        </Hidden>
         <div className={classes.root}>
-        <Grid container justify="center">
+        <Grid container justify="center" className={classes.centerMobile}>
         <Grid item xs={12} lg={9}>
             <Box borderRadius={5} className={classes.glass}>
-            <Grid container>
-            <Grid item lg={3} xs={2}>
+            <Grid container className={classes.centerMobile}>
+            <Grid item lg={3} xs={12}>
                 <Grid container justify = "center">
                     <Box m={2}>
-                    <Box className="small" borderRadius="borderRadius">
-                    <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
+                        <Box className="small" borderRadius="borderRadius">
+                        <   Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
+                        </Box>
                     </Box>
-                    </Box>
+                    <Hidden only={['lg', 'xl']}>
+                        <Button onClick={ChangeCancel}> <CancelIcon/> </Button>
+                        <Button onClick={UpdateUser}>  <SaveIcon/> </Button>         
+                    </Hidden>
                 </Grid>
             </Grid>
             <Grid item lg={8} xs={8}>
                 <Box borderRadius={2}>
                 <Grid container>
-                <Grid item xs={12}>
-                <Grid container >
-                <Box m={1}>
-                    <TextField 
-                    variant="outlined" 
-                    label="Name" 
-                    margin="dense"
-                    error={name.length === 0 ? true : false }
-                    onChange={e => setName(e.target.value)} 
-                    defaultValue={AuthContext.data?.name}/>
-                </Box>
-                <Box m={2} >
-                    <FormControlLabel
-                     control={<Checkbox value={available} checked={available} onChange={e => setAvailable(e.target.checked)}/>}
-                     label="Available for Ad Hoc Project Work"
-                    />       
-                </Box>
-                </Grid>
-    
-                </Grid>
-                <Grid container>
-                <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                }}>
-                <Box m={1}>         
-                    <TextField
-                        multiline
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                        onChange={e => setSussexURL(e.target.value)}
-                        label="Sussex URL"
-                        defaultValue={sussexURL}/> 
-                </Box>
-                <Box m={1}>         
-                    <TextField
-                        multiline
-                        margin="dense"
-                        variant="outlined"
-                        fullWidth
-                        onChange={e => setLinkedIn(e.target.value)}
-                        label="LinkedIn URL"
-                        defaultValue={linkedIn}/> 
-                </Box>
-    
-                    <Box my={1}><SchoolIcon/></Box>
-                    <Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
-                </div>
-                </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center">
+                            <Grid item xs={12} md={6}>
+                                <TextField 
+                                fullWidth
+                                variant="outlined" 
+                                label="Name" 
+                                margin="dense"
+                                error={name.length === 0 ? true : false }
+                                onChange={e => setName(e.target.value)} 
+                                defaultValue={AuthContext.data?.name}/>
+                            </Grid>
+                            <Hidden xsDown>
+                                <Box mx={2}></Box>
+                            </Hidden>
+                            <Grid item xs={12} md={5}>
+                                <FormControlLabel
+                                control={<Checkbox value={available} checked={available} onChange={e => setAvailable(e.target.checked)}/>}
+                                label="Available for Ad Hoc Project Work"
+                                />  
+                            </Grid>  
+
+                        </Grid>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Grid container justify="center">
+                            <Grid item xs={12} md={6}>         
+                                <TextField
+                                    multiline
+                                    margin="dense"
+                                    variant="outlined"
+                                    fullWidth
+                                    onChange={e => setSussexURL(e.target.value)}
+                                    label="Sussex URL"
+                                    defaultValue={sussexURL}/> 
+                            </Grid>
+                            <Hidden xsDown>
+                                <Box mx={2}></Box>
+                            </Hidden>
+                            <Grid item xs={12} md={5} >         
+                                <TextField
+                                    multiline
+                                    margin="dense"
+                                    variant="outlined"
+                                    fullWidth
+                                    onChange={e => setLinkedIn(e.target.value)}
+                                    label="LinkedIn URL"
+                                    defaultValue={linkedIn}/> 
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
                 </Box>
             </Grid>
-            <Grid item lg={1} xs={1}>
-                <Box m={2}><Button onClick={ChangeCancel}> <CancelIcon/> </Button></Box>
-                <Box m={2}><Button onClick={UpdateUser}>  <SaveIcon/> </Button></Box>
-            </Grid>
+            <Hidden mdDown>
+                <Grid item lg={1} xs={1}>
+                    <Box m={2}><Button onClick={ChangeCancel}> <CancelIcon/> </Button></Box>
+                    <Box m={2}><Button onClick={UpdateUser}>  <SaveIcon/> </Button></Box>
+                </Grid>
+            </Hidden>
             </Grid>
             <Grid container>
                 <Grid item xs={12} lg={3}>
@@ -262,52 +253,64 @@ function EditUserProfile() {
                 <Grid item xs={12} lg={9}>
                     <Box>
                         <Box m={3} p={3} borderRadius={8} bgcolor="secondary.main">
-                            <Grid container>
-                            <Grid item lg={6} xs={12}>
-                                <Typography><EmailIcon/> {AuthContext.data.email}</Typography>
-                            </Grid>
-                            <Grid item lg={6} xs={12}>
+                            <Grid container justify="center">
+                            
+                            <Hidden xsDown >
+                                <Grid item lg={6} xs={12} className={classes.PadBottom}>
+                                    <Box className={classes.centerSVG}> <EmailIcon/> {AuthContext.data.email}</Box>
+                                </Grid>
+                            </Hidden>
+
+                            <Hidden only={['lg', 'xl', 'md', 'sm']}>
+                                <Grid item lg={6} xs={12} className={classes.PadBottom}>
+                                    <Grid container justify="center">
+                                        <Box className={classes.centerSVG}> <EmailIcon/> {AuthContext.data.email}</Box>
+                                    </Grid>
+                                </Grid>
+                            </Hidden>
+                            <Box my={1}><SchoolIcon/></Box>
+<Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
+
+                            <Grid item lg={6} xs={12} className={classes.PadBottom}>
                                 <FormControl variant="outlined" style={{minWidth: 120}}>
                                 <InputLabel>School</InputLabel>
                                     <Select onChange={(e : any) => setSchool(e.target.value)} label="School" >
-                                    <MenuItem value="University of Sussex Business School">University of Sussex Business School</MenuItem>
-                                    <MenuItem value="School of Education and Social Work">School of Education and Social Work</MenuItem>
-                                    <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
-                                    <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
-                                    <MenuItem value="School of Law, Politics and Sociology">School of Law, Politics and Sociology</MenuItem>
-                                    <MenuItem value="School of Mathematical and Physical Sciences">School of Mathematical and Physical Sciences</MenuItem>
-                                    <MenuItem value="School of Media, Arts and Humanities">School of Media, Arts and Humanities</MenuItem>
-                                    <MenuItem value="School of Psychology">School of Psychology</MenuItem>
-                                    <MenuItem value="Brighton and Sussex Medical School">Brighton and Sussex Medical School</MenuItem>
-                                    <MenuItem value="Doctoral School and research groups">Doctoral School and research groups</MenuItem>
+                                        <MenuItem value="University of Sussex Business School">University of Sussex Business School</MenuItem>
+                                        <MenuItem value="School of Education and Social Work">School of Education and Social Work</MenuItem>
+                                        <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
+                                        <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
+                                        <MenuItem value="School of Law, Politics and Sociology">School of Law, Politics and Sociology</MenuItem>
+                                        <MenuItem value="School of Mathematical and Physical Sciences">School of Mathematical and Physical Sciences</MenuItem>
+                                        <MenuItem value="School of Media, Arts and Humanities">School of Media, Arts and Humanities</MenuItem>
+                                        <MenuItem value="School of Psychology">School of Psychology</MenuItem>
+                                        <MenuItem value="Brighton and Sussex Medical School">Brighton and Sussex Medical School</MenuItem>
+                                        <MenuItem value="Doctoral School and research groups">Doctoral School and research groups</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item lg={6} xs={12}>
+                            <Grid item lg={6} xs={12} className={classes.PadBottom}>
                                 <FormControl variant="outlined" style={{minWidth: 150}}>
                                 <InputLabel>Career Stage</InputLabel>
-                                <Select 
-                                defaultValue={careerStage} 
-                                onChange={ (e : any) => setCareerStage(e.target.value)} 
-                                label="Career Stage" >
-                                <MenuItem value="UG">UG</MenuItem>
-                                <MenuItem value="PhD">PhD</MenuItem>
-                                <MenuItem value="Faculty">Faculty</MenuItem>
-                                <MenuItem value="PhD">PostDoc</MenuItem>
-                                <MenuItem value="MSc">MSc</MenuItem>
-    
-                                <MenuItem value="Professional Services">Professional Services</MenuItem>
-                                </Select>
+                                    <Select 
+                                    defaultValue={careerStage} 
+                                    onChange={ (e : any) => setCareerStage(e.target.value)} 
+                                    label="Career Stage" >
+                                    <MenuItem value="UG">UG</MenuItem>
+                                    <MenuItem value="PhD">PhD</MenuItem>
+                                    <MenuItem value="Faculty">Faculty</MenuItem>
+                                    <MenuItem value="PhD">PostDoc</MenuItem>
+                                    <MenuItem value="MSc">MSc</MenuItem>
+                                    <MenuItem value="Professional Services">Professional Services</MenuItem>
+                                    </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item lg={6} xs={12}>
+                            <Grid item lg={6} xs={12} className={classes.PadBottom}>
                                     { school === "" ? 
                                         <FormControl variant="outlined" style={{minWidth: 200}} disabled>
                                         <InputLabel>Department</InputLabel>
                                         <Select /> 
                                         </FormControl> 
                                         :
-                                        <Box my={2}> 
                                         <FormControl variant="outlined" style={{minWidth: 200}}>
                                         <InputLabel>Department</InputLabel>
                                             <Select
@@ -349,7 +352,6 @@ function EditUserProfile() {
                                                 }
                                             </Select>
                                         </FormControl>
-                                        </Box>
                                     }
     
                             </Grid>
@@ -358,8 +360,8 @@ function EditUserProfile() {
                     </Box>
                 </Grid>
             </Grid>
-            <Grid container>
-                <Grid item xs={11} lg={6}>
+            <Grid container >
+                <Grid item xs={11} lg={6} style={{ padding : '10px'}}>
                     <Autocomplete
                     fullWidth
                     onChange={(event, value, reason) => changeExpertise(value)}
@@ -373,7 +375,7 @@ function EditUserProfile() {
                 </Box>
                 
                 </Grid>
-                <Grid item xs={11} lg={6}>
+                <Grid item xs={11} lg={6} style={{ padding : '10px'}}>
                     <Autocomplete
                     fullWidth
                     onChange={(event, value, reason) => changeInterest(value)}

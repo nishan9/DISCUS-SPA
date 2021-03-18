@@ -8,6 +8,8 @@ interface Event {
     description: string;
     isDISCUS: boolean;
     isApproved : boolean,
-    tags : string
+    tags : string,
+    linkedInterests : boolean,
+    linkedExpertise : boolean, 
 }
 export default Event;

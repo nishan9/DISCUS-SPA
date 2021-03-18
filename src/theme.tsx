@@ -4,7 +4,8 @@ const theme = createMuiTheme({
     typography: {
       h3 : {
         color : '#2C468A', 
-      }
+      },
+      
     }, 
     palette: {
       primary: {
@@ -13,7 +14,8 @@ const theme = createMuiTheme({
         dark : '#2C468A',
       },
       secondary: {
-        main: '#45A4EB'
+        main: '#45A4EB',
+        light : '#FFF36e'
       },
     }
   });

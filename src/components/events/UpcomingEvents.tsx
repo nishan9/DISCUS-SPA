@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Fab, Grid, IconButton, makeStyles, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Fab, Grid, IconButton, makeStyles, Typography, withStyles } from '@material-ui/core';
 import React, {useState, useEffect, useContext} from 'react'
 import EventEntity from '../../models/EventEntity'; 
 import AddIcon from '@material-ui/icons/Add';
@@ -17,8 +17,8 @@ import Loading from '../../config/Loading';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import ScheduleIcon from '@material-ui/icons/Schedule';
-import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import Moment from 'react-moment';
+import StarIcon from '@material-ui/icons/Star';
 
 function UpcomingEvents() {
     const [data, setData] = useState<EventEntity[]>([]);
@@ -29,29 +29,58 @@ function UpcomingEvents() {
     const EventContext = useContext(EditEventContext);
     const [accessToken, setAccessToken] = useState(''); 
 
-
+    useEffect(() => {
+        Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
+    },[Auth0]);
 
     useEffect(() => {
         fetchData();
+    }, [accessToken, openNE, open])
+
+    useEffect(() => {
         fetchEventData();
-    }, [openNE, open])
+    }, [AuthContext])
+
 
     async function fetchData(){
-        const token = await Auth0.getAccessTokenSilently(); 
-        setAccessToken(token)
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             headers: {
-              'Authorization': `Bearer ${token}`, 
+              'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',
             }
-        });
+           });
         AuthContext.setData(await response.json());  
     }
 
     async function fetchEventData(){
+        console.log(AuthContext.data); 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Upcoming`);
-        const recieved = await response.json();
-        setData(recieved);
+        let data : EventEntity[] = await response.json();
+        let newdata = data.map( item => 
+            {
+                item.linkedExpertise = false;
+                item.linkedInterests = false
+                return item
+            }
+        )
+        const myInterests = AuthContext.data.user_metadata.interest; 
+        const myExpertise = AuthContext.data.user_metadata.expertise; 
+        newdata = data.map( event => 
+            {
+                const tags = event.tags.split(','); 
+                tags.map( e => 
+                    {
+                        if (myInterests.includes(e)){
+                            event.linkedInterests = true;
+                        }
+                        if (myExpertise.includes(e)){
+                            event.linkedExpertise = true;
+                        }
+                    })
+                return event
+            });
+        console.log(newdata);  
+        setData(data);
     }
 
     const handleOpen = (i : number) => {
@@ -114,6 +143,12 @@ function UpcomingEvents() {
         fetchEventData();
     }
 
+    const RedTypography = withStyles({
+        root: {
+          color: "red"
+        }
+      })(Typography);
+      
 
     const useStyles = makeStyles(theme => ({
     fab: {
@@ -135,8 +170,23 @@ function UpcomingEvents() {
         position : "relative", 
     }, 
     eventContainer : {
-        backgroundColor : "yellow", 
-    }
+        backgroundColor : "lightblue", 
+    },
+    centerSVG : {
+        display: 'flex',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        },
+    leftButtons : {
+        textAlign :'center',
+        padding : '4px',
+        [theme.breakpoints.down('xs')]: {
+            paddingLeft : 0,
+            paddingRight : 0,
+            PaddingTop : 0,
+            paddingBottom : '2px', 
+          },
+    },
 
     }));
     const classes = useStyles();
@@ -144,11 +194,11 @@ function UpcomingEvents() {
     return (
         <div>
             {data.length > 0 ? 
-            <Grid container>
+            <Grid container justify="center">
 
             {data?.map ((e,i) => 
-            <Grid item xs={12} md={4}>
-                <Box borderRadius="borderRadius" border={2} m={3} py={2} className={classes.box}>              
+            <Grid item  xs={12}  sm={12} md={12} lg={5}>
+                <Box borderRadius={10} border={0.5} m={3} py={2} className={classes.box}>              
                     {AuthContext.data.app_metadata !== null ? 
                     <div className={classes.customizedButton} >
                         <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
@@ -156,36 +206,82 @@ function UpcomingEvents() {
                     </div>
                     : "" }
                         <Grid container>
-                            <Grid item xs={10}>
+                            <Grid item md={7} xs={12}>
                                 <Link to={`/events/${e.id}`} style={{ textDecoration: 'none', color : 'black' }}>
-                                    <Grid container>
-                                        <Grid item xs={5}>
-                                            <Box className={classes.eventContainer} borderRadius={3} p={1} mx={2}>
+                                    <Grid container>                                        
+                                        <Grid item xs={4}>                                            
+                                            <Box className={classes.eventContainer} borderRadius={10} pt={2} pb={2} mt={1} ml={2} mr={2}>
                                                 <Grid container direction="column" justify="center" alignItems="center">
-                                                    <Grid item><Typography><Moment format="MMMM">{e.dateTime.toString()}</Moment> </Typography></Grid>
-                                                    <Grid item><Typography><Moment format="Do">{e.dateTime.toString()}</Moment></Typography></Grid>
+                                                    <Grid item><Typography><Moment format="MMM">{e.dateTime.toString()}</Moment> </Typography></Grid>
+                                                    <Grid item><Typography variant="h5"><Moment format="Do">{e.dateTime.toString()}</Moment></Typography></Grid>
                                                 </Grid>
                                             </Box>
                                         </Grid>
-                                        <Grid item xs={7}>
-                                            <Typography gutterBottom>{e.title}</Typography>
+                                        <Grid item xs={8}>
+                                            <Typography variant="h4" gutterBottom>{e.title}</Typography>
                                             <Grid container>
-                                                <ScheduleIcon/><Typography><Moment format="LT">{e.dateTime.toString()}</Moment></Typography>  -  <Typography><Moment format="LT">{e.finishedDateTime.toString()}</Moment></Typography>
+                                                <Box className={classes.centerSVG}>
+                                                    <ScheduleIcon style={{fill: "red"}}/>
+                                                    <Box mx={0.3}></Box>
+                                                    <RedTypography><Moment format="LT">{e.dateTime.toString()}</Moment></RedTypography> <RedTypography> - </RedTypography> <RedTypography><Moment format="LT">{e.finishedDateTime.toString()}</Moment></RedTypography> 
+                                                </Box>
                                             </Grid>
                                         </Grid>
                                     </Grid>
                                 </Link> 
                             </Grid>
-                            <Grid item xs={2}>
-                                <Typography>Going?</Typography> 
-                                <Checkbox
-                                    icon={<CheckCircleOutlinedIcon  
-                                    style={{ fill: '#8BC34A'}} />}
-                                    checkedIcon={<CheckCircleIcon style={{ fill: '#8BC34A' }} />}
-                                    onChange={status => updateStatus(status.target.checked, e.id)}
-                                    inputProps={{ 'aria-label': 'primary checkbox' }}
-                                    checked={AuthContext.data.user_metadata.events.includes(e.id)}
-                                />
+                            <Grid item md={5} xs={12}>
+                                <Grid container justify="flex-end">
+                                    
+                                    <Grid item xs={3}>
+                                    </Grid>
+
+                                    <Grid item xs={7} className={classes.leftButtons}>
+                                        <Box mr={2} borderRadius={20} pr={1.5} pl={1.5} pt={1} pb={1} bgcolor="secondary.light" style={{ textAlign : 'center'}}>
+                                            <Typography>{e.type}</Typography>
+                                        </Box>
+                                    </Grid>
+                                    
+                                    {e.linkedExpertise && e.linkedInterests ?
+                                    <Grid item xs={3} className={classes.leftButtons}>
+                                        <Box pt={0.5}>
+                                        <StarIcon style={{fill: "#E86161"}} fontSize="large"/>
+                                        </Box>
+                                    </Grid>
+                                    : e.linkedExpertise ?
+                                    <Grid item xs={3} className={classes.leftButtons}>
+                                    <Box pt={0.5}>
+                                    <StarIcon style={{fill: "#7ED6F0"}} fontSize="large"/>
+                                    </Box>
+                                    </Grid>
+                                    : e.linkedInterests ? 
+                                    <Grid item xs={3} className={classes.leftButtons}>
+                                    <Box pt={0.5}>
+                                    <StarIcon style={{fill: "#A9F0BA"}} fontSize="large"/>
+                                    </Box>
+                                    </Grid>
+                                    : <> </>
+                                    }
+                                    <Grid item xs={7} className={classes.leftButtons}>
+                                        <Box mr={2}>
+                                            <Button
+                                                style={{ borderRadius : 20, padding : 0}}
+                                                variant="contained"
+                                                size="small"
+                                                fullWidth
+                                                >
+                                                {AuthContext.data.user_metadata.events.includes(e.id) ? <> Going</> : <>Not Going</>}
+                                                <Checkbox
+                                                icon={<CheckCircleOutlinedIcon  
+                                                style={{ fill: '#8BC34A'}} />}
+                                                checkedIcon={<CheckCircleIcon style={{ fill: '#8BC34A' }} />}
+                                                onChange={status => updateStatus(status.target.checked, e.id)}
+                                                checked={AuthContext.data.user_metadata.events.includes(e.id)}
+                                                />
+                                            </Button>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
                             </Grid>
                         </Grid>
                     </Box>
