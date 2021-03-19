@@ -201,7 +201,6 @@ function EnrichProfile() {
                 </div>
 
                 <div style={{ width : '100%'}}>
-
                 <Box>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <KeyboardDatePicker

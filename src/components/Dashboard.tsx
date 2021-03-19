@@ -1,4 +1,4 @@
-import { Grid, Box, Typography, Avatar, Button, Chip, Hidden } from '@material-ui/core'
+import { Grid, Box, Typography, Avatar, Button, Chip, Hidden, Tooltip } from '@material-ui/core'
 import React, { useContext } from 'react'
 import { Auth0Context } from '../context/Auth0Context'
 import EditIcon from '@material-ui/icons/Edit';
@@ -13,6 +13,7 @@ import Loading from '../config/Loading';
 import SchoolIconScout from '../assets/school.svg';
 import CareerStageIconScout from '../assets/briefcase.svg'; 
 import UserTheme from '../themes/UserTheme'; 
+import Moment from 'react-moment';
 function Dashboard() {
     
     const AuthContext = useContext(Auth0Context);
@@ -68,7 +69,11 @@ function Dashboard() {
                         </Grid>
                         <Hidden xsDown>
                             <Grid item lg={1} xs={1}>
-                                <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
+                                <Box m={2}>
+                                    <Tooltip title="Edit profile">
+                                        <Button onClick={changeEdit}> <EditIcon/> </Button>
+                                    </Tooltip>
+                                </Box>
                             </Grid>
                         </Hidden>
                         <Grid container className={classes.centerMobile}>
@@ -91,8 +96,8 @@ function Dashboard() {
                                 </a>
                             </Box>
                         }
-                        <Box my={1}><SchoolIcon/></Box>
-                        <Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
+                            <Box my={1}><Tooltip title="Graduation Date"><SchoolIcon/></Tooltip></Box>
+                            <Box m={1}><Moment format="MMMM Do YYYY">{AuthContext.data.user_metadata.education.graduationDate.toString()}</Moment></Box>
                         </div>
                         </Grid>
                         </Grid>
@@ -104,7 +109,11 @@ function Dashboard() {
                             <Grid container justify="center">
                                 <Grid item xs={9}>
                                     <Box pb={2}>
-                                        <Points/>
+                                        <Tooltip title="Experience Points are calculated form how many events you attend.">
+                                            <Box>
+                                                <Points/>
+                                            </Box>
+                                        </Tooltip>
                                     </Box>
                                 </Grid>
                             </Grid>

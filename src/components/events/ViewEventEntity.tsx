@@ -109,7 +109,7 @@ function ViewEventEntity(props : any) {
                 </Box>
 
                 <Button onClick={handleOpen}><MailIcon/>Email Users</Button>
-                {eventAttendance ? <CSVLink filename={EventContext.event.title} headers = {headers} data={eventAttendance.users}><GetAppIcon/></CSVLink>  : ""}
+                {eventAttendance ? <CSVLink filename={`${EventContext.event.title}.csv`} headers = {headers} data={eventAttendance.users}><GetAppIcon/></CSVLink>  : ""}
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="id">
                 <Box display="flex" alignItems="center">

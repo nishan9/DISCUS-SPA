@@ -13,6 +13,8 @@ import EmailIcon from '@material-ui/icons/Email';
 import SchoolIcon from '@material-ui/icons/School';
 import mySvg from '../assets/Wave.svg';
 import UserTheme from '../themes/UserTheme';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 
 function EditUserProfile() {
@@ -30,9 +32,10 @@ function EditUserProfile() {
     const [interests, setInterest] = useState<String[]>([]); 
     const [expertise, setExpertise] = useState<String[]>([]); 
     const [available, setAvailable] = useState(false); 
-    const [graduation, setGraduation] = useState<string>(""); 
+    const [graduation, setGraduation] = useState(new Date()); 
     const [sussexURL, setSussexURL] = useState<string>(""); 
     const [linkedIn, setLinkedIn] = useState<string>(""); 
+    
     let mes = ""
 
     useEffect(() => {
@@ -49,12 +52,13 @@ function EditUserProfile() {
             setSchool(AuthContext.data.user_metadata.education.school); 
             setDepartment(AuthContext.data.user_metadata.education.department); 
             setCareerStage(AuthContext.data.user_metadata.education.careerStage); 
-            setGraduation(AuthContext.data.user_metadata.education.graduationDate)
+            setGraduation(new Date (AuthContext.data.user_metadata.education.graduationDate)); 
             setInterest(AuthContext.data.user_metadata.interest); 
             setResearch(AuthContext.data.user_metadata.research);
             setSussexURL(AuthContext.data.user_metadata.social.sussex);
             setLinkedIn(AuthContext.data.user_metadata.social.linkedIn);
             setExpertise(AuthContext.data.user_metadata.expertise); 
+
             if (AuthContext.data.user_metadata.education.available === "true")
             {
                 setAvailable(true)
@@ -70,6 +74,9 @@ function EditUserProfile() {
         setExpertise(expertise.filter(subject => subject !== e));
     }
 
+    const handleDate = (date: Date) => {
+        setGraduation(date)
+    };
 
     async function UpdateUser(){
         const stravail = available.toString(); 
@@ -232,6 +239,28 @@ function EditUserProfile() {
                                     label="LinkedIn URL"
                                     defaultValue={linkedIn}/> 
                             </Grid>
+                            <Grid item xs={12} md={5} >         
+                                <Box m={1}>{} </Box>
+                                <div style={{ width : '100%'}}>
+                                    <Box>
+                                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                        <KeyboardDatePicker
+                                         margin="normal"
+                                         id="date-picker-dialog"
+                                         label="Graduation Date"
+                                         format="MM/dd/yyyy"
+                                         defaultValue={graduation}
+                                         value={graduation}
+                                         onChange={(e : any) => handleDate(e)}
+                                         KeyboardButtonProps={{
+                                         'aria-label': 'change date',
+                                         }}
+                                        />
+                                        </MuiPickersUtilsProvider>
+                                    </Box>
+                                    </div>
+
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -256,23 +285,21 @@ function EditUserProfile() {
                             <Grid container justify="center">
                             
                             <Hidden xsDown >
-                                <Grid item lg={6} xs={12} className={classes.PadBottom}>
+                                <Grid item lg={6} xs={12}>
                                     <Box className={classes.centerSVG}> <EmailIcon/> {AuthContext.data.email}</Box>
                                 </Grid>
                             </Hidden>
 
                             <Hidden only={['lg', 'xl', 'md', 'sm']}>
-                                <Grid item lg={6} xs={12} className={classes.PadBottom}>
+                                <Grid item lg={6} xs={12}>
                                     <Grid container justify="center">
                                         <Box className={classes.centerSVG}> <EmailIcon/> {AuthContext.data.email}</Box>
                                     </Grid>
                                 </Grid>
                             </Hidden>
-                            <Box my={1}><SchoolIcon/></Box>
-<Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
 
-                            <Grid item lg={6} xs={12} className={classes.PadBottom}>
-                                <FormControl variant="outlined" style={{minWidth: 120}}>
+                            <Grid item lg={6} xs={12} >
+                                <FormControl variant="outlined" margin="dense" size="small" style={{minWidth: 120}}>
                                 <InputLabel>School</InputLabel>
                                     <Select onChange={(e : any) => setSchool(e.target.value)} label="School" >
                                         <MenuItem value="University of Sussex Business School">University of Sussex Business School</MenuItem>
@@ -288,8 +315,8 @@ function EditUserProfile() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item lg={6} xs={12} className={classes.PadBottom}>
-                                <FormControl variant="outlined" style={{minWidth: 150}}>
+                            <Grid item lg={6} xs={12}>
+                                <FormControl variant="outlined" margin="dense" size="small" style={{minWidth: 150}}>
                                 <InputLabel>Career Stage</InputLabel>
                                     <Select 
                                     defaultValue={careerStage} 
@@ -304,14 +331,14 @@ function EditUserProfile() {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item lg={6} xs={12} className={classes.PadBottom}>
+                            <Grid item lg={6} xs={12}>
                                     { school === "" ? 
-                                        <FormControl variant="outlined" style={{minWidth: 200}} disabled>
+                                        <FormControl variant="outlined"  margin="dense" size="small" style={{minWidth: 200}} disabled>
                                         <InputLabel>Department</InputLabel>
                                         <Select /> 
                                         </FormControl> 
                                         :
-                                        <FormControl variant="outlined" style={{minWidth: 200}}>
+                                        <FormControl variant="outlined"  margin="dense" size="small" style={{minWidth: 200}}>
                                         <InputLabel>Department</InputLabel>
                                             <Select
                                                 onChange={(e : any) => setDepartment(e.target.value)} label="Department"
