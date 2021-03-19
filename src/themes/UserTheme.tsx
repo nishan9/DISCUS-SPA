@@ -29,7 +29,6 @@ const UserTheme = makeStyles((theme: Theme) =>
               paddingRight : '10px',
             },  
           },
-    PadBottom : { paddingBottom : '20px'}, 
     centerSVG : {
         display: 'flex',
         alignItems: 'center',
