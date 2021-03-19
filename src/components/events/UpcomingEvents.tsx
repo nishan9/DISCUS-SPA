@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Fab, Grid, IconButton, makeStyles, Typography, withStyles } from '@material-ui/core';
+import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Divider, Fab, Grid, IconButton, makeStyles, Typography, withStyles } from '@material-ui/core';
 import React, {useState, useEffect, useContext} from 'react'
 import EventEntity from '../../models/EventEntity'; 
 import AddIcon from '@material-ui/icons/Add';
@@ -28,6 +28,8 @@ function UpcomingEvents() {
     const AuthContext = useContext(Auth0Context);
     const EventContext = useContext(EditEventContext);
     const [accessToken, setAccessToken] = useState(''); 
+    const [openDelete, setOpenDelete] = useState(false); 
+    const [confirmDelete, setConfirmDelete] = useState<number>(); 
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
@@ -40,6 +42,24 @@ function UpcomingEvents() {
     useEffect(() => {
         fetchEventData();
     }, [AuthContext])
+
+
+    function openDeleteDialog( id : number){
+        setOpenDelete(true); 
+        setConfirmDelete(id); 
+    }
+
+    function handleCloseDelete(){
+        setOpenDelete(false); 
+    }
+    async function handleDelete(){
+        setOpenDelete(false); 
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${confirmDelete}`, {
+            method : "DELETE"
+        });
+        console.log(response);
+        fetchEventData(); 
+    }
 
 
     async function fetchData(){
@@ -92,13 +112,7 @@ function UpcomingEvents() {
         setOpenNE(true);
     }
 
-    async function deleteEvent(i : number){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${i}`, {
-            method : "DELETE"
-        });
-        console.log(response);
-        fetchEventData(); 
-    }
+
     
     const handleClose = () => {
         setOpen(false);
@@ -198,11 +212,11 @@ function UpcomingEvents() {
 
             {data?.map ((e,i) => 
             <Grid item  xs={12}  sm={12} md={12} lg={5}>
-                <Box borderRadius={10} border={0.5} m={3} py={2} className={classes.box}>              
+                <Box borderRadius={5} border={0.5} m={3} py={2} className={classes.box}>              
                     {AuthContext.data.app_metadata !== null ? 
                     <div className={classes.customizedButton} >
                         <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
-                        <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { deleteEvent(e.id)}} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
+                        <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { openDeleteDialog(e.id) }} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
                     </div>
                     : "" }
                         <Grid container>
@@ -223,7 +237,7 @@ function UpcomingEvents() {
                                                 <Box className={classes.centerSVG}>
                                                     <ScheduleIcon style={{fill: "red"}}/>
                                                     <Box mx={0.3}></Box>
-                                                    <RedTypography><Moment format="LT">{e.dateTime.toString()}</Moment></RedTypography> <RedTypography> - </RedTypography> <RedTypography><Moment format="LT">{e.finishedDateTime.toString()}</Moment></RedTypography> 
+                                                    <RedTypography><Moment format="LT">{e.dateTime.toString()}</Moment></RedTypography> <RedTypography> <Box mx={1}>-</Box> </RedTypography> <RedTypography><Moment format="LT">{e.finishedDateTime.toString()}</Moment></RedTypography> 
                                                 </Box>
                                             </Grid>
                                         </Grid>
@@ -288,7 +302,7 @@ function UpcomingEvents() {
                 </Grid>
             )} 
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                        <DialogTitle id="form-dialog-title">Edit the Event</DialogTitle>
+                        <DialogTitle><Typography variant="h4">Edit an event</Typography></DialogTitle>
                         <DialogContent>
                                <EditEvent dialog={() => setOpen(false)}/>
                         </DialogContent>
@@ -310,6 +324,15 @@ function UpcomingEvents() {
                     <CreateEvent dialog={() => setOpenNE(false)}/>
                 </DialogContent>
             </Dialog>
+
+            <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
+                <DialogTitle>Delete Event the Event</DialogTitle>
+                <DialogContent>
+                    Are you sure to delete? 
+                </DialogContent>
+                <Button onClick={() => handleDelete()} color="primary"> Delete Event </Button>
+                <Button onClick={() => handleCloseDelete()} color="primary"> Cancel </Button>
+            </Dialog> 
 
             <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
                 <Button onClick={(e) => handleOpenNE()} > <AddIcon/> </Button>

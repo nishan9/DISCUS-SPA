@@ -340,12 +340,24 @@ function EditUserProfile() {
                                                 (DepartmentObj['School of Life Sciences'].map (dep => 
                                                 <MenuItem value={dep}>{dep}</MenuItem>
                                                 ))
-                                                : school === "School of Media, Arts and Humanities" ?  
-                                                (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
+                                                : school === "School of Mathematical and Physical Sciences" ?  
+                                                (DepartmentObj['School of Mathematical and Physical Sciences'].map (dep => 
                                                 <MenuItem value={dep}>{dep}</MenuItem>
                                                 ))                                
                                                 : school === "School of Media, Arts and Humanities" ?
                                                 (DepartmentObj['School of Media, Arts and Humanities'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))  
+                                                : school === "School of Psychology" ?
+                                                (DepartmentObj['School of Psychology'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))  
+                                                : school === "Brighton and Sussex Medical School" ?
+                                                (DepartmentObj['Brighton and Sussex Medical School'].map (dep => 
+                                                <MenuItem value={dep}>{dep}</MenuItem>
+                                                ))  
+                                                : school === "Doctoral School and research groups" ?
+                                                (DepartmentObj['Doctoral School and research groups'].map (dep => 
                                                 <MenuItem value={dep}>{dep}</MenuItem>
                                                 ))  
                                                 : <p></p>

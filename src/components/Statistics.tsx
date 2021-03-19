@@ -37,48 +37,54 @@ function Statistics() {
     }
 
     return (
-            <Grid container>
-            <Grid item lg={4} xs={6}>
-                    <Grid container justify="center">
-                            <Box bgcolor="primary.light" borderRadius="5%" p={3} m={1} style={{ width : '50%'}}>
-                                <EventAvailableIcon style={{ fontSize: 40 }} />
-                                <Grid container>
-                                <Box>
-                                    <Typography variant="body1"> Hosted Events </Typography>
-                                </Box>
-                                <Box m={2}>
-                                    <Typography variant="h5">{eventsTotal}</Typography>
-                                </Box>
-                                </Grid>
-                            </Box>
-                    </Grid>
-            </Grid>
-            <Grid item lg={4} xs={6}>
+            <Grid container justify="center" spacing={2}>
+            <Grid item lg={4} xs={12}>
                 <Grid container justify="center">
-                    <Box bgcolor="primary.light" borderRadius="5%" p={3} m={1} style={{ width : '50%'}}>
-                        <PeopleAltIcon style={{ fontSize: 40 }} />
-                        <Grid container>
-                        <Box>
-                            <Typography variant="body1">Active Users</Typography>
-                        </Box>
-                        <Box m={2}>
-                            <Typography variant="h5"> {activeUsers}</Typography>
-                        </Box>
+                    <Box bgcolor="primary.light" borderRadius={10} p={3} style={{ width : '90%'}}>      
+                        <Grid container direction="row" alignItems="center" justify="center">
+                            <Grid item xs={2}>
+                                <EventAvailableIcon style={{ fontSize: 27 }} />
+                            </Grid>
+                            <Grid item xs={10}>
+                                <Typography variant="body1">Hosted Events</Typography>
+                            </Grid>
+                            <Box textAlign="center">
+                                <Typography variant="h5"> {eventsTotal}</Typography>
+                            </Box>
                         </Grid>
                     </Box>
                 </Grid>
             </Grid>
             <Grid item lg={4} xs={12}>
+            <Grid container justify="center">
+                            <Box bgcolor="primary.light" borderRadius={10} p={3} style={{ width : '90%'}}>      
+                                <Grid container direction="row" alignItems="center" justify="center">
+                                    <Grid item xs={2}>
+                                    <PeopleAltIcon style={{ fontSize: 27 }} />
+                                    </Grid>
+                                    <Grid item xs={10}>
+                                    <Typography variant="body1">Active Users</Typography>
+                                    </Grid>
+                                    <Box textAlign="center">
+                                    <Typography variant="h5"> {eventsTotal}</Typography>
+                                    </Box>
+                                </Grid>
+                            </Box>
+                    </Grid>
+            </Grid>
+            <Grid item lg={4} xs={12}>
                 <Grid container justify="center">
-                        <Box bgcolor="primary.light" borderRadius="5%" p={3} m={1} style={{ width : '50%'}}>
-                            <PeopleOutlineIcon style={{ fontSize: 40 }} />
-                            <Grid container>
-                            <Box>
+                        <Box bgcolor="primary.light" borderRadius={10} p={3} style={{ width : '90%'}}>
+                            <Grid container direction="row" alignItems="center" justify="center">
+                                <Grid item xs={2}>
+                                    <PeopleOutlineIcon style={{ fontSize: 27 }} />
+                                </Grid>
+                                <Grid item xs={10}>
                                 <Typography variant="body1">Users Total</Typography>
-                            </Box>
-                            <Box m={2}>
+                                </Grid>
+                                <Box textAlign="center">
                                 <Typography variant="h5"> {usersTotal}</Typography>
-                            </Box>
+                                </Box>
                             </Grid>
                         </Box>
                 </Grid>

@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControlLabel, Grid, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, Grid, MenuItem, Select } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
@@ -116,7 +116,7 @@ function CreateEvent(props : CreateEventProps) {
                             margin="normal"
                             id="date-picker-inline"
                             disablePast
-                            label="Pick a Date"
+                            label="Pick a Start Date"
                             value={event.dateTime}
                             onChange={(e : any) => handleStartDate(e)}
                             KeyboardButtonProps={{
@@ -175,8 +175,8 @@ function CreateEvent(props : CreateEventProps) {
             </MuiPickersUtilsProvider>
 
             <Grid container>
-                <Grid item xs={6}>
-                    <Box m={1}>
+                <Grid item md={6} xs={12}>
+                    <FormControl variant="outlined">
                         <InputLabel>Type</InputLabel>
                         <Select
                         style={{minWidth: 220}}
@@ -188,9 +188,9 @@ function CreateEvent(props : CreateEventProps) {
                         <MenuItem value="Networking">Networking</MenuItem>
                         <MenuItem value="Generic">Generic</MenuItem>
                         </Select>
-                    </Box>
+                    </FormControl>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item md={6} xs={12}>
                     <Box m={1}>
                         <FormControlLabel 
                             control={ <Checkbox 

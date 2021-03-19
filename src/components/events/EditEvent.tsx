@@ -66,23 +66,19 @@ function EditEvent(props : EditEventProps) {
 
     return (
         <div>
-            <Box my={2}>
-                <TextField
-                    autoFocus
-                    variant="outlined" 
-                    fullWidth
-                    defaultValue={EventContext.event.title}
-                    onChange={(e) => {EventContext.setEvent({...EventContext.event, title : e.target.value})}}
-                    margin="normal" 
-                    label="Title"
-                />
-            </Box>
-
-            <Box my={2}>
+            <TextField
+                autoFocus
+                variant="outlined" 
+                fullWidth
+                defaultValue={EventContext.event.title}
+                onChange={(e) => {EventContext.setEvent({...EventContext.event, title : e.target.value})}}
+                margin="normal" 
+                label="Title"
+            />
                 <MuiPickersUtilsProvider utils={DateFnsUtils}>
 
                     <Grid container justify="space-around">
-                        <Box px={2}> 
+                        <Box p={1}> 
                             <KeyboardDatePicker
                                 disableToolbar
                                 variant="inline"
@@ -98,7 +94,7 @@ function EditEvent(props : EditEventProps) {
                                 }}/>
                         </Box>
 
-                        <Box px={2}> 
+                        <Box p={1}> 
                             <KeyboardTimePicker
                                 margin="normal"
                                 id="time-picker"
@@ -112,10 +108,10 @@ function EditEvent(props : EditEventProps) {
 
                     </Grid>
                 </MuiPickersUtilsProvider>
-            </Box>
 
             <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <Grid container justify="space-around">
+                    <Box m={1}>
                     <KeyboardDatePicker
                         disableToolbar
                         variant="inline"
@@ -129,6 +125,8 @@ function EditEvent(props : EditEventProps) {
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
                         }}/>
+                    </Box>
+                    <Box p={1}>
                     <KeyboardTimePicker
                         margin="normal"
                         id="time-picker"
@@ -138,20 +136,20 @@ function EditEvent(props : EditEventProps) {
                         KeyboardButtonProps={{
                             'aria-label': 'change time',
                         }}/>
+                    </Box>
                 </Grid>
             </MuiPickersUtilsProvider>
 
-            <FormControl variant="outlined" className="formcontrol">
-                <Grid container direction="row" alignItems="center">
-                <Grid item xs={6}>
-                    <FormControl variant="outlined" className="formcontrol">
+            <Grid container>
+                <Grid item md={6} xs={12}>
+                    <FormControl variant="outlined">
                         <InputLabel>Type</InputLabel>
                         <Select 
-                            style={{ minWidth: 100 }}
+                            style={{ minWidth: 220 }}
                             label="Event Type"
                             defaultValue={EventContext.event.type}
                             onChange={(e : React.ChangeEvent<any>) => 
-                                {EventContext.setEvent({...EventContext.event, type : e.target.value})}}
+                            {EventContext.setEvent({...EventContext.event, type : e.target.value})}}
                             >
                             <MenuItem value="Hackathon">Hackathon</MenuItem>
                             <MenuItem value="Showcase">Showcase</MenuItem>
@@ -160,21 +158,22 @@ function EditEvent(props : EditEventProps) {
                         </Select>
                     </FormControl>
                 </Grid>
-                <Grid item xs={6}>
-                    <FormControlLabel
+                <Grid item md={6} xs={12} >
+                    <Box m={1}>
+                        <FormControlLabel
                         control={
                         <Checkbox 
-                            checked={EventContext.event.isDISCUS}
-                            name="isDiscus" 
-                            onChange={(e) => {
-                                EventContext.setEvent({...EventContext.event, isDISCUS : e.target.checked})
-                            }}/>}
-                            label="Is a DISCUS event"
+                        checked={EventContext.event.isDISCUS}
+                        name="isDiscus" 
+                        onChange={(e) => {
+                        EventContext.setEvent({...EventContext.event, isDISCUS : e.target.checked})
+                        }}/>}
+                        label="Is a DISCUS event"
                         /> 
+                    </Box>
                 </Grid>
-                </Grid>
+            </Grid>
 
-            </FormControl>
 
             <Box my={2}>
                 <TextField
@@ -217,7 +216,7 @@ function EditEvent(props : EditEventProps) {
                         </Box>
                 </Box>
 
-                <Button onClick={UpdateEvent}> save </Button>
+                <Button variant="contained" color="secondary" onClick={UpdateEvent}> save </Button>
 
         </div>
     )

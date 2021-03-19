@@ -1,4 +1,4 @@
-import { Box, Grid, Hidden, Typography } from '@material-ui/core';
+import { Box, Card, Divider, Grid, Hidden, Typography } from '@material-ui/core';
 import React, { useContext } from 'react'
 import ApproveEvents from './components/events/ApproveEvents';
 import StackedBarChart from './charts/StackedBarChart';
@@ -11,37 +11,45 @@ import { Auth0Context } from './context/Auth0Context';
 function AdminPanel() {
     const AuthContext = useContext(Auth0Context)
     return (
-    <>
+    <div style={{padding : '10px', paddingTop : '30px'}}>
         { AuthContext.data.app_metadata ?
-        <Grid container>
-        <Grid item xs={12}>
+        <Grid container justify="center" spacing={3}>
+        <Grid item lg={6} xs={12}>
             <Statistics/>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item sm={11} md={9}>
             <ApproveEvents/>
         </Grid>
+        <Divider/>
         <Grid item xs={12} lg={6}>
-            <Box style={{ height : '19rem', width : '99%'}}>
-                <PieChartInterest/>
-            </Box>
+            <Card style={{paddingTop : '10px'}}>
+                <Box style={{ height : '19rem', width : '99%'}} textAlign="center">
+                    <Typography> Top 10 Interest tags</Typography>
+                    <PieChartInterest/>
+                </Box>
+            </Card>
         </Grid>
         <Grid item xs={12} lg={6}>
-            <Box style={{ height : '19rem', width : '99%'}}>
-                <PieChartExpertise/>
-            </Box>
+            <Card style={{paddingTop : '10px'}}>
+                <Box style={{ height : '19rem', width : '99%'}} textAlign="center">
+                    <Typography>Top 10 Expertise tags</Typography>
+                    <PieChartExpertise/>
+                </Box>
+            </Card>
         </Grid>
         <Hidden mdDown>
             <Grid item lg={12} xs={12}>
-                <div style={{height : "400px", width : "100%"}}>
+                <Box style={{height : "400px", width : "100%"}} textAlign="center">
+                    <Typography variant="h4"> User by School and Departments </Typography>
                     <StackedBarChart/>
-                </div>
+                </Box>
             </Grid>
         </Hidden>
         </Grid>
         :
         <Typography> You are authorised to view this page </Typography>
         }
-    </>
+    </div>
     )
 }
 

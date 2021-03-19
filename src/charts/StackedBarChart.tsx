@@ -50,7 +50,6 @@ function StackedBarChart() {
         <>
           {Bardata ? 
               <div style={{height : "100%", width : "100%"}}>
-                <Typography variant="h4"> User by School and Departments </Typography>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     width={500}
@@ -74,6 +73,16 @@ function StackedBarChart() {
                       <Bar dataKey="bar3" stackId="a" fill="#84ca9d" />
                       <Bar dataKey="bar4" stackId="a" fill="#85ca9d" />
                       <Bar dataKey="bar5" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar6" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar7" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar8" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar9" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar10" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar11" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar12" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar13" stackId="a" fill="#87ca9d" />
+                      <Bar dataKey="bar14" stackId="a" fill="#87ca9d" />
+
                   </BarChart>
                 </ResponsiveContainer>
               </div>

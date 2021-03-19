@@ -91,7 +91,6 @@ function Dashboard() {
                                 </a>
                             </Box>
                         }
-                         
                         <Box my={1}><SchoolIcon/></Box>
                         <Box m={1}>{AuthContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
                         </div>
