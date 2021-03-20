@@ -1,5 +1,5 @@
 import ExtensionIcon from '@material-ui/icons/Extension';
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, ButtonBase, Checkbox, Chip, createStyles, Divider, FormControlLabel, FormGroup, Grid, Hidden, IconButton, InputBase, makeStyles, Paper, Switch, TextField, Theme, Typography, withStyles } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, ButtonBase, Checkbox, Chip, Divider, FormControlLabel, FormGroup, Grid, IconButton, InputBase, makeStyles, Paper, Switch, TextField, Theme, Typography, withStyles } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,6 +13,9 @@ import { Link } from 'react-router-dom';
 import Tags from './config/Tags.json'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import theme from './theme';
+import SearchTheme from './themes/SearchTheme';
+import AntSwitch from './components/AntSwitch';
+
 const JsonFind = require('json-find');
 
 function SearchUsers() {
@@ -194,6 +197,7 @@ function SearchUsers() {
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
+
         } else if (searchTerm.length < 2){
             console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
             const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
@@ -202,7 +206,6 @@ function SearchUsers() {
             setPagetotal(Math.ceil(data.total/10)); 
         }
     }
-
         
     function Changetag(){
         setTags(false)
@@ -227,94 +230,7 @@ function SearchUsers() {
     }
 
 
-
-    const useStyles = makeStyles({
-        root: {
-            padding: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
-            width: 400,
-            margin : '15px'
-        },
-        box: {
-          textAlign: 'center', 
-          padding : 4,
-          borderRadius : 4,
-          background : "white", 
-        }, 
-        search : {
-            display: 'inline-flex',
-            VerticalAlign: 'text-bottom',
-            BoxSizing: 'inherit',
-            textAlign: 'center',
-            AlignItems: 'center', 
-        },
-        color : {
-            padding : '15px',
-            backgroundColor : '#EBEBEB',
-        }, 
-        large: {
-            width: 90, 
-            height: 90, 
-        },
-        input: {
-            marginLeft: theme.spacing(1),
-            flex: 1,
-          },
-          iconButton: {
-            padding: 10,
-          },
-          divider: {
-            height: 28,
-            margin: 4,
-          },
-          accordian : {
-            backgroundColor : "transparent", 
-            borderRadius : 10
-          },
-          MuiAccordionroot: {
-            "&.MuiAccordion-root:before": {
-              backgroundColor: "#FAFAFA"
-        }},
-    });
-
-    const AntSwitch = withStyles((theme: Theme) =>
-        createStyles({
-        root: {
-        width: 28,
-        height: 16,
-        padding: 0,
-        display: 'flex',
-        },
-        switchBase: {
-        padding: 2,
-        color: theme.palette.grey[500],
-        '&$checked': {
-            transform: 'translateX(12px)',
-            color: theme.palette.common.white,
-            '& + $track': {
-            opacity: 1,
-            backgroundColor: theme.palette.primary.main,
-            borderColor: theme.palette.primary.main,
-            },
-        },
-        },
-        thumb: {
-        width: 12,
-        height: 12,
-        boxShadow: 'none',
-        },
-        track: {
-        border: `1px solid ${theme.palette.grey[500]}`,
-        borderRadius: 16 / 2,
-        opacity: 1,
-        backgroundColor: theme.palette.common.white,
-        },
-        checked: {},
-    }),
-    )(Switch);
-
-    const classes = useStyles();
+    const classes = SearchTheme(); 
 
     return (
         <Grid container>
@@ -425,7 +341,7 @@ function SearchUsers() {
                                     <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Education and Social Work", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Education and Social Work</Typography>} />    
                                     <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Engineering and Informatics", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Engineering and Informatics</Typography>}/>
                                     <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Global Studies", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Global Studies</Typography>}/>
-                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Law, Policitics and Sociology", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Law, Policitics and Sociology</Typography>}/>
+                                    <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Law, Politics and Sociology", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Law, Politics and Sociology</Typography>}/>
                                     <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Life Sciences", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Life Sciences</Typography>}/>
                                     <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Mathematical and Physical Sciences", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Mathematical and Physical Sciences</Typography>}/>
                                     <FormControlLabel control={ <Checkbox onChange={(e) => handleChange("School of Media, Arts and Humanities", e.target.checked)} />} label={<Typography variant="body2" color="textPrimary">School of Media, Arts and Humanities</Typography>}/>

@@ -56,16 +56,14 @@ function Dashboard() {
                         <Box borderRadius={2}>
                         <Grid container className={classes.centerMobile}>
                         <Grid item xs={11} className={classes.centerMobile}>
-                        <Grid container className={classes.centerMobile}>
-                        <Box my={1}>
-                            <Typography variant="h4"> {AuthContext.data.name} </Typography>
-                        </Box>
-                        <Box m={2} >
-                            {AuthContext.data.user_metadata.education.available === 'true' ? <IsAvailable/> : ""}
-                        </Box>
-                        </Grid>
-                        
-
+                            <Grid container className={classes.centerMobile}>
+                                <Box my={1}>
+                                    <Typography variant="h4"> {AuthContext.data.name} </Typography>
+                                </Box>
+                                <Box m={2} >
+                                    {AuthContext.data.user_metadata.education.available === 'true' ? <IsAvailable/> : ""}
+                                </Box>
+                            </Grid>
                         </Grid>
                         <Hidden xsDown>
                             <Grid item lg={1} xs={1}>
@@ -78,14 +76,12 @@ function Dashboard() {
                         </Hidden>
                         <Grid container className={classes.centerMobile}>
                         <div className={classes.centerSVG}>
-                        {
-                        AuthContext.data.user_metadata.social.sussex === "" ? 
+                        { AuthContext.data.user_metadata.social.sussex === "" ? 
                             <></>
                             :
                             <a href={AuthContext.data.user_metadata.social.sussex} target="_blank" rel="noopener noreferrer">
                             <Box mr={2}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box> 
-                        </a>
-                        }                        
+                        </a> }                        
             
                         {AuthContext.data.user_metadata.social.linkedIn === "" ?  
                             <></> 

@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogContent, DialogTitle, Divider, Fab, Grid, IconButton, makeStyles, Typography, withStyles } from '@material-ui/core';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Fab, Grid, IconButton, makeStyles, Typography, withStyles } from '@material-ui/core';
 import React, {useState, useEffect, useContext} from 'react'
 import EventEntity from '../../models/EventEntity'; 
 import AddIcon from '@material-ui/icons/Add';
@@ -182,6 +182,8 @@ function UpcomingEvents() {
     }, 
     box : {
         position : "relative", 
+        backgroundColor : 'white', 
+        border : '1px solid rgba(0,0,0,0.1)', 
     }, 
     eventContainer : {
         backgroundColor : "lightblue", 
@@ -212,7 +214,7 @@ function UpcomingEvents() {
 
             {data?.map ((e,i) => 
             <Grid item  xs={12}  sm={12} md={12} lg={5}>
-                <Box borderRadius={5} border={0.5} m={3} py={2} className={classes.box}>              
+                <Box borderRadius={9} m={3} py={2} className={classes.box}>              
                     {AuthContext.data.app_metadata !== null ? 
                     <div className={classes.customizedButton} >
                         <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
@@ -250,29 +252,35 @@ function UpcomingEvents() {
                                     <Grid item xs={3}>
                                     </Grid>
 
+                                    {e.type === "" ? 
+                                    <Grid item xs={7} className={classes.leftButtons}>
+                                    </Grid>
+                                    :
                                     <Grid item xs={7} className={classes.leftButtons}>
                                         <Box mr={2} borderRadius={20} pr={1.5} pl={1.5} pt={1} pb={1} bgcolor="secondary.light" style={{ textAlign : 'center'}}>
                                             <Typography>{e.type}</Typography>
                                         </Box>
-                                    </Grid>
+                                    </Grid>     
+                                    }
+
                                     
                                     {e.linkedExpertise && e.linkedInterests ?
                                     <Grid item xs={3} className={classes.leftButtons}>
                                         <Box pt={0.5}>
-                                        <StarIcon style={{fill: "#E86161"}} fontSize="large"/>
+                                            <StarIcon style={{fill: "#E86161"}} fontSize="large"/>
                                         </Box>
                                     </Grid>
                                     : e.linkedExpertise ?
                                     <Grid item xs={3} className={classes.leftButtons}>
-                                    <Box pt={0.5}>
-                                    <StarIcon style={{fill: "#7ED6F0"}} fontSize="large"/>
-                                    </Box>
+                                        <Box pt={0.5}>
+                                            <StarIcon style={{fill: "#7ED6F0"}} fontSize="large"/>
+                                        </Box>
                                     </Grid>
                                     : e.linkedInterests ? 
                                     <Grid item xs={3} className={classes.leftButtons}>
-                                    <Box pt={0.5}>
-                                    <StarIcon style={{fill: "#A9F0BA"}} fontSize="large"/>
-                                    </Box>
+                                        <Box pt={0.5}>
+                                            <StarIcon style={{fill: "#A9F0BA"}} fontSize="large"/>
+                                        </Box>
                                     </Grid>
                                     : <> </>
                                     }
@@ -326,12 +334,11 @@ function UpcomingEvents() {
             </Dialog>
 
             <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
-                <DialogTitle>Delete Event the Event</DialogTitle>
-                <DialogContent>
-                    Are you sure to delete? 
-                </DialogContent>
-                <Button onClick={() => handleDelete()} color="primary"> Delete Event </Button>
-                <Button onClick={() => handleCloseDelete()} color="primary"> Cancel </Button>
+                <DialogTitle><Typography variant="h5">Are you sure you want to delete the event?</Typography></DialogTitle>
+            <DialogActions>
+                <Button onClick={() => handleDelete()} variant="contained" color="primary" style={{ backgroundColor : 'red'}}> Delete Event </Button>
+                <Button onClick={() => handleCloseDelete()} variant="contained" color="primary"> Cancel </Button>
+            </DialogActions>
             </Dialog> 
 
             <Fab size="large" color="primary" aria-label="add" className={classes.fab}>
