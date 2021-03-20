@@ -8,7 +8,7 @@ const DepartmentObj = {
 	"School of Mathematical and Physical Sciences" : ["Mathematics", "Physics and Astronomy"], 
 	"School of Media, Arts and Humanities" : ["Art History", "Cultural Studies", "Drama", "English literature","Film Studies", "History", "Journalism", "Language and linguistics", "Media and Communications", "Media Practice", "Music", "Philosophy", "Sussex Centre for American Studies", "Sussex Centre for Language Studies"], 
 	"School of Psychology" : ["School of Psychology"], 
-	"Brighton and Sussex Medical School" : ["Brighton and Medical School"], 
+	"Brighton and Sussex Medical School" : ["Brighton and Sussex Medical School"], 
 	"Doctoral School and Research groups" : ["Doctoral School", "Research groups"] 
 }
 
