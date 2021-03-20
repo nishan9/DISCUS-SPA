@@ -1,5 +1,5 @@
 const DepartmentObj = {
-	"University of Sussex Business School" : ["Accounting and Finance" , "Economics", "Management, Strategy and Marketing", "Science Policy Research Unit" ], 
+	"University of Sussex Business School" : ["Accounting and Finance" , "Economics", "Management", "Strategy and Marketing", "Science Policy Research Unit" ], 
 	"School of Education and Social Work" : ["Education", "Social Work and Social Care"],
 	"School of Engineering and Informatics" : ["Engineering", "Informatics", "Product Design"], 
 	"School of Global Studies": ["Anthropology", "Geography", "International Development", "International Relations"], 
@@ -9,7 +9,7 @@ const DepartmentObj = {
 	"School of Media, Arts and Humanities" : ["Art History", "Cultural Studies", "Drama", "English literature","Film Studies", "History", "Journalism", "Language and linguistics", "Media and Communications", "Media Practice", "Music", "Philosophy", "Sussex Centre for American Studies", "Sussex Centre for Language Studies"], 
 	"School of Psychology" : ["School of Psychology"], 
 	"Brighton and Sussex Medical School" : ["Brighton and Medical School"], 
-	"Doctoral School and research groups" : ["Doctoral School", "Research groups"] 
+	"Doctoral School and Research groups" : ["Doctoral School", "Research groups"] 
 }
 
 export default DepartmentObj; 

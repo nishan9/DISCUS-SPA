@@ -71,7 +71,6 @@ function ViewUser(props : any) {
     
     function openDeleteDialog(){
         setOpenDelete(true); 
-        console.log(openDelete);
     }
 
     function handleCloseDelete(){
@@ -256,6 +255,7 @@ function ViewUser(props : any) {
                                       </Grid>
                                   </Grid>
                               </div>
+
                             <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
                             <DialogTitle>Delete Event the Event</DialogTitle>
                             <DialogContent>

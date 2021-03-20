@@ -198,7 +198,12 @@ function EditUser(props : any) {
                         margin="dense"
                         variant="outlined"
                         fullWidth
-                        onChange={e => setSussexURL(e.target.value)}
+                        value={sussexURL}
+                        onChange={e => 
+                            {
+                                setSussexURL(e.target.value);
+                            }
+                        }
                         label="Sussex URL"
                         defaultValue={sussexURL}/> 
                 </Box>
@@ -207,6 +212,7 @@ function EditUser(props : any) {
                         multiline
                         margin="dense"
                         variant="outlined"
+                        value={linkedIn}
                         fullWidth
                         onChange={e => setLinkedIn(e.target.value)}
                         label="LinkedIn URL"

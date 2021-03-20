@@ -112,8 +112,6 @@ export default function ResponsiveDrawer(props: Props) {
           <>
           </>
         }
-
-
         <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }}/>
         </ButtonBase>
 
