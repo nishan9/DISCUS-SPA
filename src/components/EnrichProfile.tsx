@@ -198,7 +198,7 @@ function EnrichProfile() {
                         <MenuItem value="UG">UG</MenuItem>
                         <MenuItem value="MSc">MSc</MenuItem>
                         <MenuItem value="PhD">PhD</MenuItem>
-                        <MenuItem value="PhD">PostDoc</MenuItem>
+                        <MenuItem value="Postdoc">Postdoc</MenuItem>
                         <MenuItem value="Faculty">Faculty</MenuItem>
                         <MenuItem value="Professional Services">Professional Services</MenuItem>
                         </Select>

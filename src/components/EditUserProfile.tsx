@@ -10,8 +10,6 @@ import { useSnackbar } from 'notistack';
 import Points from './Points';
 import DepartmentObj from '../config/Department'; 
 import EmailIcon from '@material-ui/icons/Email';
-import SchoolIcon from '@material-ui/icons/School';
-import mySvg from '../assets/Wave.svg';
 import UserTheme from '../themes/UserTheme';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -361,7 +359,7 @@ function EditUserProfile() {
                                     <MenuItem value="UG">UG</MenuItem>
                                     <MenuItem value="PhD">PhD</MenuItem>
                                     <MenuItem value="Faculty">Faculty</MenuItem>
-                                    <MenuItem value="PhD">PostDoc</MenuItem>
+                                    <MenuItem value="Postdoc">Postdoc</MenuItem>
                                     <MenuItem value="MSc">MSc</MenuItem>
                                     <MenuItem value="Professional Services">Professional Services</MenuItem>
                                     </Select>
@@ -443,7 +441,7 @@ function EditUserProfile() {
                     inputValue={mes}
                     options={AllSubjects}
                     getOptionLabel={(option) => option}
-                    renderInput={(params) => <TextField {...params} label="Add Expertise" variant="outlined" />}
+                    renderInput={(params) => <TextField {...params} margin="dense" label="Add Expertise" variant="outlined" />}
                 />
                 <Box my={2}>
                     {expertise.map( (e) => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e} onDelete={() => DeleteChipExpertise(e)} ></Chip>)}
@@ -495,7 +493,7 @@ function EditUserProfile() {
                     <Typography variant="h5"> your profile?</Typography>
                 </DialogTitle>
                 <DialogActions>
-                    <Button onClick={() => handleDelete()} variant="contained" style={{ backgroundColor : 'red'}} > Delete User Profile </Button>
+                    <Button onClick={() => handleDelete()} variant="contained" style={{ backgroundColor : 'red'}}> Delete User Profile </Button>
                     <Button onClick={() => handleCloseDelete()} variant="contained" color="secondary"> Cancel </Button>
                 </DialogActions>
                 </Dialog>                  
