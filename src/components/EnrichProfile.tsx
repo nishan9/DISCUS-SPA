@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import DateFnsUtils from '@date-io/date-fns';
-import { Box, FormControl, Grid, Checkbox, InputLabel, MenuItem, Select, Typography, TextField, Button } from '@material-ui/core'
+import { Box, FormControl, Grid, Checkbox, InputLabel, MenuItem, Select, Typography, TextField, Button, Tooltip, Theme, withStyles } from '@material-ui/core'
 import { Autocomplete } from '@material-ui/lab';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
 import React, { useContext, useEffect, useState } from 'react'
@@ -9,6 +9,8 @@ import signup from '../assets/scientist.svg';
 import { Auth0Context } from '../context/Auth0Context';
 import { useSnackbar } from 'notistack';
 import DepartmentObj from '../config/Department'; 
+import validator from 'validator';
+import HtmlTooltip from '../themes/HtmlTooltip';
 
 
 function EnrichProfile() {
@@ -20,6 +22,9 @@ function EnrichProfile() {
     const context = useContext(Auth0Context)
     const CHARACTER_LIMIT = 499; 
     const { enqueueSnackbar } = useSnackbar();
+    const [validatedSP, setValidatedSP] = useState(true); 
+    const [validatedLP, setValidatedLP] = useState(true); 
+
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
@@ -29,7 +34,7 @@ function EnrichProfile() {
         setMetada({...metadata, GraduationDate : date});
     };
 
-    async function SaveMetada(e : any) {
+    async function SaveMetada() {
         const gradDate = metadata.GraduationDate.toString();
         const postreq = (
             { "user_metadata" : {
@@ -77,10 +82,10 @@ function EnrichProfile() {
         });
         context.setData(await response.json());  
     }
-    
+      
 
     return (
-        <>
+        <form noValidate autoComplete="off">
         <Grid container justify="center">
         <Grid item lg={6} xs={12}>
             <Grid container justify="center">
@@ -96,7 +101,7 @@ function EnrichProfile() {
                 <Box mt={6} >
                 <Box m={3} p={3} px={4} border={1} borderRadius={15} borderColor="primary.light">   
                 <Box my={2}>
-                    <Typography variant={'h5'}>Sign up now...</Typography>
+                    <Typography variant={'h4'}>Sign up now...</Typography>
                 </Box>
             <Grid container direction="row" alignItems="center">
                 <Box my={2} mr={3}>
@@ -237,11 +242,35 @@ function EnrichProfile() {
                         helperText={`${metadata.research.length}/${CHARACTER_LIMIT}`}
                     />
                     <Box my={2}>
-                        <TextField fullWidth id="outlined-basic" onChange={(e) => setMetada({...metadata, sussex: String(e.target.value)})} label="Sussex Profile URL" variant="outlined" />
+                        <HtmlTooltip title={
+                                <React.Fragment>
+                                    <Typography color="inherit">Put your sussex Profile URL to link your sussex profile.</Typography>
+                                    <em>{"For example"}</em> <b>{'https://profiles.sussex.ac.uk/p131073-david-hendy'}</b>
+                                </React.Fragment>
+                            }>                        
+                            <TextField 
+                            fullWidth 
+                            error={!validatedSP}
+                            helperText={validatedSP ? "" : "Must be a valid URL or blank"}
+                            onChange={(e) => setMetada({...metadata, sussex: String(e.target.value)})} 
+                            label="Sussex Profile URL" 
+                            variant="outlined" />
+                        </HtmlTooltip>
                     </Box>
 
                     <Box my={2}>
-                        <TextField fullWidth id="outlined-basic" onChange={(e) => setMetada({...metadata, linkedin: String(e.target.value)})} label="LinkedIn URL" variant="outlined" />
+                        <HtmlTooltip title={
+                                <React.Fragment>
+                                    <Typography color="inherit">Put your LinkedIn URL to link your LinkedIn profile.</Typography>
+                                    <em>{"For example"}</em> <b>{'https://www.linkedin.com/in/m-nishan/'}</b>
+                                </React.Fragment>
+                            }>
+                        <TextField 
+                            fullWidth               
+                            error={!validatedLP}
+                            helperText={validatedLP ? "" : "Must be a valid URL or blank"}
+                            onChange={(e) => setMetada({...metadata, linkedin: String(e.target.value)})} label="LinkedIn URL" variant="outlined" />
+                        </HtmlTooltip>
                     </Box>
 
                     <Box my={2}>
@@ -270,16 +299,45 @@ function EnrichProfile() {
                         )}
                         />
                     </Box>
-                    <Grid  justify= "center" container alignItems="center" alignContent="center">
+                    <Grid justify= "center" container alignItems="center" alignContent="center">
                         <Box my={2}>
-                            <Button variant="contained" color="secondary" type="submit" onClick={(e) => SaveMetada(e)} value="Submit">Submit</Button>
+                            <Button variant="contained" 
+                                color="secondary"
+                                onClick=
+                                { () => {
+                                    if ((metadata.sussex === "" || validator.isURL(metadata.sussex)) && (metadata.linkedin  === "" ||  validator.isURL(metadata.linkedin))) 
+                                    {
+                                        setValidatedSP(true);
+                                        setValidatedLP(true);
+                                        SaveMetada();
+                                    } 
+                                    else if (metadata.sussex === "" || validator.isURL(metadata.sussex) )
+                                    {
+                                        setValidatedSP(true);
+                                        if (metadata.linkedin  !== "" ||  !validator.isURL(metadata.linkedin)){
+                                            setValidatedLP(false);
+                                        }
+                                    }
+                                    else if (metadata.linkedin  === "" ||  validator.isURL(metadata.linkedin))
+                                    {
+                                        setValidatedLP(true);
+                                        if (metadata.sussex  !== "" ||  !validator.isURL(metadata.sussex)){
+                                            setValidatedSP(false);
+                                        }
+                                    }
+                                    else {
+                                        setValidatedSP(false);
+                                        setValidatedLP(false);
+                                    }
+                                }} 
+                                value="Submit">Submit</Button>
                         </Box>
                     </Grid>
                 </Box>
                 </Box>
                 </Grid>
         </Grid>
-        </>   
+        </form>   
     )
 }
 
