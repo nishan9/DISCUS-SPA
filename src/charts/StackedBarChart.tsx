@@ -1,11 +1,10 @@
 import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
-import UserTheme from '../themes/UserTheme';
   
 function StackedBarChart() {
     const [Bardata, setBarData]= useState([]); 
-    
+  
     useEffect(() => {
       GetData(); 
     }, []);
@@ -18,8 +17,6 @@ function StackedBarChart() {
       });
       setBarData(await getData.json());  
     }
-    
-
   
     //@ts-ignore
     const CustomTooltip = ({ active , payload , label}) => {
@@ -27,7 +24,7 @@ function StackedBarChart() {
             const getIntroOfPage = (label, index) => {    
                 let x = ""; 
                 Bardata.map( (item : any) => {
-                    if (item.name == label){
+                    if (item.name === label){
                         x = item.caption[index]
                     }
                 })
