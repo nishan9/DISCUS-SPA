@@ -1,4 +1,4 @@
-import { Grid, Box, Avatar, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Checkbox, createStyles, makeStyles, Theme, FormControlLabel, Hidden } from '@material-ui/core';
+import { Grid, Box, Avatar, Button, TextField, FormControl, InputLabel, Select, MenuItem, Chip, Checkbox, createStyles, makeStyles, Theme, FormControlLabel, Hidden, DialogTitle, DialogContent, Dialog, Typography, DialogActions } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React, { useContext, useEffect, useState } from 'react'
 import SaveIcon from '@material-ui/icons/Save';
@@ -15,6 +15,7 @@ import mySvg from '../assets/Wave.svg';
 import UserTheme from '../themes/UserTheme';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 
 function EditUserProfile() {
@@ -35,7 +36,12 @@ function EditUserProfile() {
     const [graduation, setGraduation] = useState(new Date()); 
     const [sussexURL, setSussexURL] = useState<string>(""); 
     const [linkedIn, setLinkedIn] = useState<string>(""); 
-    
+    const [openDelete, setOpenDelete] = useState(false); 
+
+
+    const [validateName, setValidateName] = useState(true); 
+    const [validateSussex, setValidateSussex] = useState(true); 
+    const [validateLinkedIn, setValidateLinkedIn] = useState(true)
     let mes = ""
 
     useEffect(() => {
@@ -120,6 +126,28 @@ function EditUserProfile() {
         }
     }
 
+    function openDeleteDialog(){
+        setOpenDelete(true); 
+    }
+
+    function handleCloseDelete(){
+        setOpenDelete(false); 
+    }
+    async function handleDelete(){
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Delete/${AuthContext.data.user_id}`, {
+            headers : {"Content-Type" : "application/json" }, 
+            method:"DELETE", 
+        })
+        if(response.ok){
+            
+            enqueueSnackbar('User has been deleted', { variant : "success" });
+            handleCloseDelete();
+            Auth0.logout(); 
+        }else{
+            enqueueSnackbar('An error occured', { variant : "error" });
+        }
+    }
+
 
 
     async function fetchData(){
@@ -193,9 +221,10 @@ function EditUserProfile() {
                     <Grid item xs={12}>
                         <Grid container justify="center">
                             <Grid item xs={12} md={6}>
-                                <TextField 
+                            <TextField 
                                 fullWidth
                                 variant="outlined" 
+                                value={name}
                                 label="Name" 
                                 margin="dense"
                                 error={name.length === 0 ? true : false }
@@ -222,19 +251,26 @@ function EditUserProfile() {
                                     margin="dense"
                                     variant="outlined"
                                     fullWidth
-                                    onChange={e => setSussexURL(e.target.value)}
+                                    onChange={e => 
+                                        {
+                                            console.log(e.target);
+                                            setSussexURL(e.target.value);
+                                        }
+                                    }
+                                    value={sussexURL}
                                     label="Sussex URL"
                                     defaultValue={sussexURL}/> 
                             </Grid>
                             <Hidden xsDown>
                                 <Box mx={2}></Box>
                             </Hidden>
-                            <Grid item xs={12} md={5} >         
+                            <Grid item xs={12} md={5}>         
                                 <TextField
                                     multiline
                                     margin="dense"
                                     variant="outlined"
                                     fullWidth
+                                    value={linkedIn}
                                     onChange={e => setLinkedIn(e.target.value)}
                                     label="LinkedIn URL"
                                     defaultValue={linkedIn}/> 
@@ -283,8 +319,7 @@ function EditUserProfile() {
                     <Box>
                         <Box m={3} p={3} borderRadius={8} bgcolor="secondary.main">
                             <Grid container justify="center">
-                            
-                            <Hidden xsDown >
+                            <Hidden xsDown>
                                 <Grid item lg={6} xs={12}>
                                     <Box className={classes.centerSVG}> <EmailIcon/> {AuthContext.data.email}</Box>
                                 </Grid>
@@ -307,11 +342,12 @@ function EditUserProfile() {
                                         <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
                                         <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
                                         <MenuItem value="School of Law, Politics and Sociology">School of Law, Politics and Sociology</MenuItem>
+                                        <MenuItem value="School of Life Sciences">School of Life Sciences</MenuItem>
                                         <MenuItem value="School of Mathematical and Physical Sciences">School of Mathematical and Physical Sciences</MenuItem>
                                         <MenuItem value="School of Media, Arts and Humanities">School of Media, Arts and Humanities</MenuItem>
                                         <MenuItem value="School of Psychology">School of Psychology</MenuItem>
                                         <MenuItem value="Brighton and Sussex Medical School">Brighton and Sussex Medical School</MenuItem>
-                                        <MenuItem value="Doctoral School and research groups">Doctoral School and research groups</MenuItem>
+                                        <MenuItem value="Doctoral School and Research groups">Doctoral School and Research groups</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -383,8 +419,8 @@ function EditUserProfile() {
                                                 (DepartmentObj['Brighton and Sussex Medical School'].map (dep => 
                                                 <MenuItem value={dep}>{dep}</MenuItem>
                                                 ))  
-                                                : school === "Doctoral School and research groups" ?
-                                                (DepartmentObj['Doctoral School and research groups'].map (dep => 
+                                                : school === "Doctoral School and Research groups" ?
+                                                (DepartmentObj['Doctoral School and Research groups'].map (dep => 
                                                 <MenuItem value={dep}>{dep}</MenuItem>
                                                 ))  
                                                 : <p></p>
@@ -421,7 +457,7 @@ function EditUserProfile() {
                     inputValue={mes}
                     options={AllSubjects}
                     getOptionLabel={(option) => option}
-                    renderInput={(params) => <TextField {...params} label="Add Interests" variant="outlined" />}
+                    renderInput={(params) => <TextField {...params} margin="dense" label="Add Interests" variant="outlined" />}
                 />
                     <Box my={2}>
                         {interests.map( (e) => <Chip color='primary' style={{backgroundColor:'#24CAC3', margin : 2}} label={e} onDelete={() => DeleteChipIntrest(e)} ></Chip>)}
@@ -430,18 +466,40 @@ function EditUserProfile() {
                 </Grid>
             </Grid>
             </Box>
-                <Grid item xs={12} alignItems="center" >
-                    <Box borderRadius={5} className={classes.glass} my={4}>                        
-                    <TextField
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                    fullWidth
-                    onChange={e => setResearch(e.target.value)}
-                    label="Your research interests"
-                    defaultValue={research}/>
+                <Grid item xs={12} alignItems="center">
+                    <Box borderRadius={5} className={classes.glass}  mt={5} mb={2}>                        
+                        <TextField
+                        multiline
+                        rows={4}
+                        variant="outlined"
+                        fullWidth
+                        onChange={e => setResearch(e.target.value)}
+                        label="Your research interests"
+                        defaultValue={research}/>
                     </Box>
+                    
+                    <Grid container justify="center" style={{padding : '4px'}}>
+                    <Button
+                    style={{ backgroundColor : 'red', fontSize : "15px"}}
+                    variant="contained"
+                    onClick={e => openDeleteDialog()}
+                    startIcon={<DeleteIcon style={{ fontSize : "25px"}} />}
+                    >Delete Profile</Button>
+                    </Grid>
+                    <Box mb={8}></Box>
                 </Grid>
+
+                <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
+                <DialogTitle style={{ textAlign : 'center'}}>
+                    <Typography variant="h5">Are you sure you want to delete</Typography>
+                    <Typography variant="h5"> your profile?</Typography>
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => handleDelete()} variant="contained" style={{ backgroundColor : 'red'}} > Delete User Profile </Button>
+                    <Button onClick={() => handleCloseDelete()} variant="contained" color="secondary"> Cancel </Button>
+                </DialogActions>
+                </Dialog>                  
+
             </Grid>
         </Grid>
     </div>

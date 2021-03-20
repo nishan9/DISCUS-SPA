@@ -113,6 +113,7 @@ function EnrichProfile() {
                             <MenuItem value="School of Engineering and Informatics">School of Engineering and Informatics</MenuItem>
                             <MenuItem value="School of Global Studies">School of Global Studies</MenuItem>
                             <MenuItem value="School of Law, Politics and Sociology">School of Law, Politics and Sociology</MenuItem>
+                            <MenuItem value="School of Life Sciences">School of Life Sciences</MenuItem>
                             <MenuItem value="School of Mathematical and Physical Sciences">School of Mathematical and Physical Sciences</MenuItem>
                             <MenuItem value="School of Media, Arts and Humanities">School of Media, Arts and Humanities</MenuItem>
                             <MenuItem value="School of Psychology">School of Psychology</MenuItem>
@@ -175,8 +176,8 @@ function EnrichProfile() {
                         (DepartmentObj['Brighton and Sussex Medical School'].map (dep => 
                         <MenuItem value={dep}>{dep}</MenuItem>
                         ))  
-                        : metadata.school === "Doctoral School and research groups" ?
-                        (DepartmentObj['Doctoral School and research groups'].map (dep => 
+                        : metadata.school === "Doctoral School and Research groups" ?
+                        (DepartmentObj['Doctoral School and Research groups'].map (dep => 
                         <MenuItem value={dep}>{dep}</MenuItem>
                         ))  
                         : <p></p>

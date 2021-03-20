@@ -111,17 +111,17 @@ function ViewEventEntity(props : any) {
                 <Button onClick={handleOpen}><MailIcon/>Email Users</Button>
                 {eventAttendance ? <CSVLink filename={`${EventContext.event.title}.csv`} headers = {headers} data={eventAttendance.users}><GetAppIcon/></CSVLink>  : ""}
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="id">
-                <Box display="flex" alignItems="center">
-                <Box flexGrow={1}> <Typography variant="h4">Send Emails</Typography></Box>
-                <Box>
-                <IconButton onClick={handleClose}> <CancelIcon /> </IconButton>
-                </Box>
-                </Box>
-                </DialogTitle>
-                    <DialogContent>
-                        <SendEmail/>
-                    </DialogContent>
+                    <DialogTitle id="id">
+                    <Box display="flex" alignItems="center">
+                    <Box flexGrow={1}> <Typography variant="h4">Send Emails</Typography></Box>
+                    <Box>
+                    <IconButton onClick={handleClose}> <CancelIcon /> </IconButton>
+                    </Box>
+                    </Box>
+                    </DialogTitle>
+                        <DialogContent>
+                            <SendEmail/>
+                        </DialogContent>
                 </Dialog>
 
             </Box>

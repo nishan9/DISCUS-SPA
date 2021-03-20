@@ -1,15 +1,17 @@
-import { Box, ButtonBase, Grid, makeStyles, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
+import { Box, Button, ButtonBase, Dialog, DialogActions, DialogTitle, Grid, Hidden, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@material-ui/core';
 import { useSnackbar } from 'notistack';
 import React, { useEffect, useState } from 'react'
 import EventEntity from '../../models/EventEntity'; 
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Moment from 'react-moment';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { Link } from 'react-router-dom';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 function ApproveEvents() {
     const [ eventsToApprove, setEventsToApprove] = useState<EventEntity[]>([]);
     const { enqueueSnackbar } = useSnackbar();
+    const [openDelete, setOpenDelete] = useState(false); 
+    const [eventid, setEventID] = useState<number>(); 
 
     useEffect(() => {
         getData();
@@ -45,18 +47,22 @@ function ApproveEvents() {
             }
         });
         if(Authorize.ok){
-            enqueueSnackbar('Event has been delete', { variant : "success" });
+            enqueueSnackbar('Event has been deleted', { variant : "success" });
         }else{
             console.error("Publishing failed");
         }
+        handleCloseDelete(); 
         getData();
     }
 
-    const useStyles = makeStyles({
+    function openDeleteDialog(e : number){
+        setEventID(e); 
+        setOpenDelete(true); 
+    }
 
-      });
-
-      const classes = useStyles();
+    function handleCloseDelete(){
+        setOpenDelete(false); 
+    }
 
     return (
         <Grid item xs={12} lg={12}>
@@ -68,11 +74,11 @@ function ApproveEvents() {
                     <Table aria-label="simple table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="left">Title</TableCell>
-                                <TableCell>More info</TableCell>
-                                <TableCell align="left">Start Date</TableCell>
-                                <TableCell align="left">Finish Date</TableCell>
-                                <TableCell align="left">Action</TableCell>
+                                <TableCell align="left"><Typography>Title</Typography></TableCell>
+                                <TableCell><Typography>More info</Typography></TableCell>
+                                <TableCell align="left"><Typography>Start Date</Typography></TableCell>
+                                <TableCell align="left"><Typography>End Date</Typography></TableCell>
+                                <TableCell align="left"><Typography>Action</Typography></TableCell>
                             </TableRow>
                         </TableHead>
                     <TableBody>
@@ -82,21 +88,32 @@ function ApproveEvents() {
                                 {row.title}
                             </TableCell>
                             <TableCell align="left">
-                            <Link to={`/events/${row.id}`} style={{ textDecoration: 'none' }}>
-                            Click Here
-                            </Link>
+                                <Link to={`/events/${row.id}`} style={{ textDecoration: 'none' }}>
+                                Click Here
+                                </Link>
                             </TableCell>
-                            <TableCell align="left"><Moment format="DD/MM/YYYY HH:mm">{row.dateTime}</Moment></TableCell>
-                            <TableCell align="left"><Moment format="DD/MM/YYYY HH:mm">{row.finishedDateTime}</Moment></TableCell>
+                            <TableCell align="left"><Moment format="MMMM Do YYYY, h:mm a">{row.dateTime}</Moment></TableCell>
+                            <TableCell align="left"><Moment format="MMMM Do YYYY, h:mm a">{row.finishedDateTime}</Moment></TableCell>
                             <TableCell align="left">
-                                <ButtonBase onClick={(e) => ApproveEvent(row.id)}><CheckBoxIcon/></ButtonBase>
-                                <ButtonBase onClick={(e) => DeleteEvent(row.id)}><DeleteForeverIcon/></ButtonBase>
+                                <ButtonBase onClick={(e) => ApproveEvent(row.id)}><CheckCircleIcon style={{ fill : 'green', marginRight : '3px', fontSize : '25px'}}/></ButtonBase>
+                                <Hidden xsDown> | </Hidden>
+                                <ButtonBase onClick={(e) => openDeleteDialog(row.id)}><DeleteForeverIcon style={{ fill : 'red', fontSize : '30px'}}/></ButtonBase>
                             </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                     </Table>
                 </TableContainer>
+
+                <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
+                <DialogTitle style={{ textAlign : 'center'}}>
+                    <Typography variant="h5">Are you sure you want to delete to the event?</Typography>
+                </DialogTitle>
+                <DialogActions>
+                    <Button onClick={() => DeleteEvent(eventid!)} variant="contained" style={{ backgroundColor : 'red'}} > Delete Event </Button>
+                    <Button onClick={() => handleCloseDelete()} variant="contained" color="secondary"> Cancel </Button>
+                </DialogActions>
+                </Dialog>  
             </>
         </Grid>
     )
