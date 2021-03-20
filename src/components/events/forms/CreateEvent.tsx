@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, Grid, MenuItem, Select } from '@material-ui/core';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, Grid, MenuItem, Select, Tooltip } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { InputLabel } from '@material-ui/core';
@@ -72,10 +72,10 @@ function CreateEvent(props : CreateEventProps) {
             if (AuthContext.data.app_metadata !== null)
             {
                 enqueueSnackbar('Event has been created!', { variant : "success" });
-            } else 
+            } 
+                else 
             {
                 enqueueSnackbar('Event will be published once authorised!', { variant : "info" });
-
             }
             props.dialog(); 
         }else{
@@ -149,6 +149,7 @@ function CreateEvent(props : CreateEventProps) {
                         format="yyyy-MM-dd"
                         disablePast
                         margin="normal"
+                        minDate={event.dateTime}
                         id="date-picker-inline"
                         label="Pick a Finish Date"
                         value={event.finishedDateTime}
@@ -208,7 +209,7 @@ function CreateEvent(props : CreateEventProps) {
             <Box my={1}>
                 <TextField 
                     margin="normal" 
-                    label="Registration" 
+                    label="Registration URL" 
                     variant="outlined" 
                     fullWidth={true}
                     type="text" 
@@ -226,22 +227,25 @@ function CreateEvent(props : CreateEventProps) {
             </Box>
 
             <Box my={2}>
-                <Autocomplete
-                    multiple
-                    limitTags={5}
-                    id="set Interest"
-                    onChange={(obj,value,reason) => setTags(value)}
-                    options={AllSubjects}
-                    getOptionLabel={(option) => option}
-                    renderInput={(params) => (
-                    <TextField {...params} variant="outlined" label="Tags" placeholder="Favorites" />
-                )}
-                />
+                <Tooltip title="Add tags for users to be matched for events">
+                    <Autocomplete
+                        multiple
+                        limitTags={5}
+                        id="set Interest"
+                        onChange={(obj,value,reason) => setTags(value)}
+                        options={AllSubjects}
+                        getOptionLabel={(option) => option}
+                        renderInput={(params) => (
+                        <TextField {...params} variant="outlined" label="Tags" placeholder="Add tags" />
+                    )}
+                    />
+                </Tooltip>
             </Box>
-    
+            
+            <Box mb={2}>
             <Button disabled={AuthContext.data === null} variant="contained" value="Submit" color="secondary" 
                 onClick = 
-                    { () => {
+                    {() => {
                             if (event.title === "") 
                             {
                                 setValidated(false);
@@ -252,8 +256,9 @@ function CreateEvent(props : CreateEventProps) {
                                 publishEvent(); 
                             }
                         }
-                    } 
-            > Submit </Button>
+                    }
+            >Submit</Button>
+            </Box>
         
         </div>
         </form>

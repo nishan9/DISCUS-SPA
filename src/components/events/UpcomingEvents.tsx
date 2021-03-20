@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Fab, Grid, IconButton, makeStyles, Typography, withStyles } from '@material-ui/core';
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Fab, Grid, IconButton, Typography, withStyles } from '@material-ui/core';
 import React, {useState, useEffect, useContext} from 'react'
 import EventEntity from '../../models/EventEntity'; 
 import AddIcon from '@material-ui/icons/Add';
@@ -19,9 +19,13 @@ import CheckCircleOutlinedIcon from '@material-ui/icons/CheckCircleOutlined';
 import ScheduleIcon from '@material-ui/icons/Schedule';
 import Moment from 'react-moment';
 import StarIcon from '@material-ui/icons/Star';
+import EventsTheme from '../../themes/EventsTheme';
+import NotFoundPlayer from '../../config/NotFoundPlayer';
+import { useSnackbar } from 'notistack';
+
 
 function UpcomingEvents() {
-    const [data, setData] = useState<EventEntity[]>([]);
+    const [data, setData] = useState<EventEntity[]>();
     const [open, setOpen] = useState(false);
     const [openNE, setOpenNE] = useState(false); 
     const Auth0 = useAuth0();
@@ -30,6 +34,7 @@ function UpcomingEvents() {
     const [accessToken, setAccessToken] = useState(''); 
     const [openDelete, setOpenDelete] = useState(false); 
     const [confirmDelete, setConfirmDelete] = useState<number>(); 
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
@@ -42,7 +47,6 @@ function UpcomingEvents() {
     useEffect(() => {
         fetchEventData();
     }, [AuthContext])
-
 
     function openDeleteDialog( id : number){
         setOpenDelete(true); 
@@ -57,10 +61,14 @@ function UpcomingEvents() {
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${confirmDelete}`, {
             method : "DELETE"
         });
-        console.log(response);
-        fetchEventData(); 
+        if(response.ok){
+            enqueueSnackbar('Event has been deleted!', { variant : "success" });
+            fetchEventData(); 
+        }else{
+            enqueueSnackbar('Event has not been deleted', { variant : "error" });
+            fetchEventData(); 
+        }
     }
-
 
     async function fetchData(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
@@ -73,7 +81,6 @@ function UpcomingEvents() {
     }
 
     async function fetchEventData(){
-        console.log(AuthContext.data); 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Upcoming`);
         let data : EventEntity[] = await response.json();
         let newdata = data.map( item => 
@@ -99,20 +106,17 @@ function UpcomingEvents() {
                     })
                 return event
             });
-        console.log(newdata);  
-        setData(data);
+        setData(newdata);
     }
 
     const handleOpen = (i : number) => {
-        EventContext.setEvent(data[i]); 
+        EventContext.setEvent(data![i]); 
         setOpen(true);        
     };
 
     const handleOpenNE = () => {
         setOpenNE(true);
     }
-
-
     
     const handleClose = () => {
         setOpen(false);
@@ -122,7 +126,6 @@ function UpcomingEvents() {
         setOpenNE(false);
         fetchEventData(); 
     };
-
 
     async function updateStatus(stat : any, id : number){
         let obj; 
@@ -164,61 +167,25 @@ function UpcomingEvents() {
       })(Typography);
       
 
-    const useStyles = makeStyles(theme => ({
-    fab: {
-        position: 'fixed',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
-    },
-    paper: {
-        overflowY: 'unset',
-    },
 
-    customizedButton: {
-        padding: "10px",
-        position: "absolute",
-        right: -26,
-        top: -27,
-    }, 
-    box : {
-        position : "relative", 
-        backgroundColor : 'white', 
-        border : '1px solid rgba(0,0,0,0.1)', 
-    }, 
-    eventContainer : {
-        backgroundColor : "lightblue", 
-    },
-    centerSVG : {
-        display: 'flex',
-        alignItems: 'center',
-        flexWrap: 'wrap',
-        },
-    leftButtons : {
-        textAlign :'center',
-        padding : '4px',
-        [theme.breakpoints.down('xs')]: {
-            paddingLeft : 0,
-            paddingRight : 0,
-            PaddingTop : 0,
-            paddingBottom : '2px', 
-          },
-    },
-
-    }));
-    const classes = useStyles();
+    const classes = EventsTheme();
 
     return (
         <div>
-            {data.length > 0 ? 
+            { data ? 
+            <>
+            { data.length === 0 ?             
+            <NotFoundPlayer/>
+            :
+            <>
             <Grid container justify="center">
-
             {data?.map ((e,i) => 
             <Grid item  xs={12}  sm={12} md={12} lg={5}>
-                <Box borderRadius={9} m={3} py={2} className={classes.box}>              
+                <Box borderRadius={9} m={3} py={3} className={classes.box}>              
                     {AuthContext.data.app_metadata !== null ? 
                     <div className={classes.customizedButton} >
-                        <Button style={{ borderRadius: 50 }}variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
-                        <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { openDeleteDialog(e.id) }} color="primary" type="submit" value="Submit"> <DeleteIcon /> </Button>
+                        <Button style={{ borderRadius: 50 }} variant="contained" onClick={() => { handleOpen(i)}} color="secondary" type="submit" value="Submit"> <EditIcon/> </Button>
+                        <Button style={{ borderRadius: 50}} variant="contained" onClick={() => { openDeleteDialog(e.id) }} type="submit" value="Submit"> <DeleteIcon style={{ fill : 'red'}}/> </Button>
                     </div>
                     : "" }
                         <Grid container>
@@ -262,7 +229,6 @@ function UpcomingEvents() {
                                         </Box>
                                     </Grid>     
                                     }
-
                                     
                                     {e.linkedExpertise && e.linkedInterests ?
                                     <Grid item xs={3} className={classes.leftButtons}>
@@ -307,24 +273,37 @@ function UpcomingEvents() {
                             </Grid>
                         </Grid>
                     </Box>
-                </Grid>
-            )} 
+                </Grid>                
+            )}
                     <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-                        <DialogTitle><Typography variant="h4">Edit an event</Typography></DialogTitle>
+                        <DialogTitle>
+                            <Box display="flex" alignItems="center">
+                                <Box flexGrow={1}> <Typography variant="h4">Edit an event</Typography></Box>
+                                <Box>
+                                <IconButton onClick={handleClose}> <CancelIcon style={{ fill : 'red' }} /> </IconButton>
+                                </Box>
+                            </Box>
+                        </DialogTitle>
                         <DialogContent>
                                <EditEvent dialog={() => setOpen(false)}/>
                         </DialogContent>
                     </Dialog> 
-
             </Grid>
-            : <Loading/>  }
-                            
+            </>
+            }
+            </>
+            : 
+            <Loading/>
+            }
+
+
+
             <Dialog open={openNE} onClose={handleCloseNE} aria-labelledby="form-dialog-title">
                 <DialogTitle id="id">
                 <Box display="flex" alignItems="center">
                     <Box flexGrow={1}> <Typography variant="h4">Create an event</Typography></Box>
                     <Box>
-                        <IconButton onClick={handleCloseNE}> <CancelIcon /> </IconButton>
+                        <IconButton onClick={handleCloseNE}> <CancelIcon style={{ fill : 'red' }} /> </IconButton>
                     </Box>
                 </Box>
                 </DialogTitle>

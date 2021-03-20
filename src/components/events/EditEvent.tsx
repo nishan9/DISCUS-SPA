@@ -212,7 +212,7 @@ function EditEvent(props : EditEventProps) {
                         renderInput={(params) => <TextField {...params} label="Add interests" variant="outlined" />}
                     />
                         <Box my={3}>
-                            {tags.map( (e) => <Chip label={e} onDelete={() => changeChips(e)} ></Chip>)}
+                            {tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} onDelete={() => changeChips(e)} ></Chip>)}
                         </Box>
                 </Box>
 
