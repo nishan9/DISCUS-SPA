@@ -43,7 +43,7 @@ const SearchTheme = makeStyles({
         margin: 4,
       },
       accordian : {
-        backgroundColor : "transparent", 
+        backgroundColor : "#24CAC3", 
         borderRadius : 10
       },
       MuiAccordionroot: {
