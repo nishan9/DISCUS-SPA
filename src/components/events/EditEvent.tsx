@@ -209,7 +209,7 @@ function EditEvent(props : EditEventProps) {
                         inputValue={mes}
                         options={AllSubjects}
                         getOptionLabel={(option) => option}
-                        renderInput={(params) => <TextField {...params} label="Add interests" variant="outlined" />}
+                        renderInput={(params) => <TextField {...params} label="Add Tags" variant="outlined" />}
                     />
                         <Box my={3}>
                             {tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} onDelete={() => changeChips(e)} ></Chip>)}
