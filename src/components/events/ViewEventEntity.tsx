@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, createStyles, Grid, makeStyles, Theme, Typography } from '@material-ui/core';
+import { Avatar, Box, Card, Chip, createStyles, Grid, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
 import { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from '../../context/EditEventContext';
 import EventAttendance from '../../models/EventAttendance';
@@ -12,6 +12,8 @@ import events from '../../assets/events.svg';
 import Moment from 'react-moment';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import React from 'react';
+import DiscusLogo from '../../assets/discus.svg'; 
+import WatchLaterIcon from '@material-ui/icons/WatchLater';
 
 function ViewEventEntity(props : any) {
 
@@ -21,11 +23,16 @@ function ViewEventEntity(props : any) {
     const [eventAttendance,setEventAttendance ] = useState<EventAttendance>(); 
     const headers = [ { label:'Name',key:'name'},{label:'Email Address',key:'email'},{label:'Expertise',key:'user_metadata.expertise'}, {label:'Interests',key:'user_metadata.interest' },];
     const [open, setOpen] = useState(false);
+    const [tags, setTags] = useState<string[]>([]);
 
     useEffect(() => {
         getEventInfo(); 
         getEventAttendance(); 
     }, [])
+
+    useEffect(() => {
+        setTags(EventContext.event.tags.split(',')); 
+    }, [EventContext])
 
     const handleOpen = () => {
         setOpen(true);        
@@ -80,36 +87,107 @@ function ViewEventEntity(props : any) {
 
     return (
         <Grid container className={classes.root}>
-        <p>Event ID : {EventContext.event.id} </p>
             <Grid
-             container
-             spacing={0}
-             direction="column"
-             alignItems="center"
-             justify="center"
-             style={{ minHeight: '100vh' }}
+              container
+              style={{ minHeight: '100vh', paddingTop : '49px', padding : '20px' }}
              >
-            <Grid item xs={6}>
-              <Box className={classes.glass} p={1} border={3} borderRadius={4}>
-                <Typography>{EventContext.event.title}</Typography>
-                <Typography>Start Time -  <Moment format="DD/MM/YYYY HH:mm">{EventContext.event.dateTime}</Moment></Typography>
-                <Typography>Finish Time - <Moment format="DD/MM/YYYY HH:mm">{EventContext.event.finishedDateTime}</Moment> </Typography>
-                <Typography> Tags - {EventContext.event.tags}</Typography>
-                <Typography variant="body2">{EventContext.event.url}</Typography>
-                <Typography variant="body2"> Is DISCUS : {EventContext.event.isDISCUS.toString()}</Typography>  
-                <Typography variant="h4"> Attendees</Typography>   
-                {eventAttendance?.users.map (e => 
-                <Grid container>  
-                <Avatar alt="Cindy Baker" src={e.picture} />
-                <Typography>{e.name}</Typography>
-                </Grid>
-                )}
-                <Box>
-                    Total users {eventAttendance?.total}
+            <Grid item md={7} sm={12}>
+              <Box className={classes.glass} p={5} border={3} borderRadius={20}>
+                <p>Event ID : {EventContext.event.id} </p>
+                <Box pb={2}>
+                    <Typography variant="h3">{EventContext.event.title}</Typography>
+                </Box>
+                <div style={{
+                     display: 'flex',
+                     alignItems: 'center',
+                     flexWrap: 'wrap',
+                    }}>
+                <WatchLaterIcon/> 
+                <Typography> Start Time: &nbsp;  
+                <Moment format="LLLL">{EventContext.event.dateTime}</Moment> </Typography>
+                </div>
+
+                <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                }}>   
+                <WatchLaterIcon/> 
+                <Typography> Finish Time:&nbsp;
+                <Moment format="LLLL">{EventContext.event.finishedDateTime}</Moment> </Typography>
+                </div>
+                    
+
+                <Box my={1}>
+                {EventContext.event.isDISCUS ? 
+                    <div style={{
+                     display: 'flex',
+                     alignItems: 'center',
+                     flexWrap: 'wrap',
+                    }}>
+                    <Box my={1} mr={2}><Typography display="inline"> This is a DISCUS event</Typography></Box> 
+                    <img alt="DISCUS Logo" width={'35vw'} src={DiscusLogo}></img>
+                    </div>
+                    : 
+                    <>
+                    </>
+                    }
                 </Box>
 
-                <Button onClick={handleOpen}><MailIcon/>Email Users</Button>
-                {eventAttendance ? <CSVLink filename={`${EventContext.event.title}.csv`} headers = {headers} data={eventAttendance.users}><GetAppIcon/></CSVLink>  : ""}
+                <Box my={1}>
+                    <Button disabled style={{ backgroundColor : '#FFF36D', color : 'black' }} variant="outlined"> {EventContext.event.type}</Button>
+                </Box>
+
+                <Box my={1}>
+                    <Typography> {EventContext.event.description}</Typography>
+                </Box>
+
+                <Typography display="inline"> Registration Information - </Typography> <Typography style={{ color : 'red' }}display="inline">{EventContext.event.url}</Typography>
+
+                <Box my={2}>
+                <Typography display="inline"> Tags - </Typography>
+                {tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} ></Chip>)}
+                </Box>
+
+                <Box style={{ backgroundColor : '#E0E0E0'}} mt={3} p={3} >
+                    <Typography variant="h4"> Attendees </Typography>   
+                    {eventAttendance?.users.map (e => 
+                    <Box p={0.5} m={0.5}>  
+                        <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            flexWrap: 'wrap',
+                            }}>
+                            <Avatar alt="Profile Picture" src={e.picture} />
+                            <Box pl={2}>
+                                <Typography> {e.name} </Typography>
+                            </Box>
+                        </div>                    
+                    </Box>
+                    )}
+                    <Box mx={1}>
+                        Total users {eventAttendance?.total}
+                    </Box>
+                </Box>
+
+                <Grid container>
+                    <Box mt={1} mx={1}>
+                    <Button variant="contained" color="primary" onClick={handleOpen}><MailIcon/>Invite Users</Button>
+                    </Box>
+
+                    <Box mt={1} mx={1} display="in-line">
+                    {eventAttendance ? 
+                        <CSVLink 
+                            filename={`${EventContext.event.title}.csv`} 
+                            headers = {headers} 
+                            data={eventAttendance.users}>
+                            <Button variant="contained" color="primary" >
+                                <GetAppIcon/> Download 
+                            </Button>
+                        </CSVLink>  : ""}
+                    </Box>
+                </Grid>
+
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                     <DialogTitle id="id">
                     <Box display="flex" alignItems="center">
@@ -123,9 +201,7 @@ function ViewEventEntity(props : any) {
                             <SendEmail/>
                         </DialogContent>
                 </Dialog>
-
-            </Box>
-              
+                </Box>
             </Grid>  
 
             </Grid> 

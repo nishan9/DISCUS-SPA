@@ -14,6 +14,7 @@ import UserTheme from '../themes/UserTheme';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import DeleteIcon from '@material-ui/icons/Delete';
+import validator from 'validator';
 
 
 function EditUserProfile() {
@@ -37,9 +38,9 @@ function EditUserProfile() {
     const [openDelete, setOpenDelete] = useState(false); 
 
 
-    const [validateName, setValidateName] = useState(true); 
-    const [validateSussex, setValidateSussex] = useState(true); 
-    const [validateLinkedIn, setValidateLinkedIn] = useState(true)
+    const [validatedName, setValidatedName] = useState(true); 
+    const [validatedSP, setValidatedSP] = useState(true); 
+    const [validatedLP, setValidatedLP] = useState(true)
     let mes = ""
 
     useEffect(() => {
@@ -82,7 +83,36 @@ function EditUserProfile() {
         setGraduation(date)
     };
 
+    async function Validation(){
+
+        if ((sussexURL === "" || validator.isURL(sussexURL)) && (linkedIn  === "" ||  validator.isURL(linkedIn))) 
+        {
+            setValidatedSP(true);
+            setValidatedLP(true);
+            UpdateUser();
+        } 
+        else if (sussexURL === "" || validator.isURL(sussexURL) )
+        {
+            setValidatedSP(true);
+            if (linkedIn  !== "" ||  !validator.isURL(linkedIn)){
+                setValidatedLP(false);
+            }
+        }
+        else if (linkedIn  === "" ||  validator.isURL(linkedIn))
+        {
+            setValidatedLP(true);
+            if (sussexURL  !== "" ||  !validator.isURL(sussexURL)){
+                setValidatedSP(false);
+            }
+        }
+        else {
+            setValidatedSP(false);
+            setValidatedLP(false);
+        }
+    }
+
     async function UpdateUser(){
+
         const stravail = available.toString(); 
         const postreq = (
             {   "name" : name, 
@@ -188,7 +218,7 @@ function EditUserProfile() {
 
     
     return (
-        <>
+        <form noValidate autoComplete="off">
         <Box my={4}>
         </Box>
         <Hidden xsDown>
@@ -209,7 +239,7 @@ function EditUserProfile() {
                     </Box>
                     <Hidden only={['lg', 'xl']}>
                         <Button onClick={ChangeCancel}> <CancelIcon/> </Button>
-                        <Button onClick={UpdateUser}>  <SaveIcon/> </Button>         
+                        <Button onClick={Validation}>  <SaveIcon/> </Button>         
                     </Hidden>
                 </Grid>
             </Grid>
@@ -223,9 +253,10 @@ function EditUserProfile() {
                                 fullWidth
                                 variant="outlined" 
                                 value={name}
+                                error={!validatedName}
+                                helperText={validatedName ? "" : "Must be a name"}
                                 label="Name" 
                                 margin="dense"
-                                error={name.length === 0 ? true : false }
                                 onChange={e => setName(e.target.value)} 
                                 defaultValue={AuthContext.data?.name}/>
                             </Grid>
@@ -249,12 +280,9 @@ function EditUserProfile() {
                                     margin="dense"
                                     variant="outlined"
                                     fullWidth
-                                    onChange={e => 
-                                        {
-                                            console.log(e.target);
-                                            setSussexURL(e.target.value);
-                                        }
-                                    }
+                                    error={!validatedSP}
+                                    helperText={validatedSP ? "" : "Must be a valid URL or blank"}
+                                    onChange={e =>  setSussexURL(e.target.value)}
                                     value={sussexURL}
                                     label="Sussex URL"
                                     defaultValue={sussexURL}/> 
@@ -268,6 +296,8 @@ function EditUserProfile() {
                                     margin="dense"
                                     variant="outlined"
                                     fullWidth
+                                    error={!validatedLP}
+                                    helperText={validatedLP ? "" : "Must be a valid URL or blank"}
                                     value={linkedIn}
                                     onChange={e => setLinkedIn(e.target.value)}
                                     label="LinkedIn URL"
@@ -303,7 +333,7 @@ function EditUserProfile() {
             <Hidden mdDown>
                 <Grid item lg={1} xs={1}>
                     <Box m={2}><Button onClick={ChangeCancel}> <CancelIcon/> </Button></Box>
-                    <Box m={2}><Button onClick={UpdateUser}>  <SaveIcon/> </Button></Box>
+                    <Box m={2}><Button onClick={Validation}>  <SaveIcon/> </Button></Box>
                 </Grid>
             </Hidden>
             </Grid>
@@ -464,7 +494,8 @@ function EditUserProfile() {
                 </Grid>
             </Grid>
             </Box>
-                <Grid item xs={12} alignItems="center">
+                <Grid container justify="center">
+                <Grid item xs={11} lg={12} alignItems="center">
                     <Box borderRadius={5} className={classes.glass}  mt={5} mb={2}>                        
                         <TextField
                         multiline
@@ -486,6 +517,7 @@ function EditUserProfile() {
                     </Grid>
                     <Box mb={8}></Box>
                 </Grid>
+                </Grid>
 
                 <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
                 <DialogTitle style={{ textAlign : 'center'}}>
@@ -501,7 +533,7 @@ function EditUserProfile() {
             </Grid>
         </Grid>
     </div>
-    </>
+    </form>
     )
 }
 

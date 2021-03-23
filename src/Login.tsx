@@ -6,19 +6,17 @@ import Reuss from './assets/Reuss.svg';
 
 export default function Login() {
     const {loginWithRedirect } = useAuth0();
-    
-
     const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-      html  : {
-        margin: 0,
-        padding: 0,
-    },
-        root: {
-            display: 'flex',
-            minHeight : '100vh', backgroundImage: `url(${Reuss})`, backgroundRepeat : "no-repeat",
-            backgroundPosition : 'top right'
-        }
+      createStyles({
+        html  : {
+          margin: 0,
+          padding: 0,
+        },
+          root: {
+              display: 'flex',
+              minHeight : '100vh', backgroundImage: `url(${Reuss})`, backgroundRepeat : "no-repeat",
+              backgroundPosition : 'top right'
+          }
         }),
     );
     const classes = useStyles();
@@ -29,14 +27,10 @@ export default function Login() {
           <Grid container>
               <Box mx="1rem" my="2rem" alignSelf="flex-end">
               <Grid item xs={12} lg={3}>
-              <Typography variant="h2" gutterBottom>
-                  DISCUS
-                </Typography>
-                <Typography variant="body1" gutterBottom>
-                  DISCUS is the Data Intensive Science Centre at the University of Sussex, a research unit built to address real social and economic challenges by applying data interpretation techniques developed by a cross-disciplinary team.
-                </Typography>
+                <Typography variant="h2" gutterBottom> DISCUS </Typography>
+                <Typography variant="body1" gutterBottom> DISCUS is the Data Intensive Science Centre at the University of Sussex, a research unit built to address real social and economic challenges by applying data interpretation techniques developed by a cross-disciplinary team. </Typography>
                 <Button variant="contained" color="secondary" onClick={() => loginWithRedirect()}>Portal</Button>          
-                </Grid>
+              </Grid>
               </Box>
           </Grid>
         </div>

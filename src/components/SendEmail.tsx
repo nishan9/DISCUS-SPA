@@ -1,23 +1,24 @@
-import { Box, Button, TextField, Typography } from '@material-ui/core'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Chip, TextField, Typography } from '@material-ui/core'
 import React, { useContext, useEffect, useState } from 'react'
 import SendIcon from '@material-ui/icons/Send';
 import EmailAddress from '../models/EmailAddress'; 
 import { EditEventContext } from  '../context/EditEventContext'; 
 import SendMail from '../models/SendMail'; 
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 function SendEmail() {
     const EventContext = useContext(EditEventContext)
-    const [to, setTo] = useState(""); 
     const [subject, setSubject] = useState("Invitation..."); 
     const [body, setBody] = useState(""); 
     const [recipents, setrecipents] = useState<EmailAddress[]>(); 
+
     useEffect(() => {
         getRecipents(); 
         formatter(); 
     }, [])
 
     async function formatter(){
-        setBody(`Title = ${EventContext.event.title}\nURL = ${EventContext.event.url}\nType = ${EventContext.event.type}\nStart DateTime = ${EventContext.event.dateTime}\nFinish DateTime = ${EventContext.event.dateTime}\nDescription = ${EventContext.event.description}`)
+        setBody(`Title = ${EventContext.event.title}\n\nURL : ${EventContext.event.url}\n\nType : ${EventContext.event.type}\n\nStart DateTime : ${EventContext.event.dateTime}\n\nFinish DateTime : ${EventContext.event.dateTime}\n\nDescription : ${EventContext.event.description}`)
     }
 
     async function getRecipents(){
@@ -56,28 +57,43 @@ function SendEmail() {
     return (
         <div>
             <Box m={3}>
-                <Typography> To </Typography>
-                {recipents?.map (e => 
-                    <>
-                    <Box m={2}>
-                        <Typography>{e.name}</Typography>
-                    </Box>
-                    </>)
-                }
-                <Box my={5}>
-                    <Typography> Subject </Typography>
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls="panel2a-content"
+                        id="panel2a-header"
+                        >
+                        <Typography> To </Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            {recipents?.map (e => 
+                            <>
+                                <Chip style={{backgroundColor:'#24CAC3', margin : 3}} label={e.name}></Chip>
+                            </>)
+                            }
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+
+                <Box my={3}>
+                    <TextField variant="outlined"  label="Subject" value={subject} onChange={e => setSubject(e.target.value)}></TextField>
                 </Box>
-                    <TextField variant="outlined"  value={subject} onChange={e => setSubject(e.target.value)}></TextField>
-                <Typography > Body </Typography>
-                    <TextField
-                        value={body} 
-                        variant="outlined" 
-                        multiline
-                        fullWidth={true}
-                        rows={10}
-                        onChange={e => setBody(e.target.value)}>
-                    </TextField>
-                <Button onClick={sendEmail}><SendIcon/></Button>
+
+                <TextField
+                    value={body} 
+                    variant="outlined" 
+                    label="Body" 
+                    multiline
+                    fullWidth={true}
+                    rows={10}
+                    onChange={e => setBody(e.target.value)}>
+                </TextField>
+
+                <Box my={2}>
+                    <Button variant="contained" color="primary" onClick={sendEmail}><SendIcon/>Send</Button>
+                </Box>
+
             </Box>
         </div>
     )
