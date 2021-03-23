@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Label } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
   
 function StackedBarChart() {
     const [Bardata, setBarData]= useState([]); 
@@ -61,7 +61,7 @@ function StackedBarChart() {
                       bottom: 5,
                     }}
                   >
-                  <CartesianGrid strokeDasharray="3 3" />
+                  <CartesianGrid stroke="#eee" strokeDasharray="5 5"/>
                     <XAxis dataKey="name" interval={0} />
                     <YAxis allowDecimals={false} />
                     <Tooltip content={

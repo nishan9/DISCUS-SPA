@@ -261,6 +261,7 @@ function SearchUsers() {
                         <>
                             <Autocomplete
                                 multiple fullWidth onChange={(event, value, reason) => addtoState(value, reason)}
+                                limitTags={2}
                                 className={classes.input} options={Subjects}
                                 getOptionLabel={(option) => option.Subject}
                                 renderInput={(params) => (
