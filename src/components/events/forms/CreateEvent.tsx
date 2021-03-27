@@ -50,9 +50,9 @@ function CreateEvent(props : CreateEventProps) {
         }
 
         const newEvent = {...event}
-        if(AuthContext.data.app_metadata !== null){
-            newEvent.isApproved = true;
-            setEvent(newEvent)
+            if(AuthContext.data.app_metadata !== null){
+                newEvent.isApproved = true;
+                setEvent(newEvent)
         }
 
         const newEventTags = {...event}

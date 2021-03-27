@@ -55,7 +55,7 @@ function ViewEventEntity(props : any) {
         setAccessToken(token)
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${props.match.params.event_id}`, { 
             headers: {
-            'Content-Type': 'application/json',
+             'Content-Type': 'application/json',
             }
         });
         EventContext.setEvent(await response.json()); 
@@ -64,7 +64,7 @@ function ViewEventEntity(props : any) {
     async function getEventAttendance(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/EventAttendance/${props.match.params.event_id}`, { 
             headers: {
-            'Content-Type': 'application/json',
+             'Content-Type': 'application/json',
             }
         });
         setEventAttendance(await response.json()); 
@@ -118,21 +118,19 @@ function ViewEventEntity(props : any) {
                      alignItems: 'center',
                      flexWrap: 'wrap',
                     }}>
-                <WatchLaterIcon/> 
-                <Typography> Start Time: &nbsp;  
-                <Moment format="LLLL">{EventContext.event.dateTime}</Moment> </Typography>
+                    <WatchLaterIcon/> 
+                    <Typography> Start Time: &nbsp;  
+                    <Moment format="LLLL">{EventContext.event.dateTime}</Moment> </Typography>
                 </div>
-
                 <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
                 }}>   
-                <WatchLaterIcon/> 
-                <Typography> Finish Time:&nbsp;
-                <Moment format="LLLL">{EventContext.event.finishedDateTime}</Moment> </Typography>
+                    <WatchLaterIcon/> 
+                    <Typography> Finish Time:&nbsp;
+                    <Moment format="LLLL">{EventContext.event.finishedDateTime}</Moment> </Typography>
                 </div>
-                    
 
                 <Box my={1}>
                 {EventContext.event.isDISCUS ? 
@@ -162,7 +160,7 @@ function ViewEventEntity(props : any) {
 
                 <Box my={2}>
                 <Typography display="inline"> Tags - </Typography>
-                {tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} ></Chip>)}
+                    { tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} ></Chip>) }
                 </Box>
 
                 <Box style={{ backgroundColor : '#E0E0E0'}} mt={3} p={3} >

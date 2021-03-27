@@ -19,7 +19,7 @@ function EditEvent(props : EditEventProps) {
 
     useEffect(() => {
         setTags(EventContext.event.tags.split(',')); 
-    }, [])
+    }, []); 
 
     function changeTags(value : string | null){
         mes = ""

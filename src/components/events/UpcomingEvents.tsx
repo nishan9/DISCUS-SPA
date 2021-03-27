@@ -167,7 +167,6 @@ function UpcomingEvents() {
       })(Typography);
       
 
-
     const classes = EventsTheme();
 
     return (
