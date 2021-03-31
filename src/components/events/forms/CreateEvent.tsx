@@ -1,23 +1,22 @@
 import { Box, Button, Checkbox, FormControl, FormControlLabel, Grid, MenuItem, Select, Tooltip } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import { InputLabel } from '@material-ui/core';
 import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { useAuth0 } from '@auth0/auth0-react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Auth0Context } from '../../../context/Auth0Context';
-import { Autocomplete } from '@material-ui/lab';
 import { AllSubjects } from '../../../config/TagSystem';
+import { InputLabel } from '@material-ui/core';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Autocomplete } from '@material-ui/lab';
 import { useSnackbar } from 'notistack';
+import TextField from '@material-ui/core/TextField';
+import DateFnsUtils from '@date-io/date-fns';
 
 interface CreateEventProps {
     dialog : Function
 }
 
 function CreateEvent(props : CreateEventProps) {
-
     const Auth0 = useAuth0();    
-    const [event, setEvent] = useState({title:"",dateTime: new Date() , finishedDateTime: new Date(), type:"", url:"", description:"",isDISCUS:true, isApproved : false, tags : "" }); 
+    const [event, setEvent] = useState({title:"", dateTime: new Date() , finishedDateTime: new Date(), type:"", url:"", description:"",isDISCUS:true, isApproved : false, tags : "" }); 
     const [accessToken, setAccessToken] = useState("");
     const AuthContext = useContext(Auth0Context)
     const [tags, setTags] = useState<string[]>([])
@@ -58,7 +57,6 @@ function CreateEvent(props : CreateEventProps) {
         const newEventTags = {...event}
         newEvent.tags = Alltags.slice(0,-1);
         setEvent(newEventTags); 
-
 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity`, {
             method:"POST", 
@@ -259,7 +257,6 @@ function CreateEvent(props : CreateEventProps) {
                     }
             >Submit</Button>
             </Box>
-        
         </div>
         </form>
         </>

@@ -295,8 +295,6 @@ function UpcomingEvents() {
             <Loading/>
             }
 
-
-
             <Dialog open={openNE} onClose={handleCloseNE} aria-labelledby="form-dialog-title">
                 <DialogTitle id="id">
                 <Box display="flex" alignItems="center">

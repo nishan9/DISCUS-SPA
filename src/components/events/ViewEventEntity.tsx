@@ -28,7 +28,7 @@ function ViewEventEntity(props : any) {
     const [accessToken, setAccessToken] = useState(''); 
     const Auth0 = useAuth0();
     const [eventAttendance,setEventAttendance ] = useState<EventAttendance>(); 
-    const headers = [ { label:'Name',key:'name'},{label:'Email Address',key:'email'},{label:'Expertise',key:'user_metadata.expertise'}, {label:'Interests',key:'user_metadata.interest' },];
+    const headers = [ { label:'Name',key:'name'}, {label:'Email Address',key:'email'}, {label:'Expertise',key:'user_metadata.expertise'}, {label:'Interests',key:'user_metadata.interest' },];
     const [open, setOpen] = useState(false);
     const [tags, setTags] = useState<string[]>([]);
 
@@ -200,8 +200,13 @@ function ViewEventEntity(props : any) {
                             </Button>
                         </CSVLink>  : ""}
                     </Box>
+                    
                     <Grid container>
-                <Typography> Add to calendar</Typography>
+                        <Grid item xs={12}>
+                            <Box my={2}>
+                                <Typography> Add to calendar</Typography>
+                            </Box>
+                        </Grid>
                     <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
                         <Link href={outlook(event)}>
                             <Button><img width='25rem' alt="Yahoo Icon"src={outlookIcon}></img></Button>

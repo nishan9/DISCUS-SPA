@@ -28,6 +28,7 @@ function ApproveEvents() {
 
     async function ApproveEvent(e : number){
         const Authorize = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Approve/${e}`, { 
+            method: "PATCH",
             headers: {
             'Content-Type': 'application/json',
             }
