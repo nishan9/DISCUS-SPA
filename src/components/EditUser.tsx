@@ -19,7 +19,8 @@ import { SelectedUserContext } from '../context/SelectedUserContext';
 
 function EditUser() {
     const UserContext = useContext(SelectedUserContext); 
-    
+    const history = useHistory(); 
+
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
     const { enqueueSnackbar } = useSnackbar();
@@ -168,10 +169,9 @@ function EditUser() {
             method:"DELETE", 
         })
         if(response.ok){
-            
             enqueueSnackbar('User has been deleted', { variant : "success" });
             handleCloseDelete();
-            Auth0.logout(); 
+            history.push("/searchUsers"); 
         }else{
             enqueueSnackbar('An error occured', { variant : "error" });
         }
