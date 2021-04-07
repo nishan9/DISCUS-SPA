@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, Card, Chip, createStyles, Grid, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
+import { Avatar, Box, ButtonGroup, Chip, createStyles, Grid, Link, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from '../../context/EditEventContext';
 import EventAttendance from '../../models/EventAttendance';
@@ -14,6 +14,13 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import React from 'react';
 import DiscusLogo from '../../assets/discus.svg'; 
 import WatchLaterIcon from '@material-ui/icons/WatchLater';
+import { google, outlook, office365, yahoo, ics } from "calendar-link";
+import appleIcon from '../../assets/appleIcon.svg';
+import yahooIcon from '../../assets/yahooIcon.svg';
+import outlookIcon from '../../assets/outlookIcon.svg';
+import googleIcon from '../../assets/googleIcon.svg';
+import office365Icon from '../../assets/365.svg';
+
 
 function ViewEventEntity(props : any) {
 
@@ -21,7 +28,7 @@ function ViewEventEntity(props : any) {
     const [accessToken, setAccessToken] = useState(''); 
     const Auth0 = useAuth0();
     const [eventAttendance,setEventAttendance ] = useState<EventAttendance>(); 
-    const headers = [ { label:'Name',key:'name'},{label:'Email Address',key:'email'},{label:'Expertise',key:'user_metadata.expertise'}, {label:'Interests',key:'user_metadata.interest' },];
+    const headers = [ { label:'Name',key:'name'}, {label:'Email Address',key:'email'}, {label:'Expertise',key:'user_metadata.expertise'}, {label:'Interests',key:'user_metadata.interest' },];
     const [open, setOpen] = useState(false);
     const [tags, setTags] = useState<string[]>([]);
 
@@ -48,7 +55,7 @@ function ViewEventEntity(props : any) {
         setAccessToken(token)
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${props.match.params.event_id}`, { 
             headers: {
-            'Content-Type': 'application/json',
+             'Content-Type': 'application/json',
             }
         });
         EventContext.setEvent(await response.json()); 
@@ -57,11 +64,20 @@ function ViewEventEntity(props : any) {
     async function getEventAttendance(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/EventAttendance/${props.match.params.event_id}`, { 
             headers: {
-            'Content-Type': 'application/json',
+             'Content-Type': 'application/json',
             }
         });
         setEventAttendance(await response.json()); 
     }
+
+
+    const event  = {
+        title: EventContext.event.title,
+        description: EventContext.event.description,
+        start: EventContext.event.dateTime,
+        end : EventContext.event.finishedDateTime
+    };
+
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -102,21 +118,19 @@ function ViewEventEntity(props : any) {
                      alignItems: 'center',
                      flexWrap: 'wrap',
                     }}>
-                <WatchLaterIcon/> 
-                <Typography> Start Time: &nbsp;  
-                <Moment format="LLLL">{EventContext.event.dateTime}</Moment> </Typography>
+                    <WatchLaterIcon/> 
+                    <Typography> Start Time: &nbsp;  
+                    <Moment format="LLLL">{EventContext.event.dateTime}</Moment> </Typography>
                 </div>
-
                 <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 flexWrap: 'wrap',
                 }}>   
-                <WatchLaterIcon/> 
-                <Typography> Finish Time:&nbsp;
-                <Moment format="LLLL">{EventContext.event.finishedDateTime}</Moment> </Typography>
+                    <WatchLaterIcon/> 
+                    <Typography> Finish Time:&nbsp;
+                    <Moment format="LLLL">{EventContext.event.finishedDateTime}</Moment> </Typography>
                 </div>
-                    
 
                 <Box my={1}>
                 {EventContext.event.isDISCUS ? 
@@ -146,7 +160,7 @@ function ViewEventEntity(props : any) {
 
                 <Box my={2}>
                 <Typography display="inline"> Tags - </Typography>
-                {tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} ></Chip>)}
+                    { tags.map( (e) => <Chip label={e} style={{backgroundColor:'#24CAC3', margin : 2}} ></Chip>) }
                 </Box>
 
                 <Box style={{ backgroundColor : '#E0E0E0'}} mt={3} p={3} >
@@ -186,6 +200,31 @@ function ViewEventEntity(props : any) {
                             </Button>
                         </CSVLink>  : ""}
                     </Box>
+                    
+                    <Grid container>
+                        <Grid item xs={12}>
+                            <Box my={2}>
+                                <Typography> Add to calendar</Typography>
+                            </Box>
+                        </Grid>
+                    <ButtonGroup variant="contained" color="primary" aria-label="contained primary button group">
+                        <Link href={outlook(event)}>
+                            <Button><img width='25rem' alt="Yahoo Icon"src={outlookIcon}></img></Button>
+                        </Link>
+                        <Link href={yahoo(event)}>
+                            <Button><img width='25rem' alt="Yahoo Icon"src={yahooIcon}></img></Button>
+                        </Link>
+                        <Link href={google(event)}>
+                            <Button><img width='25rem' alt="Yahoo Icon"src={googleIcon}></img></Button>
+                        </Link>
+                        <Link href={office365(event)}>
+                            <Button><img width='25rem' alt="Yahoo Icon"src={office365Icon}></img></Button>
+                        </Link>
+                        <Link href={ics(event)}>
+                            <Button><img width='25rem' alt="Yahoo Icon"src={appleIcon}></img></Button>
+                        </Link>
+                    </ButtonGroup>
+                </Grid>
                 </Grid>
 
                 <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -203,7 +242,6 @@ function ViewEventEntity(props : any) {
                 </Dialog>
                 </Box>
             </Grid>  
-
             </Grid> 
         </Grid>
     )

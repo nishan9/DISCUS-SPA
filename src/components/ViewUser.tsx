@@ -1,8 +1,7 @@
-import { Avatar, Box, Button, Chip, createStyles, Dialog, DialogContent, DialogTitle, FormControl, Grid, Hidden, InputLabel, makeStyles, MenuItem, Select, TextField, Theme, Typography } from '@material-ui/core';
-import React, { useContext, useEffect, useState } from 'react'
+import { Avatar, Box, Button, Chip, Grid, Hidden, Typography } from '@material-ui/core';
+import React, { useContext, useEffect } from 'react'
 import Auth0user from '../models/Auth0user';
 import EditIcon from '@material-ui/icons/Edit';
-import { Autocomplete, AutocompleteChangeReason } from '@material-ui/lab';
 import { Auth0Context } from '../context/Auth0Context'
 import IsAvailable from './IsAvailable';
 import Loading from '../config/Loading';
@@ -16,86 +15,30 @@ import uosLogo from '../assets/logo.svg';
 import EditUser from './EditUser';
 import { SelectedUserContext } from '../context/SelectedUserContext';
 import UserTheme from '../themes/UserTheme';
-import DeleteIcon from '@material-ui/icons/Delete';
+import Moment from 'react-moment';
 
 function ViewUser(props : any) {
 
-    const [loginPressed, setLoginPressed] = useState(false);
-    const user_id = props.match.params.user_id; 
-    const [editMode, setEditMode] = useState(false);
-    const [interests, setInterests] = useState<string[]>([])
     const UserContext = useContext(SelectedUserContext); 
-    const [openDelete, setOpenDelete] = useState(false); 
 
     useEffect(() => {
         fetchData();
     }, [])
 
     async function fetchData(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${user_id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${props.match.params.user_id}`);
         UserContext.setData(await response.json());
     }
 
     function changeEdit(){
-        if (UserContext.data !== undefined){
-            setInterests(UserContext.data?.user_metadata.interest)
-        }
-        setEditMode(true); 
-    }
-
-    function Cancel(){
-        setEditMode(false); 
-    }
-
-    async function saveData(e : any){
-        e.preventDefault();
-
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/User/`, {
-            headers : {"Content-Type" : "application/json" }, 
-            method:"POST", 
-            body: JSON.stringify(UserContext.data),
-        })
-        if(response.ok){
-            alert("Success"); 
-        }else{
-            console.error("Publishing failed");
-        }
-    }
-
-
-    function addtoState(value : { Subject : string}[], reason : AutocompleteChangeReason){
-        let newTags : string [] = []; 
-        setInterests(newTags); 
-        setInterests(value.map ( x => x.Subject)); 
-    }
-    
-    function openDeleteDialog(){
-        setOpenDelete(true); 
-    }
-
-    function handleCloseDelete(){
-        setOpenDelete(false); 
-    }
-    async function handleDelete(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Delete/${UserContext.data.user_id}`, {
-            headers : {"Content-Type" : "application/json" }, 
-            method:"DELETE", 
-        })
-        if(response.ok){
-            
-            alert("Deleted User"); 
-            handleCloseDelete();
-        }else{
-            console.error("Failed");
-        }
+        UserContext.setEdit(true); 
     }
 
     const classes = UserTheme();
-
     
     return (
         <>
-        {editMode ? <EditUser id={UserContext.data?.user_id}/> : 
+        {UserContext.edit ? <EditUser/> : 
             <>
             {UserContext.data ? 
                               <>
@@ -165,7 +108,7 @@ function ViewUser(props : any) {
                                               </Box>
                                           }
                                           <Box my={1}><SchoolIcon/></Box>
-                                          <Box m={1}>{UserContext.data.user_metadata.education.graduationDate.toString().slice(4,15)} </Box>
+                                          <Box m={1}><Moment format="MMMM Do YYYY">{UserContext.data.user_metadata.education.graduationDate.toString()}</Moment></Box>
                                           </div>
                                           </Grid>
                                           </Grid>
@@ -246,24 +189,9 @@ function ViewUser(props : any) {
                                                   </Box>
                                               </Box>
                                           </Grid>
-                                          <Button
-                                            variant="contained"
-                                            color="secondary"
-                                            onClick={e => openDeleteDialog()}
-                                            startIcon={<DeleteIcon />}
-                                            />
                                       </Grid>
                                   </Grid>
                               </div>
-
-                            <Dialog open={openDelete} onClose={handleCloseDelete} aria-labelledby="form-dialog-title">
-                            <DialogTitle>Delete Event the Event</DialogTitle>
-                            <DialogContent>
-                            Are you sure to delete? 
-                            </DialogContent>
-                            <Button onClick={() => handleDelete()} color="primary"> Delete Event </Button>
-                            <Button onClick={() => handleCloseDelete()} color="primary"> Cancel </Button>
-                            </Dialog> 
                           </>
             :
                 <Loading/>

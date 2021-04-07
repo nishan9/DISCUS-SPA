@@ -167,7 +167,6 @@ function UpcomingEvents() {
       })(Typography);
       
 
-
     const classes = EventsTheme();
 
     return (
@@ -295,8 +294,6 @@ function UpcomingEvents() {
             : 
             <Loading/>
             }
-
-
 
             <Dialog open={openNE} onClose={handleCloseNE} aria-labelledby="form-dialog-title">
                 <DialogTitle id="id">

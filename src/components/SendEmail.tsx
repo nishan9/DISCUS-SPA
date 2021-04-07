@@ -30,6 +30,10 @@ function SendEmail() {
         setrecipents(await response.json())
     }
 
+    function removeRecipents(e : any){
+        setrecipents(recipents?.filter(recipent => recipent !== e))
+    }
+
     async function sendEmail(){
         if (recipents !== undefined){
             let message; 
@@ -40,7 +44,7 @@ function SendEmail() {
                 "subject" : subject, 
             }
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/SendEmail`, { 
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSarch/SendEmail`, { 
                 method:"POST", 
                 body: JSON.stringify(sendObj),
                 headers: {
@@ -69,7 +73,7 @@ function SendEmail() {
                         <Typography>
                             {recipents?.map (e => 
                             <>
-                                <Chip style={{backgroundColor:'#24CAC3', margin : 3}} label={e.name}></Chip>
+                                <Chip style={{backgroundColor:'#24CAC3', margin : 3}} onDelete={() => removeRecipents(e)} label={e.name}></Chip>
                             </>)
                             }
                         </Typography>

@@ -1,6 +1,6 @@
 import ExtensionIcon from '@material-ui/icons/Extension';
 import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, ButtonBase, Checkbox, Chip, Divider, FormControlLabel, FormGroup, Grid, Hidden, IconButton, InputBase, Paper, Switch, TextField, Typography } from '@material-ui/core';
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
 import { Autocomplete, AutocompleteChangeReason, Pagination } from '@material-ui/lab';
@@ -12,7 +12,6 @@ import SchoolIcon from '@material-ui/icons/School';
 import { Link } from 'react-router-dom';
 import Tags from './config/Tags.json'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import theme from './theme';
 import SearchTheme from './themes/SearchTheme';
 import AntSwitch from './components/AntSwitch';
 
@@ -62,13 +61,8 @@ function SearchUsers() {
         fetchData();
     },[searchTerm,currPage,DepArray, tagsArray, checked, IncludeAll, CareerStage]);
 
-
-
-
-
     function checkChildTagsTwo(Term : String){
         const keyify : any = (obj : any, prefix = '') => 
-
             Object.keys(obj).reduce((res :any, el) => {
                 if( Array.isArray(obj[el]) ) {
                 } else if( typeof obj[el] === 'object' && obj[el] !== null ) {
@@ -91,7 +85,6 @@ function SearchUsers() {
                 filter = filter.concat( ` OR user_metadata.${cond}:"` + arr[i] + '"')
             }
         }
-        console.log(filter);
         return filter;
     }
 
@@ -118,7 +111,6 @@ function SearchUsers() {
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
         }
-
         tags ? NameSearch(SidebarFilterOptions) : TagSearch(SidebarFilterOptions)     
     }
 
@@ -413,7 +405,6 @@ function SearchUsers() {
                                             <Grid container direction="row" alignItems="center">
                                                 <Box pt={5}></Box>
                                                 <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
-
                                                 <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
                                             </Grid>
                                             <Box> 

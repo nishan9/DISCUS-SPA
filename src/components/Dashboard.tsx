@@ -42,7 +42,7 @@ function Dashboard() {
                         <Grid container justify = "center">
                             <Box m={2}>
                                 <Box className="small" borderRadius="borderRadius">
-                                <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
+                                    <Avatar alt="Profile Picture" className={classes.large} src={AuthContext.data ? AuthContext.data.picture : ""}/>
                                 </Box>
                             </Box>
                             <Hidden only={['md', 'lg', 'xl', 'sm']}>
@@ -76,14 +76,15 @@ function Dashboard() {
                         </Hidden>
                         <Grid container className={classes.centerMobile}>
                         <div className={classes.centerSVG}>
-                        { AuthContext.data.user_metadata.social.sussex === "" ? 
+                            { AuthContext.data.user_metadata.social.sussex === "" ? 
                             <></>
                             :
                             <a href={AuthContext.data.user_metadata.social.sussex} target="_blank" rel="noopener noreferrer">
-                            <Box mr={2}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box> 
-                        </a> }                        
+                                <Box mr={2}><img src={uosLogo} alt="UoS Logo"  height='25px' width='30px' /></Box> 
+                            </a> 
+                            }                        
             
-                        {AuthContext.data.user_metadata.social.linkedIn === "" ?  
+                            {AuthContext.data.user_metadata.social.linkedIn === "" ?  
                             <></> 
                             :
                             <Box mr={2}>
@@ -91,7 +92,7 @@ function Dashboard() {
                                     <LinkedInIcon/>
                                 </a>
                             </Box>
-                        }
+                            }
                             <Box my={1}><Tooltip title="Graduation Date"><SchoolIcon/></Tooltip></Box>
                             <Box m={1}><Moment format="MMMM Do YYYY">{AuthContext.data.user_metadata.education.graduationDate.toString()}</Moment></Box>
                         </div>
