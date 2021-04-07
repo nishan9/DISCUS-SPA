@@ -17,6 +17,8 @@ function WelcomeScreen() {
 
     useEffect(() => {
         fetchData();
+        console.log(accessToken); 
+        console.log(Auth0.getIdTokenClaims)
     }, [accessToken])
 
     async function fetchData(){

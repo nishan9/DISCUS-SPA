@@ -1,5 +1,5 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { Avatar, Box, ButtonGroup, Card, Chip, createStyles, Grid, Link, makeStyles, Paper, Theme, Typography } from '@material-ui/core';
+import { Avatar, Box, ButtonGroup, Chip, createStyles, Grid, Link, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from '../../context/EditEventContext';
 import EventAttendance from '../../models/EventAttendance';

@@ -63,7 +63,6 @@ function SearchUsers() {
 
     function checkChildTagsTwo(Term : String){
         const keyify : any = (obj : any, prefix = '') => 
-
             Object.keys(obj).reduce((res :any, el) => {
                 if( Array.isArray(obj[el]) ) {
                 } else if( typeof obj[el] === 'object' && obj[el] !== null ) {
@@ -406,7 +405,6 @@ function SearchUsers() {
                                             <Grid container direction="row" alignItems="center">
                                                 <Box pt={5}></Box>
                                                 <Box pr={1}><SchoolIcon /></Box>  {e.user_metadata.education.school}
-
                                                 <Box pr={3}></Box><ApartmentIcon /> {e.user_metadata.education.department}
                                             </Grid>
                                             <Box> 
