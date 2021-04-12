@@ -41,7 +41,6 @@ function EditUserProfile() {
     const [validatedName, setValidatedName] = useState(true); 
     const [validatedSP, setValidatedSP] = useState(true); 
     const [validatedLP, setValidatedLP] = useState(true)
-    let mes = ""
 
     useEffect(() => {
         LoadStates(); 
@@ -196,7 +195,6 @@ function EditUserProfile() {
     }
 
     function changeInterest(value : string | null){
-        mes = ""
         if (value !== null ){
             if (interests.includes(value)){   
                 console.log("Yu Blind!")
@@ -207,7 +205,6 @@ function EditUserProfile() {
     }
     
     function changeExpertise(value : string | null){
-        mes = ""
         if (value !== null ){
             if (expertise.includes(value)){   
                 console.log("Yu Blind!")
@@ -471,7 +468,6 @@ function EditUserProfile() {
                     <Autocomplete
                     fullWidth
                     onChange={(event, value, reason) => changeExpertise(value)}
-                    inputValue={mes}
                     options={AllSubjects}
                     getOptionLabel={(option) => option}
                     renderInput={(params) => <TextField {...params} margin="dense" label="Add Expertise" variant="outlined" />}
@@ -485,7 +481,6 @@ function EditUserProfile() {
                     <Autocomplete
                     fullWidth
                     onChange={(event, value, reason) => changeInterest(value)}
-                    inputValue={mes}
                     options={AllSubjects}
                     getOptionLabel={(option) => option}
                     renderInput={(params) => <TextField {...params} margin="dense" label="Add Interests" variant="outlined" />}
