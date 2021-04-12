@@ -21,7 +21,7 @@ function ApproveEvents() {
             Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
         }
         getData();
-    }, [Auth0])
+    }, [Auth0, accessToken])
         
     async function getData(){
         const getData = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Unauthorized`, { 
