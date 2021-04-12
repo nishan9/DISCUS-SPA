@@ -59,7 +59,11 @@ function UpcomingEvents() {
     async function handleDelete(){
         setOpenDelete(false); 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${confirmDelete}`, {
-            method : "DELETE"
+            method : "DELETE",
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
+            }
         });
         if(response.ok){
             enqueueSnackbar('Event has been deleted!', { variant : "success" });
@@ -76,7 +80,7 @@ function UpcomingEvents() {
               'Authorization': `Bearer ${accessToken}`, 
               'Content-Type': 'application/json',
             }
-           });
+        });
         AuthContext.setData(await response.json());  
     }
 
