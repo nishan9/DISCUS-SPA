@@ -20,6 +20,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function ViewUser(props : any) {
 
+    const Authcontext = useContext(Auth0Context)
     const Auth0 = useAuth0();    
     const UserContext = useContext(SelectedUserContext); 
     const [accessToken, setAccessToken] = useState("");
@@ -72,7 +73,11 @@ function ViewUser(props : any) {
                                                   </Box>
                                               </Box>
                                               <Hidden only={['md', 'lg', 'xl', 'sm']}>
-                                              <Button onClick={changeEdit}> <EditIcon/> </Button>
+                                                {Authcontext.data.app_metadata !== null ?         
+                                                    <Button onClick={changeEdit}> <EditIcon/> </Button>
+                                                    : 
+                                                    <></>
+                                                }
                                               </Hidden>
                                           </Grid>
                   
@@ -95,7 +100,13 @@ function ViewUser(props : any) {
                                           </Grid>
                                           <Hidden xsDown>
                                               <Grid item lg={1} xs={1}>
-                                                  <Box m={2}><Button onClick={changeEdit}> <EditIcon/> </Button></Box>
+                                                  <Box m={2}>
+                                                    { Authcontext.data.app_metadata !== null ?         
+                                                        <Button onClick={changeEdit}> <EditIcon/> </Button>
+                                                        : 
+                                                        <></>
+                                                    }
+                                                    </Box>
                                               </Grid>
                                           </Hidden>
                                           <Grid container className={classes.centerMobile}>
