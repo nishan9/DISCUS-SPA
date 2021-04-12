@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SearchTheme from './themes/SearchTheme';
 import AntSwitch from './components/AntSwitch';
 import { useAuth0 } from '@auth0/auth0-react';
+import { AllSubjects } from './config/TagSystem';
 
 const JsonFind = require('json-find');
 
@@ -260,15 +261,14 @@ function SearchUsers() {
         setChecked((prev) => !prev);
       };
 
-    function addtoState(value : { Subject : string}[], reason : AutocompleteChangeReason){
+    function addtoState(value : string[], reason : AutocompleteChangeReason){
         let newTags : string [] = []; 
         value.map( x => {
-            const tempArr : string []= checkChildTagsTwo(x.Subject); 
+            const tempArr : string []= checkChildTagsTwo(x); 
             tempArr.map( item => newTags.push(item))
         })
         setnewArr(newTags); 
-        setTagsArray(value.map ( x => x.Subject)); 
-
+        setTagsArray(value.map ( x => x)); 
     }
 
 
@@ -299,10 +299,12 @@ function SearchUsers() {
                         :
                         <>
                             <Autocomplete
-                                multiple fullWidth onChange={(event, value, reason) => addtoState(value, reason)}
+                                multiple fullWidth 
+                                onChange={(event, value, reason) => addtoState(value, reason)}
                                 limitTags={2}
-                                className={classes.input} options={Subjects}
-                                getOptionLabel={(option) => option.Subject}
+                                className={classes.input} 
+                                options={AllSubjects}
+                                getOptionLabel={(option : string) => option}
                                 renderInput={(params) => (
                                     <TextField {...params} variant="outlined" size="small" placeholder="Search Tags" />
                                 )}
