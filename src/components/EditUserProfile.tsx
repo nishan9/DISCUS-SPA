@@ -163,7 +163,10 @@ function EditUserProfile() {
     }
     async function handleDelete(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Delete/${AuthContext.data.user_id}`, {
-            headers : {"Content-Type" : "application/json" }, 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
+            },
             method:"DELETE", 
         })
         if(response.ok){

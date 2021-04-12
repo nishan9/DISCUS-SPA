@@ -14,6 +14,7 @@ import Tags from './config/Tags.json'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SearchTheme from './themes/SearchTheme';
 import AntSwitch from './components/AntSwitch';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const JsonFind = require('json-find');
 
@@ -29,6 +30,9 @@ function SearchUsers() {
     const [tagsArray, setTagsArray] = useState<string[]>([]); 
     const [newArr, setnewArr] = useState<string[]>([]); 
     const [IncludeAll, setIncludeAll] = useState(false); 
+    const Auth0 = useAuth0();
+    const [accessToken, setAccessToken] = useState(''); 
+
 
       function handleChangeCareer (checkbocName: string, state: boolean) {
         if (state === true){
@@ -59,7 +63,15 @@ function SearchUsers() {
       
     useEffect(() => {
         fetchData();
-    },[searchTerm,currPage,DepArray, tagsArray, checked, IncludeAll, CareerStage]);
+    },[searchTerm,currPage,DepArray, tagsArray, checked, IncludeAll, CareerStage, Auth0]);
+
+    useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+          }
+        fetchData();
+    },[Auth0, accessToken]);
+
 
     function checkChildTagsTwo(Term : String){
         const keyify : any = (obj : any, prefix = '') => 
@@ -105,8 +117,14 @@ function SearchUsers() {
 
         // Default no filter options have been set
         if (searchTerm.length < 2 && SidebarFilterOptions.length === 0 && tagsArray.length === 0){
-            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL` , {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
+                }
+            });
+            ;
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
@@ -134,7 +152,12 @@ function SearchUsers() {
                 }
             }
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter} AND ${filter}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter} AND ${filter}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
+                }
+            });
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
@@ -155,13 +178,23 @@ function SearchUsers() {
                 }
             }
             
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${tagfilter}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
+                }
+            });
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
         } else {
-                console.log(filter); 
-                const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
+
+                const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`, 
+                        'Content-Type': 'application/json',
+                    }
+                });
                 const data : Auth0userList = await response.json();
                 setData(data);
                 setPagetotal(Math.ceil(data.total/10));    
@@ -178,8 +211,12 @@ function SearchUsers() {
                 FinalQuery = "name:*" + searchTerm + "*"; 
             }
             
-            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${FinalQuery}/${currPage - 1}`); 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${FinalQuery}/${currPage - 1}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Search/${FinalQuery}/${currPage - 1}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
+                }
+            });
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
@@ -187,15 +224,25 @@ function SearchUsers() {
         }
 
         if (searchTerm.length < 2 && filter.length === 0 && tagsArray.length === 0){
-            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`);
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/ALL`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
+                }
+            });
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 
 
         } else if (searchTerm.length < 2){
-            console.log(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`);
+
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Page/${currPage - 1}/${filter}`, {
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
+                }
+            });
             const data : Auth0userList = await response.json();
             setData(data);
             setPagetotal(Math.ceil(data.total/10)); 

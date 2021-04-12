@@ -15,6 +15,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import DeleteIcon from '@material-ui/icons/Delete';
 import validator from 'validator';
 import { SelectedUserContext } from '../context/SelectedUserContext';
+import { useHistory } from 'react-router-dom';
 
 
 function EditUser() {
@@ -165,7 +166,10 @@ function EditUser() {
     }
     async function handleDelete(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Delete/${UserContext.data.user_id}`, {
-            headers : {"Content-Type" : "application/json" }, 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
+            }, 
             method:"DELETE", 
         })
         if(response.ok){

@@ -33,6 +33,9 @@ function ViewEventEntity(props : any) {
     const [tags, setTags] = useState<string[]>([]);
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+          }
         getEventInfo(); 
         getEventAttendance(); 
     }, [])
@@ -55,7 +58,8 @@ function ViewEventEntity(props : any) {
         setAccessToken(token)
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${props.match.params.event_id}`, { 
             headers: {
-             'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         EventContext.setEvent(await response.json()); 
@@ -64,7 +68,8 @@ function ViewEventEntity(props : any) {
     async function getEventAttendance(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/EventAttendance/${props.match.params.event_id}`, { 
             headers: {
-             'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         setEventAttendance(await response.json()); 

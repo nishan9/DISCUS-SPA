@@ -3,34 +3,44 @@ import React, { useEffect, useState } from 'react'
 import EventAvailableIcon from '@material-ui/icons/EventAvailable';
 import PeopleOutlineIcon from '@material-ui/icons/PeopleOutline';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function Statistics() {
+    const Auth0 = useAuth0();    
     const [eventsTotal, setEventsTotal] = useState<number>(); 
     const [usersTotal, setUsersTotal] = useState(); 
     const [activeUsers, setActiveUsers] = useState<number>(); 
+    const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+        }
         GetStats()
-    }, [])
+    }, [Auth0, accessToken])
 
     async function GetStats(){
+        
         const events = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Count`, { 
-                headers: {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
                 'Content-Type': 'application/json',
-                }
-            });
+            }
+        });
         setEventsTotal(await events.json());  
 
         const active = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/ActiveUsers`, { 
             headers: {
-            'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         setActiveUsers(await active.json());  
 
         const total = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/TotalUsers`, { 
             headers: {
-            'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         setUsersTotal(await total.json()); 

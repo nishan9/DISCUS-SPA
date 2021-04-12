@@ -6,21 +6,28 @@ import Moment from 'react-moment';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { Link } from 'react-router-dom';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function ApproveEvents() {
+    const Auth0 = useAuth0();    
     const [ eventsToApprove, setEventsToApprove] = useState<EventEntity[]>([]);
     const { enqueueSnackbar } = useSnackbar();
     const [openDelete, setOpenDelete] = useState(false); 
     const [eventid, setEventID] = useState<number>(); 
+    const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+        }
         getData();
-    }, [])
+    }, [Auth0])
         
     async function getData(){
         const getData = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Unauthorized`, { 
             headers: {
-            'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         setEventsToApprove(await getData.json());  
@@ -30,7 +37,8 @@ function ApproveEvents() {
         const Authorize = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Approve/${e}`, { 
             method: "PATCH",
             headers: {
-            'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         if(Authorize.ok){
@@ -44,7 +52,8 @@ function ApproveEvents() {
         const Authorize = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${e}`, { 
             method: "DELETE",
             headers: {
-            'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         if(Authorize.ok){
