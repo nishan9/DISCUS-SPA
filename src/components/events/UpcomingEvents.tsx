@@ -81,7 +81,13 @@ function UpcomingEvents() {
     }
 
     async function fetchEventData(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Upcoming`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Upcoming`, { 
+            headers: {
+              'Authorization': `Bearer ${accessToken}`, 
+              'Content-Type': 'application/json',
+            }
+        });
+
         let data : EventEntity[] = await response.json();
         let newdata = data.map( item => 
             {

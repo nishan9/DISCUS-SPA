@@ -15,11 +15,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import DeleteIcon from '@material-ui/icons/Delete';
 import validator from 'validator';
 import { SelectedUserContext } from '../context/SelectedUserContext';
+import { useHistory } from 'react-router-dom';
 
 
 function EditUser() {
     const UserContext = useContext(SelectedUserContext); 
-    
+    const history = useHistory(); 
+
     const Auth0 = useAuth0();
     const [accessToken, setAccessToken] = useState('')
     const { enqueueSnackbar } = useSnackbar();
@@ -164,14 +166,16 @@ function EditUser() {
     }
     async function handleDelete(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Delete/${UserContext.data.user_id}`, {
-            headers : {"Content-Type" : "application/json" }, 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
+            }, 
             method:"DELETE", 
         })
         if(response.ok){
-            
             enqueueSnackbar('User has been deleted', { variant : "success" });
             handleCloseDelete();
-            Auth0.logout(); 
+            history.push("/searchUsers"); 
         }else{
             enqueueSnackbar('An error occured', { variant : "error" });
         }

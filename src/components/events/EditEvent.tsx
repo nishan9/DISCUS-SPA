@@ -6,6 +6,7 @@ import { useSnackbar } from 'notistack'
 import React, { useContext, useEffect, useState } from 'react'
 import { EditEventContext } from '../../context/EditEventContext'; 
 import { AllSubjects } from '../../config/TagSystem'
+import { useAuth0 } from '@auth0/auth0-react'
 
 interface EditEventProps{
     dialog : Function
@@ -15,11 +16,17 @@ function EditEvent(props : EditEventProps) {
     const EventContext = useContext(EditEventContext)
     const [tags, setTags] = useState<string[]>([]);
     const { enqueueSnackbar } = useSnackbar();
+    const [accessToken, setAccessToken] = useState("");
+    const Auth0 = useAuth0();    
+
     let mes = ""
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+          }
         setTags(EventContext.event.tags.split(',')); 
-    }, []); 
+    }, [Auth0]); 
 
     function changeTags(value : string | null){
         mes = ""
@@ -40,7 +47,10 @@ function EditEvent(props : EditEventProps) {
         Alltags = Alltags.slice(0,-1)
         EventContext.event.tags = Alltags; 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/${EventContext.event.id}`, {
-            headers : {"Content-Type" : "application/json" }, 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
+              },
             method:"POST", 
             body: JSON.stringify(EventContext.event),
         })

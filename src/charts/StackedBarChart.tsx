@@ -1,19 +1,27 @@
+import { useAuth0 } from '@auth0/auth0-react';
 import { Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
   
 function StackedBarChart() {
+
+    const Auth0 = useAuth0();    
     const [Bardata, setBarData]= useState([]); 
-  
+    const [accessToken, setAccessToken] = useState("");
+
     useEffect(() => {
+      if(Auth0.isAuthenticated){
+        Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+      }
       GetData(); 
-    }, []);
+    }, [Auth0, accessToken])
 
     async function GetData(){
       const getData = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Chart`, { 
         headers: {
-        'Content-Type': 'application/json',
-        }
+          'Authorization': `Bearer ${accessToken}`, 
+          'Content-Type': 'application/json',
+        },
       });
       setBarData(await getData.json());  
     }

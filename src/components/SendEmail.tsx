@@ -5,17 +5,23 @@ import EmailAddress from '../models/EmailAddress';
 import { EditEventContext } from  '../context/EditEventContext'; 
 import SendMail from '../models/SendMail'; 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function SendEmail() {
-    const EventContext = useContext(EditEventContext)
+    const Auth0 = useAuth0();    
+    const EventContext = useContext(EditEventContext);
+    const [accessToken, setAccessToken] = useState("");
     const [subject, setSubject] = useState("Invitation..."); 
     const [body, setBody] = useState(""); 
     const [recipents, setrecipents] = useState<EmailAddress[]>(); 
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+        }
         getRecipents(); 
         formatter(); 
-    }, [])
+    }, [Auth0])
 
     async function formatter(){
         setBody(`Title = ${EventContext.event.title}\n\nURL : ${EventContext.event.url}\n\nType : ${EventContext.event.type}\n\nStart DateTime : ${EventContext.event.dateTime}\n\nFinish DateTime : ${EventContext.event.dateTime}\n\nDescription : ${EventContext.event.description}`)
@@ -24,7 +30,8 @@ function SendEmail() {
     async function getRecipents(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/GetEmails`, { 
             headers: {
-              'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         setrecipents(await response.json())
@@ -48,7 +55,8 @@ function SendEmail() {
                 method:"POST", 
                 body: JSON.stringify(sendObj),
                 headers: {
-                  'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`, 
+                    'Content-Type': 'application/json',
                 }
             });
     

@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { ResponsivePie } from '@nivo/pie'
+import { useAuth0 } from '@auth0/auth0-react';
 
 function PieChartInterest() {
-
+    
+    const Auth0 = useAuth0();    
     const [PieData, setPieData]= useState([]); 
+    const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+        }
         getData();
-    }, [])
+    }, [Auth0, accessToken])
         
     async function getData(){
         const getData = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/PieChart/Interest`, { 
             headers: {
-            'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
             }
         });
         setPieData(await getData.json());  
