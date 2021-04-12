@@ -38,7 +38,7 @@ function ViewEventEntity(props : any) {
           }
         getEventInfo(); 
         getEventAttendance(); 
-    }, [])
+    }, [Auth0, accessToken])
 
     useEffect(() => {
         setTags(EventContext.event.tags.split(',')); 

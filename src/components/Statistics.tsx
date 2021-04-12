@@ -6,6 +6,7 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import { useAuth0 } from '@auth0/auth0-react';
 
 function Statistics() {
+    
     const Auth0 = useAuth0();    
     const [eventsTotal, setEventsTotal] = useState<number>(); 
     const [usersTotal, setUsersTotal] = useState(); 

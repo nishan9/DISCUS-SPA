@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Chip, Grid, Hidden, Typography } from '@material-ui/core';
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Auth0user from '../models/Auth0user';
 import EditIcon from '@material-ui/icons/Edit';
 import { Auth0Context } from '../context/Auth0Context'
@@ -16,17 +16,28 @@ import EditUser from './EditUser';
 import { SelectedUserContext } from '../context/SelectedUserContext';
 import UserTheme from '../themes/UserTheme';
 import Moment from 'react-moment';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function ViewUser(props : any) {
 
+    const Auth0 = useAuth0();    
     const UserContext = useContext(SelectedUserContext); 
+    const [accessToken, setAccessToken] = useState("");
 
     useEffect(() => {
+        if(Auth0.isAuthenticated){
+            Auth0.getAccessTokenSilently().then((accessToken => setAccessToken(accessToken)));
+        }
         fetchData();
-    }, [])
+    }, [Auth0, accessToken])
 
     async function fetchData(){
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${props.match.params.user_id}`);
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${props.match.params.user_id}`, { 
+            headers: {
+                'Authorization': `Bearer ${accessToken}`, 
+                'Content-Type': 'application/json',
+            }
+        });
         UserContext.setData(await response.json());
     }
 
