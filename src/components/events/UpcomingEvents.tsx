@@ -38,15 +38,12 @@ function UpcomingEvents() {
 
     useEffect(() => {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
-    },[Auth0]);
-
+        fetchEventData();
+    },[Auth0, AuthContext]);
+    
     useEffect(() => {
         fetchData();
     }, [accessToken, openNE, open])
-
-    useEffect(() => {
-        fetchEventData();
-    }, [AuthContext])
 
     function openDeleteDialog( id : number){
         setOpenDelete(true); 
