@@ -149,9 +149,15 @@ function EditUser() {
         })
         if(response.ok){
             enqueueSnackbar(`${UserContext.data.name}'s profile has been updated`, { variant : "success" });
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${UserContext.data.user_id}`);
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/${UserContext.data.user_id}`,{ 
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization" : `Bearer ${accessToken}`, 
+            }});
             UserContext.setData(await response.json());
             ChangeCancel(); 
+            history.push("/searchUsers"); 
+
         }else{
             console.error("Publishing failed");
         }
@@ -189,7 +195,6 @@ function EditUser() {
         mes = ""
         if (value !== null ){
             if (interests.includes(value)){   
-                console.log("Yu Blind!")
             }else{
                 setInterest(state => [...state, value])
             }
@@ -200,7 +205,6 @@ function EditUser() {
         mes = ""
         if (value !== null ){
             if (expertise.includes(value)){   
-                console.log("Yu Blind!")
             }else{
                 setExpertise(state => [...state, value])
             }
