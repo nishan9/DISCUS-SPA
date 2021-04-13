@@ -11,6 +11,7 @@ import { useSnackbar } from 'notistack';
 import DepartmentObj from '../config/Department'; 
 import validator from 'validator';
 import HtmlTooltip from '../themes/HtmlTooltip';
+import { Link } from 'react-router-dom';
 
 
 function EnrichProfile() {
@@ -273,7 +274,10 @@ function EnrichProfile() {
                             onChange={(e) => setMetada({...metadata, linkedin: String(e.target.value)})} label="LinkedIn URL" variant="outlined" />
                         </HtmlTooltip>
                     </Box>
-
+                    <Box my={2}>
+                        You can specify your skillset here via interests and expertise tags. You are encouraged to use as many tags as you deem fit.
+                        Here is a <Link to="Tags.json" target="_blank"> link </Link>  to the tag system.  
+                    </Box>
                     <Box my={2}>
                         <Autocomplete
                             multiple
@@ -286,6 +290,9 @@ function EnrichProfile() {
                             <TextField {...params} variant="outlined" label="Expertise" placeholder="Favorites" />
                         )}
                         />
+                    </Box>
+                    <Box my={2}>
+                        Areas which you have an interest here.  
                     </Box>
                     <Box>
                         <Autocomplete

@@ -10,6 +10,7 @@ import AdminPanel from './AdminPanel';
 import Events from './Events';
 import ViewUser from './components/ViewUser';
 import React from "react";
+import ViewJSON from "./components/ViewJSON";
 
 export default function Home() {
     const Auth0 = useAuth0();
