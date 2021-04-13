@@ -21,7 +21,7 @@ function SendEmail() {
         }
         getRecipents(); 
         formatter(); 
-    }, [Auth0])
+    }, [Auth0, accessToken])
 
     async function formatter(){
         setBody(`Title = ${EventContext.event.title}\n\nURL : ${EventContext.event.url}\n\nType : ${EventContext.event.type}\n\nStart DateTime : ${EventContext.event.dateTime}\n\nFinish DateTime : ${EventContext.event.dateTime}\n\nDescription : ${EventContext.event.description}`)
