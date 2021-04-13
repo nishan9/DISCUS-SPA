@@ -275,8 +275,9 @@ function EnrichProfile() {
                         </HtmlTooltip>
                     </Box>
                     <Box my={2}>
-                        You can specify your skillset here via interests and expertise tags. You are encouraged to use as many tags as you deem fit.
-                        Here is a <Link to="Tags.json" target="_blank"> link </Link>  to the tag system.  
+                        You can specify your skillset here via interests and expertise tags. You are encouraged to use as many tags as you want.
+                        Here is a <Link to="Tags.json" target="_blank"> link </Link>  to the tag system, the hierarchy helps us to find you, 
+                        don't be afraid to specify your niche specialities.  
                     </Box>
                     <Box my={2}>
                         <Autocomplete
