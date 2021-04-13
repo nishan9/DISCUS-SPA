@@ -342,7 +342,7 @@ function EditUser() {
                 </Grid>
                 <Grid item xs={12} lg={9}>
                     <Box>
-                        <Box m={3} p={3} borderRadius={8} bgcolor="secondary.main">
+                        <Box m={3} p={3} borderRadius={8} bgcolor="primary.light">
                             <Grid container justify="center">
                             <Hidden xsDown>
                                 <Grid item lg={6} xs={12}>

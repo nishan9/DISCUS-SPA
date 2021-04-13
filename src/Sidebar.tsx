@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
-import { ButtonBase, Grid } from '@material-ui/core';
+import { Box, ButtonBase, Grid, Tooltip } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import PeopleIcon from '@material-ui/icons/People';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -94,11 +94,11 @@ export default function ResponsiveDrawer(props: Props) {
           justify="center"
           className={classes.GridStack}
       >
-        <div style={{ padding : "20px 40px", width : '100%'}}>
+        <Box style={{ padding : "0 40px", width : '100%'}}>
           <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/")}>
           <img className={classes.uirotate} src={discus} height='auto' width='40px' alt="DISCUS Logo"/>
           </ButtonBase>
-        </div>
+        </Box>
 
         <div style={{ padding : "0 40px", width : '100%'}}>
           <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 35 }}/>
