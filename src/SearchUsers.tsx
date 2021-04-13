@@ -1,5 +1,5 @@
 import ExtensionIcon from '@material-ui/icons/Extension';
-import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, ButtonBase, Checkbox, Chip, Divider, FormControlLabel, FormGroup, Grid, Hidden, IconButton, InputBase, Paper, Switch, TextField, Typography } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Avatar, Box, ButtonBase, Checkbox, Chip, Divider, FormControlLabel, FormGroup, Grid, Hidden, IconButton, InputBase, Paper, Switch, TextField, Tooltip, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react'
 import Auth0userList from './models/Auth0userList';
 import SearchIcon from '@material-ui/icons/Search';
@@ -292,9 +292,11 @@ function SearchUsers() {
                                 <SearchIcon />
                             </IconButton>
                             <Divider className={classes.divider} orientation="vertical" />
+                            <Tooltip title="Search by tags">
                             <ButtonBase onClick={Changetag} className={classes.iconButton} aria-label="directions">
-                                    <LabelIcon/>
+                                <LabelIcon/>
                             </ButtonBase>
+                            </Tooltip>
                         </>
                         :
                         <>
