@@ -105,10 +105,12 @@ export default function ResponsiveDrawer(props: Props) {
           </ButtonBase>
         </div>
 
+        {Authcontext.data.user_metadata ? 
         <div style={{ padding : "0 40px", width : '100%'}}>
           <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 35 }}/>
           </ButtonBase>
         </div>
+        : <></>}
 
         {Authcontext.data.app_metadata ?   
           <div style={{ padding : "0 40px", width : '100%'}}>
