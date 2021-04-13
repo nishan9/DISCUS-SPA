@@ -116,7 +116,7 @@ function Dashboard() {
                             </Grid>
                         </Grid>
                         <Grid item xs={12} lg={8}>
-                                <Box mx={3} p={4} borderRadius={8} bgcolor="secondary.main">
+                                <Box mx={3} p={4} borderRadius={8} bgcolor="primary.light">
                                     <Grid container>
                                         <Grid item lg={5} xs={12}>
                                             <Box className={classes.centerSVG}>
