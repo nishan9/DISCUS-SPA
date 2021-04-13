@@ -156,7 +156,7 @@ function EditUser() {
             }});
             UserContext.setData(await response.json());
             ChangeCancel(); 
-            history.push("/searchUsers"); 
+            history.push(`/users/${UserContext.data.user_id}`); 
 
         }else{
             console.error("Publishing failed");

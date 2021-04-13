@@ -6,7 +6,7 @@ const theme = createMuiTheme({
         color : '#2C468A', 
       },
       body2 : {
-        color : '#3D4849'
+        color : '#000000'
       }
     }, 
     palette: {
@@ -16,7 +16,7 @@ const theme = createMuiTheme({
         dark : '#2C468A',
       },
       secondary: {
-        main: '#45A4EB',
+        main: '#17405e',
         light : '#FFF36e'
       },
     }
