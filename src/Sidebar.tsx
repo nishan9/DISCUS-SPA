@@ -90,30 +90,41 @@ export default function ResponsiveDrawer(props: Props) {
       
       <Grid
           container
-          spacing={1}
+          spacing={0}
           justify="center"
-          direction="column"
           className={classes.GridStack}
-      > 
-        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/")}>
-          <img className={classes.uirotate} src={discus} height='auto' width='60px' alt="DISCUS Logo"/>
-        </ButtonBase>
-
-        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 50 }}/>
-        </ButtonBase>
-
-        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 50 }}/>
-        </ButtonBase>
-
-        {Authcontext.data.app_metadata ?         
-          <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 50 }}/>
+      >
+        <div style={{ padding : "20px 40px", width : '100%'}}>
+          <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/")}>
+          <img className={classes.uirotate} src={discus} height='auto' width='40px' alt="DISCUS Logo"/>
           </ButtonBase>
+        </div>
+
+        <div style={{ padding : "0 40px", width : '100%'}}>
+          <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/searchUsers")}><PeopleIcon style={{ fontSize: 35 }}/>
+          </ButtonBase>
+        </div>
+
+        <div style={{ padding : "0 40px", width : '100%'}}>
+          <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/Events")}><EventIcon style={{ fontSize: 35 }}/>
+          </ButtonBase>
+        </div>
+
+        {Authcontext.data.app_metadata ?   
+          <div style={{ padding : "0 40px", width : '100%'}}>
+            <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => history.push("/AdminPanel")}><BubbleChartIcon style={{ fontSize: 35 }}/>
+            </ButtonBase>
+          </div>
+
         :
           <>
           </>
         }
-        <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 50 }}/>
-        </ButtonBase>
+
+        <div style={{ padding : "0 40px", width : '100%'}}>
+          <ButtonBase className={classes.ButtonBase} color="inherit" onClick={() => Auth0.logout()}><ExitToAppIcon style={{ fontSize: 35 }}/>
+          </ButtonBase>
+        </div>
 
       </Grid>
     </div>
