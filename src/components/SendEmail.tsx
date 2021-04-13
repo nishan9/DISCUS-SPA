@@ -51,7 +51,7 @@ function SendEmail() {
                 "subject" : subject, 
             }
 
-            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSarch/SendEmail`, { 
+            const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/SendEmail`, { 
                 method:"POST", 
                 body: JSON.stringify(sendObj),
                 headers: {
