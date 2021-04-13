@@ -1,0 +1,735 @@
+{
+   "Psychology and Cognitive Sciences": {
+       "Cognitive Sciences": 0,
+       "Neurosciences": {
+           "Neurogenetics": 0
+       },
+       "Psychology": {
+           "Biological Psychology": {
+               "Biological Psychology": 0,
+               "Neuropsychology Psychology": 0,
+               "Psychopharmacology Psychology": 0,
+               "Physiological Psychology Psychology": 0
+           },
+           "Social and Community Psychology": 0,
+           "Educational Psychology": 0,
+           "Health, Clinical and Counselling Psychology": 0,
+           "Developmental Psychology and Ageing": 0,
+           "Psychological Methodology, Design and Analysis": 0
+       }
+   },
+   "Clinical Sciences": {
+       "Biochemistry and Cell Biology": 0
+   },
+   "Sociology": {
+       "Sociology and Social Studies of Science and Technology": 0,
+       "Sociology of Education": 0,
+       "Social Philosophy": 0,
+       "Environmental Sociology": 0,
+       "History and Philosophy of the Social Sciences": 0,
+       "Urban Sociology and Community Studies": 0,
+       "Sociolinguistics": {
+           "Language in Culture and Society": 0
+       },
+       "Law and Society": 0,
+       "Applied Sociology, Program Evaluation and Social Impact Assessment": 0,
+       "Religion and Society": 0,
+       "Rural Sociology": 0,
+       "Sociology not elsewhere classified": 0,
+       "Sociological Methodology and Research Methods": 0,
+       "Other Studies in Human Society": {
+           "Social Change": 0,
+           "Social Theory": 0,
+           "Social Policy": 0,
+           "Social Work": 0,
+           "Social and Community Informatics": 0
+       },
+       "Studies in Human Society not elsewhere classified": 0,
+       "Criminology": {
+           "Criminological Theories": 0
+       },
+       "Race and Ethnic Relations": 0
+   },
+   "Information and Computing Sciences": {
+       "Natural Language Processing": 0,
+       "Computer Software": {
+           "Software Engineering": {
+               "Concurrent Programming": {
+                   "Programming Languages": 0
+               },
+               "Distributed Computing": {
+                   "Ubiquitous Computing": 0
+               },
+               "Coding and Information Theory": 0,
+               "Dynamical Systems in Applications": 0
+           },
+           "Computer Graphics": {
+               "Computer Gaming and Animation": 0
+           },
+           "Data Format": 0
+       },
+       "Neurocognitive Patterns and Neural Networks": 0,
+       "Knowledge Representation and Machine Learning": 0,
+       "Computer Hardware": 0,
+       "Computer-Human Interaction": 0,
+       "Pattern Recognition and Data Mining": 0,
+       "Technology": {
+           "Mobile Technologies": 0,
+           "Web Technologies (excl. Web Search)": 0,
+           "Other Technology": {
+               "Nanotechnology": {
+                   "Nanobiotechnology": 0
+               },
+               "Microtechnology": {
+                   "Microelectromechanical Systems (MEMS)": 0
+               },
+               "Interactive Media": {
+                   "Virtual Reality and Related Simulation": 0,
+                   "Digital and Interaction Design": 0
+               }
+           }
+       },
+       "Computer Vision": {
+           "Artificial Intelligence and Image Processing not elsewhere classified": 0,
+           "Artificial Intelligence and Image Processing": 0
+       },
+       "Computer Communications Networks": {
+           "Networking and Communications": {
+               "Wireless Communications": {
+                   "Satellite Communications": 0
+               }
+           }
+       },
+       "Computer System Security": {
+           "Data Encryption": 0
+       },
+       "Health Information Systems": {
+           "Surveillance": 0
+       },
+       "Quantum Information, Computation and Communication": 0,
+       "Communications and Media Policy": 0,
+       "Other Information and Computing Sciences": {
+           "Simulation and Modelling": 0,
+           "Automation and Control Engineering": 0,
+           "Computer System Architecture": 0,
+           "Information Systems": {
+               "Information Systems Organisation": 0
+           },
+           "Computer Perception, Memory and Attention": 0,
+           "Neural, Evolutionary and Fuzzy Computation": 0,
+           "Computational Linguistics": 0,
+           "Global Information Systems": 0
+       }
+   },
+   "Manufacturing Engineering": {
+       "Mechanical Engineering": {
+           "Aerospace Engineering": {
+               "Satellite, Space Vehicle and Missile Design and Testing": 0
+           },
+           "Automotive Engineering": {
+               "Autonomous Vehicles": 0
+           },
+           "Control Systems, Robotics and Automation": 0,
+           "Adaptive Agents and Intelligent Robotics": 0
+       },
+       "Materials Engineering": 0,
+       "Resources Engineering and Extractive Metallurgy": 0
+   },
+   "Anthropology": {
+       "Social and Cultural Anthropology": 0,
+       "Anthropology of Development": 0
+   },
+   "Social and Cultural Geography": {
+       "Human Geography": 0,
+       "Economic Geography": 0,
+       "International Relations": 0
+   },
+   "Religion and Religious Studies": {
+       "Islamic Studies": 0,
+       "Christian Studies": {
+           "Biblical Studies and Church History": 0
+       }
+   },
+   "Finance": {
+       "International Economics and International Finance": 0
+   },
+   "Accounting, Auditing and Accountability": {
+       "Management Accounting": 0,
+       "Accounting Theory and Standards": 0,
+       "Financial Accounting": 0,
+       "International Accounting": 0,
+       "Sustainability Accounting and Reporting": 0,
+       "Accounting, Auditing and Accountability not elsewhere classified": 0
+   },
+   "Public Administration": 0,
+   "Applied Mathematics": {
+       "Pure Mathematics": 0,
+       "Mathematical Physics": 0,
+       "Computation Theory and Mathematics": {
+           "Numerical and Computational Mathematics": 0
+       },
+       "Financial Mathematics": 0,
+       "Biological Mathematics": 0,
+       "Mathematical Aspects of Classical Mechanics, Quantum Mechanics and Quantum Information Theory": 0,
+       "Mathematical Sciences": 0
+   },
+   "Philosophy": {
+       "Political Theory and Political Philosophy": 0,
+       "History and Philosophy of Science": {
+           "History and Philosophy of Law and Justice": 0,
+           "History and Philosophy of the Humanities": 0,
+           "History and Philosophy of Education": 0,
+           "History and Philosophy of Specific Fields": {
+               "History and Philosophy of Engineering and Technology": 0,
+               "History and Philosophy of Medicine": 0
+           }
+       },
+       "History of Philosophy": 0,
+       "Philosophy of Cognition": 0,
+       "Environmental Philosophy": 0,
+       "Philosophy of Language": 0,
+       "Philosophy and Religious Studies": 0,
+       "Psychoanalytic Philosophy": 0,
+       "Poststructuralism": 0,
+       "Epistemology": 0
+   },
+   "Economics": {
+       "Applied Economics": {
+           "Econometrics": {
+               "Financial Econometrics": 0
+           },
+           "Economic Theory": 0,
+           "Labour Economics": 0,
+           "Economics of Education": 0,
+           "Agricultural Economics": 0,
+           "Economic Models and Forecasting": 0,
+           "Environment and Resource Economics": 0,
+           "Financial Economics": 0,
+           "Health Economics": 0,
+           "Welfare Economics": 0,
+           "Urban and Regional Economics": 0
+       },
+       "Economic Development and Growth": {
+           "Economic Development Policy": 0
+       },
+       "Economic History": {
+           "History of Economic Thought": 0
+       },
+       "Macroeconomics": {
+           "Monetary and Fiscal Theory": 0
+       },
+       "Other Economics": {
+           "Heterodox Economics": 0,
+           "Microeconomic Theory": 0,
+           "Industry Economics and Industrial Organisation": 0
+       },
+       "Economics not elsewhere classified": 0
+   },
+   "Curriculum and Pedagogy": {
+       "Economics, Business and Management Curriculum and Pedagogy": 0,
+       "Humanities and Social Sciences Curriculum and Pedagogy": 0,
+       "Science, Technology and Engineering Curriculum and Pedagogy": 0,
+       "Medicine, Nursing and Health Curriculum and Pedagogy": 0,
+       "Creative Arts, Media and Communication Curriculum and Pedagogy": 0,
+       "Curriculum and Pedagogy Theory and Development": 0,
+       "Curriculum and Pedagogy not elsewhere classified": 0,
+       "Vocational Education and Training Curriculum and Pedagogy": 0
+   },
+   "Medical and Health Sciences": {
+       "Medicinal and Biomolecular Chemistry": {
+           "Medical Microbiology": 0,
+           "Medical Biochemistry and Metabolomics": 0,
+           "Medical Physiology": 0,
+           "Biomedical Engineering": 0,
+           "Medical Ethics": 0,
+           "Medical Parasitology": 0,
+           "Medical Virology": 0,
+           "Medical Biochemistry: Proteins and Peptides": {
+               "Medical Proteomics": 0
+           },
+           "Regenerative Medicine": {
+               "Stem Cells and Tissue Engineering": 0
+           },
+           "Other Medical and Health Sciences": {
+               "Preventive Medicine": 0,
+               "Paediatrics and Reproductive Medicine": 0,
+               "Cardiorespiratory Medicine and Haematology": 0
+           },
+           "Dentistry": 0,
+           "Dermatology": 0,
+           "Epidemiology": 0,
+           "Infectious Diseases": 0,
+           "Biomaterials": 0
+       }
+   },
+   "Biochemistry and Cell Biology": {
+       "Cancer Cell Biology": 0
+   },
+   "Biological Sciences": {
+       "Structural Biology": {
+           "Macromolecular Modelling": 0
+       },
+       "Microbiology": 0,
+       "Vertebrate Biology": 0,
+       "Receptors and Membrane Biology": 0,
+       "Other Biological Sciences": {
+           "Plant Biology": {
+               "Plant Cell and Molecular Biology": 0,
+               "Plant Pathology": 0
+           },
+           "Animal Developmental and Reproductive Biology": {
+               "Animal Cell and Molecular Biology": 0,
+               "Animal Neurobiology": 0
+           }
+       },
+       "Evolutionary Biology": 0,
+       "Immunology": 0,
+       "Physiology": {
+           "Plant Physiology": 0,
+           "Comparative Physiology": 0,
+           "Crop and Pasture Biochemistry and Physiology": 0
+       },
+       "Ecosystem Function": 0,
+       "Oceanography": 0,
+       "Animal Behaviour": 0,
+       "Biomechanics": 0
+   },
+   "Law and Legal Studies": {
+       "Law": {
+           "Human Rights Law": {
+               "Human Rights and Justice Issues": 0,
+               "Intellectual Property Law": 0
+           },
+           "Comparative Law": 0,
+           "International Law": 0,
+           "International Trade Law": 0,
+           "Administrative Law": 0,
+           "Constitutional Law": 0,
+           "Criminal Law and Procedure": 0,
+           "Environmental and Natural Resources Law": 0,
+           "Property Law": 0
+       },
+       "Legal Practice, Lawyering and the Legal Profession": {
+           "Legal Institutions": {
+               "Courts and Justice Systems": 0
+           }
+       },
+       "Other Law and Legal Studies": {
+           "Access to Justice": 0,
+           "Legal Theory, Jurisprudence and Legal Interpretation": 0,
+           "Litigation, Adjudication and Dispute Resolution": 0
+       }
+   },
+   "Other Engineering": {
+       "Electrical and Electronic Engineering": {
+           "Renewable Power and Energy Systems Engineering": 0,
+           "Microelectronics and Integrated Circuits": 0,
+           "Signal Processing": 0,
+           "Industrial Electronics": 0
+       },
+       "Chemical Engineering": 0,
+       "Environmental Engineering": 0,
+       "Interdisciplinary Engineering": 0,
+       "Civil Engineering": 0,
+       "Geomatic Engineering": 0,
+       "Engineering Design": 0,
+       "Photonics and Electro-Optical Engineering": 0
+   },
+   "Historical Studies": {
+       "European History (excl. British, Classical Greek and Roman)": 0,
+       "British History": 0,
+       "Middle Eastern and African History": 0,
+       "Business and Labour History": 0,
+       "Latin American History": 0,
+       "Asian History": 0,
+       "North American History": 0,
+       "History of Ideas": 0,
+       "Art History": 0,
+       "Life Histories": 0
+   },
+   "Communication and Media Studies": {
+       "Communication Technology and Digital Media Studies": {
+           "Communication Studies": {
+               "Marketing Communications": 0
+           },
+           "Communications Technologies": {
+               "Photonics, Optoelectronics and Optical Communications": 0
+           }
+       },
+       "International and Development Communication": 0
+   },
+   "Language, Communication and Culture": {
+       "Language Studies": {
+           "Translation and Interpretation Studies": 0
+       },
+       "Cultural Studies": {
+           "Cultural Theory": 0,
+           "Cultural Studies not elsewhere classified": 0,
+           "Globalisation and Culture": 0
+       },
+       "Other Language, Communication and Culture": {
+           "Heritage and Cultural Conservation": 0,
+           "Visual Cultures": 0
+       },
+       "Language in Time and Space": {
+           "Historical Linguistics": 0,
+           "Dialectology": 0
+       },
+       "Linguistics": {
+           "Applied Linguistics and Educational Linguistics": 0,
+           "Linguistic Structures": {
+               "Grammar": 0,
+               "Phonology": 0,
+               "Lexicon": {
+                   "Lexicography": 0
+               },
+               "Semantics": 0,
+               "Linguistics not elsewhere classified": 0
+           },
+           "Linguistic Processes": {
+               "Speech Production and Comprehension": 0
+           },
+           "Discourse and Pragmatics": 0
+       },
+       "Screen and Media Culture": 0,
+       "English Language": 0
+   },
+   "Public Health and Health Services": {
+       "Mental Health": 0,
+       "Health and Community Services": 0,
+       "Health Promotion": 0,
+       "Primary Health Care": 0,
+       "Public Health and Health Services not elsewhere classified": 0,
+       "Aged Health Care": 0,
+       "Community Child Health": 0,
+       "Health Care Administration": 0,
+       "Nursing": 0
+   },
+   "Neurosciences": {
+       "Neurosciences not elsewhere classified": 0
+   },
+   "Business and Management": {
+       "Organisational Planning and Management": {
+           "Organisational Behaviour": 0,
+           "Human Resources Management": 0,
+           "Organisation and Management Theory": 0
+       },
+       "Policy and Administration": {
+           "Policy and Administration not elsewhere classified": 0
+       },
+       "Marketing": {
+           "Marketing Theory": 0,
+           "Marketing Management": {
+               "Strategy and Customer Relations": 0
+           },
+           "Marketing Measurement": 0,
+           "Marketing Research Methodology": 0,
+           "Marketing not elsewhere classified": 0
+       },
+       "International Business": 0,
+       "Logistics and Supply Chain Management": 0,
+       "Business Information Management": {
+           "Records": 0,
+           "Knowledge and Information Management": 0,
+           "Intelligence": 0
+       },
+       "Manufacturing Management": {
+           "Manufacturing Robotics and Mechatronics (excl. Automotive Mechatronics)": 0,
+           "Manufacturing Safety and Quality": 0
+       },
+       "Quality Management": 0,
+       "Business Ethics": 0,
+       "Consumer-Oriented Product or Service Development": {
+           "Commercial Services": 0,
+           "Transportation and Freight Services": 0
+       }
+   },
+   "Education": {
+       "Education Systems": 0,
+       "Higher Education": 0,
+       "Other Education": 0,
+       "Primary Education (excl. Maori)": 0,
+       "Secondary Education": 0,
+       "Gender, Sexuality and Education": 0,
+       "Gender Specific Studies": 0,
+       "Early Childhood Education (excl. Maori)": 0,
+       "Technical, Further and Workplace Education": 0,
+       "Media Studies": {
+           "Journalism Studies": {
+               "Journalism and Professional Writing": 0
+           }
+       },
+       "Migrant Cultural Studies": 0,
+       "Comparative Literature Studies": 0,
+       "Specialist Studies in Education": 0,
+       "Library and Information Studies": 0,
+       "Postcolonial Studies": 0,
+       "Curatorial and Related Studies": 0,
+       "Asian Cultural Studies": 0,
+       "Teacher Education and Professional Development of Educators": 0,
+       "Drama, Theatre and Performance Studies": 0,
+       "Education Systems not elsewhere classified": 0,
+       "Educational Administration, Management and Leadership": 0,
+       "Comparative and Cross-Cultural Education": 0,
+       "Education Assessment and Evaluation": 0,
+       "Educational Technology and Computing": 0,
+       "Special Education and Disability": 0
+   },
+   "Urban and Regional Planning": {
+       "Community Planning": 0,
+       "Built Environment and Design": 0
+   },
+   "Urban and Regional Studies": {
+       "Urban Policy": 0,
+       "Urban Design": 0
+   },
+   "Literary Studies": {
+       "British and Irish Literature": 0,
+       "Middle Eastern Literature": 0,
+       "North American Literature": 0,
+       "Other Literatures in English": 0
+   },
+   "Political Science": {
+       "Environmental Politics": 0,
+       "Comparative Government and Politics": 0,
+       "Government and Politics of Asia and the Pacific": 0,
+       "Political Science not elsewhere classified": 0
+   },
+   "Psychiatry": {
+       "Psychotherapy": 0
+   },
+   "Cell Neurochemistry": 0,
+   "Building": {
+       "Architecture": 0
+   },
+   "Ecology": {
+       "Behavioural Ecology": 0,
+       "Invasive Species Ecology": 0,
+       "Palaeoecology": 0,
+       "Freshwater Ecology": 0,
+       "Community Ecology": 0,
+       "Landscape Ecology": 0,
+       "Terrestrial Ecology": 0,
+       "Ecological Applications": 0
+   },
+   "Agriculture, Land and Farm Management": {
+       "Agricultural Biotechnology": 0,
+       "Agricultural Land Management": 0,
+       "Farm Management, Rural Management and Agribusiness": 0,
+       "Sustainable Agricultural Development": 0,
+       "Crop and Pasture Production": 0
+   },
+   "Film, Television and Digital Media": {
+       "Film and Television": 0,
+       "Film, Television and Digital Media not elsewhere classified": 0,
+       "Electronic Media Art": 0
+   },
+   "Zoology": 0,
+   "Environmental Science and Management": {
+       "Environmental Sciences": 0,
+       "Environment Policy": 0,
+       "Environmental Management": {
+           "Environmental Monitoring": 0
+       },
+       "Other Environmental Sciences": {
+           "Forestry Management and Environment": 0,
+           "Land Use and Environmental Planning": 0
+       },
+       "Quaternary Environments": 0
+   },
+   "Physical Geography and Environmental Geoscience": 0,
+   "Quantum Physics": {
+       "Quantum Physics not elsewhere classified": 0
+   },
+   "History and Archaeology": {
+       "Archaeology": 0
+   },
+   "Other Physical Sciences": {
+       "Physical Chemistry": {
+           "Structural": 0,
+           "Physical Chemistry of Materials": 0
+       },
+       "General Relativity and Gravitational Waves": 0,
+       "Surfaces and Structural Properties of Condensed Matter": 0,
+       "Condensed Matter Imaging": 0,
+       "Analytical Spectrometry": 0
+   },
+   "Research, Science and Technology Policy": 0,
+   "Public Policy": 0,
+   "Education Policy": 0,
+   "Health Policy": 0,
+   "Arts and Cultural Policy": 0,
+   "Other Chemical Sciences": {
+       "Solid State Chemistry": {
+           "Transition Metal Chemistry": 0,
+           "Organometallic Chemistry": 0,
+           "Main Group Metal Chemistry": 0
+       },
+       "Quantum Chemistry": 0,
+       "Quality Assurance, Chemometrics, Traceability and Metrological Chemistry": 0,
+       "Organic Green Chemistry": 0,
+       "Non-metal Chemistry": 0,
+       "Inorganic Geochemistry": 0,
+       "Structural Chemistry and Spectroscopy": 0,
+       "Organic Chemistry": {
+           "Organic Chemical Synthesis": 0
+       },
+       "Inorganic Chemistry": 0,
+       "Theoretical and Computational Chemistry": 0,
+       "Macromolecular and Materials Chemistry": 0,
+       "Analytical Chemistry": 0,
+       "Colloid and Surface Chemistry": 0,
+       "Metals and Alloy Materials": 0
+   },
+   "Bioethics": {
+       "human and animal": 0
+   },
+   "Electrochemistry": 0,
+   "Geochemistry": 0,
+   "Statistics": {
+       "Applied Statistics": {
+           "Biostatistics": 0
+       },
+       "Panel Data Analysis": 0,
+       "Operations Research": 0
+   },
+   "Probability Theory": {
+       "Stochastic Analysis and Modelling": 0
+   },
+   "Banking, Finance and Investment not elsewhere classified": 0,
+   "Statistical Theory": 0,
+   "Epigenetics": {
+       "Genome Methylation and Epigenomics": 0
+   },
+   "Oncology and Carcinogenesis": 0,
+   "Pharmacology and Pharmaceutical Sciences": {
+       "Clinical Pharmacology and Therapeutics": 0
+   },
+   "Virology": 0,
+   "Tribology": 0,
+   "Atomic, Molecular, Nuclear, Particle and Plasma Physics": {
+       "Particle Physics": 0,
+       "Atomic and Molecular Physics": 0
+   },
+   "Biological Physics": 0,
+   "Classical Physics": 0,
+   "Geophysics": 0,
+   "High Energy Astrophysics": {
+       "Cosmic Rays": 0
+   },
+   "Mesospheric, Ionospheric and Magnetospheric Physics": 0,
+   "Space and Solar Physics": 0,
+   "Thermodynamics and Statistical Physics": 0,
+   "Optical Physics": 0,
+   "Condensed Matter Physics": 0,
+   "Learning Sciences": 0,
+   "Physical Sciences": 0,
+   "Soil Sciences": 0,
+   "Astronomical and Space Sciences": {
+       "Galactic Astronomy": 0,
+       "Cosmology and Extragalactic Astronomy": 0,
+       "Astronomical and Space Instrumentation": 0
+   },
+   "Atmospheric Sciences": 0,
+   "Food Sciences": {
+       "Nutrition and Dietetics": 0
+   },
+   "Human Movement and Sports Sciences": 0,
+   "Veterinary Sciences": 0,
+   "Earth Sciences": 0,
+   "Artificial Life": 0,
+   "Memory Structures": 0,
+   "Genetics": {
+       "Neurogenetics": 0
+   },
+   "Financial Institutions": {
+       "Banking, Finance and Investment": {
+           "Banking": 0
+       }
+   },
+   "Visual Arts and Crafts": {
+       "Fine Arts": {
+           "Sculpture and Painting": 0
+       }
+   },
+   "Performing Arts and Creative Writing": {
+       "Creative Writing": {
+           "Playwriting": 0
+       }
+   },
+   "Art Theory and Criticism": 0,
+   "Performance and Installation Art": 0,
+   "Decision Making": {
+       "Decision Theory": 0
+   },
+   "Migration": 0,
+   "Culture, Gender, Sexuality": 0,
+   "Applied Ethics": 0,
+   "Entrepreneurship": {
+       "Innovation and Technology Management": 0
+   },
+   "Autonomic Nervous System": 0,
+   "Algebra and Number Theory": 0,
+   "Citizenship": 0,
+   "Music Performance": {
+       "Music Composition": 0
+   },
+   "Tourism": 0,
+   "Consumption and Everyday Life": 0,
+   "Gene Expression": {
+       "Microarray and other genome-wide approaches": 0
+   },
+   "Demography": 0,
+   "Feminist Theory": 0,
+   "Nanomaterials": 0,
+   "Nanoscale Characterisation": 0,
+   "Numerical Computation": {
+       "Numerical Analysis": 0
+   },
+   "Functional Materials": 0,
+   "Geology": {
+       "Hydrogeology": 0
+   },
+   "Palaeoclimatology": 0,
+   "Humane Animal Treatment": 0,
+   "Neurology and Neuromuscular Diseases": 0,
+   "Nanophotonics": 0,
+   "Quantum Optics": 0,
+   "Surfacewater Hydrology": 0,
+   "Stratigraphy": {
+       "Biostratigraphy and Sequence Stratigraphy": 0
+   },
+   "Sedimentology": {
+       "Surface Processes": 0
+   },
+   "Photogrammetry and Remote Sensing": 0,
+   "Ordinary Differential Equations, Difference Equations and Dynamical Systems": 0,
+   "Corporate Governance and Stakeholder Engagement": 0,
+   "Design Practice and Management": 0,
+   "Hermeneutic and Critical Theory": 0,
+   "Optimisation": 0,
+   "Partial Differential Equations": {
+       "Numerical Solution of Differential and Integral Equations": 0
+   },
+   "Calculus of Variations, Systems Theory and Control Theory": 0,
+   "Climate Change Processes": 0,
+   "Conservation and Biodiversity": 0,
+   "Degenerate Quantum Gases and Atom Optics": 0,
+   "Lasers and Quantum Electronics": 0,
+   "Opthalmology and Optometry": 0,
+   "Sensory Processes, Perception and Performance": 0,
+   "Acoustics and Acoustical Devices; Waves": 0,
+   "Optical Properties of Materials": 0,
+   "Nonlinear Optics and Spectroscopy": 0,
+   "Geospatial Information Systems": {
+       "Navigation and Position Fixing": 0,
+       "Geodesy": 0
+   },
+   "Natural Hazards": 0,
+   "Nanofabrication, Growth and Self Assembly": 0,
+   "Heat and Mass Transfer Operations": 0,
+   "Forestry Biomass and Bioproducts": 0,
+   "Field Theory and String Theory": 0,
+   "Decision Support and Group Support Systems": 0,
+   "Composite and Hybrid Materials": 0
+}
