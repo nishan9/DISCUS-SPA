@@ -42,7 +42,7 @@ function StackedBarChart() {
                 return (
                   <div className="custom-tooltip" style={{ backgroundColor : '#e3e3e3', padding : '6px', borderRadius : 2, textAlign : 'left'}}>
                         { payload.map ( (e : any, i : number) => {
-                          return <Typography variant="body2" className="intro">{getIntroOfPage(label,i)} - {`${e.value}`} </Typography>
+                          return <> <Typography variant="body2" className="intro">{getIntroOfPage(label,i)} - {`${e.value}`}</Typography> </>
                         })}
                   </div>
             );

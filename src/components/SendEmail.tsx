@@ -6,14 +6,20 @@ import { EditEventContext } from  '../context/EditEventContext';
 import SendMail from '../models/SendMail'; 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useAuth0 } from '@auth0/auth0-react';
+import { useSnackbar } from 'notistack';
 
-function SendEmail() {
+interface SendEmailProps{
+    dialog : Function
+}
+
+function SendEmail(props : SendEmailProps) {
     const Auth0 = useAuth0();    
     const EventContext = useContext(EditEventContext);
     const [accessToken, setAccessToken] = useState("");
     const [subject, setSubject] = useState("Invitation..."); 
     const [body, setBody] = useState(""); 
     const [recipents, setrecipents] = useState<EmailAddress[]>(); 
+    const { enqueueSnackbar } = useSnackbar();
 
     useEffect(() => {
         if(Auth0.isAuthenticated){
@@ -60,9 +66,12 @@ function SendEmail() {
                 }
             });
     
-            if (response.ok){
-                (alert("sentt")); 
-            }; 
+            if(response.ok){
+                enqueueSnackbar('User has been updated', { variant : "success" });
+                props.dialog(); 
+            }else{
+                console.error("Publishing failed");
+            }
         }
     }
 
