@@ -13,7 +13,8 @@ function PieChartExpertise() {
         }
         getData();
     }, [Auth0, accessToken])
-        
+    
+    //Recieves the chart data from the backend
     async function getData(){
         const getData = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/PieChart/Expertise`, { 
             headers: {

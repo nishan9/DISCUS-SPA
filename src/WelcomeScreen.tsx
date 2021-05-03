@@ -18,9 +18,9 @@ function WelcomeScreen() {
     useEffect(() => {
         fetchData();
         console.log(accessToken); 
-        console.log(Auth0.getIdTokenClaims)
     }, [accessToken])
 
+    //Fetches user data to update the global context
     async function fetchData(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             headers: {

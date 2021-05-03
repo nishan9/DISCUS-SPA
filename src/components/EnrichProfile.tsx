@@ -57,7 +57,8 @@ function EnrichProfile() {
                 }
             }
         )
-
+        
+        //sends an HTTP request to update the user 
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             method:"PATCH", 
             body: JSON.stringify(postreq),
@@ -74,6 +75,7 @@ function EnrichProfile() {
         }
     }
 
+    //Sends an HTTP request to retrieve the data 
     async function fetchData(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Me`, { 
             headers: {
