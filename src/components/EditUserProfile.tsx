@@ -239,7 +239,7 @@ function EditUserProfile() {
                     </Box>
                     <Hidden only={['lg', 'xl']}>
                         <Button onClick={ChangeCancel}> <CancelIcon/> </Button>
-                        <Button onClick={Validation}>  <SaveIcon/> </Button>         
+                        <Button onClick={Validation}>  <SaveIcon style={{fill: "green"}}/> </Button>         
                     </Hidden>
                 </Grid>
             </Grid>
@@ -332,8 +332,24 @@ function EditUserProfile() {
             </Grid>
             <Hidden mdDown>
                 <Grid item lg={1} xs={1}>
-                    <Box m={2}><Button onClick={ChangeCancel}> <CancelIcon/> </Button></Box>
-                    <Box m={2}><Button onClick={Validation}>  <SaveIcon/> </Button></Box>
+                    <Box m={2}>
+                        <Button 
+                            onClick={ChangeCancel}
+                             style={{ backgroundColor : 'white',fontSize : "15px"}}
+                             variant="outlined"
+                             startIcon={<CancelIcon/>}>
+                             Cancel
+                        </Button>
+                    </Box>
+                    <Box m={2}> 
+                        <Button 
+                            onClick={Validation} 
+                            variant="outlined"
+                            style={{ backgroundColor : 'green', color : "white",  fontSize : "15px"}}
+                            startIcon={<SaveIcon/>}>
+                            Save
+                        </Button>
+                    </Box>
                 </Grid>
             </Hidden>
             </Grid>

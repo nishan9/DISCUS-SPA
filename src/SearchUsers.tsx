@@ -35,6 +35,7 @@ function SearchUsers() {
     const [accessToken, setAccessToken] = useState(''); 
 
 
+    //Stores career stage filter
       function handleChangeCareer (checkbocName: string, state: boolean) {
         if (state === true){
             setCareerStage(theArray => [...theArray, checkbocName])
@@ -43,7 +44,6 @@ function SearchUsers() {
             setCareerStage(result); 
         }
       }
-
       function handleChange (checkbocName: string, state: boolean) {
         if (state === true){
             setDepArray(theArray => [...theArray, checkbocName])
@@ -52,15 +52,6 @@ function SearchUsers() {
             setDepArray(result); 
         }
       }
-
-      const Subjects = [
-        { Subject: 'Computer Stuff'},
-        { Subject: 'Natural Language Engineering'},
-        { Subject: 'Data Structures and Algorithms'},
-        { Subject: 'Chemistry'},
-        { Subject: 'Computer Stuff'},
-        { Subject: 'Physics'},
-      ];
       
     useEffect(() => {
         fetchData();
@@ -90,7 +81,8 @@ function SearchUsers() {
         return subjectList; 
     }
 
-    function testFunction(filter: string, arr: string[], cond: string ){
+    //Function that splits array and arranges a string in LUCENE SYNTAX
+    function stringConcat(filter: string, arr: string[], cond: string ){
         for (var i = 0; i < arr.length; i++) {
             if (i === 0){
                 filter = filter.concat(`user_metadata.${cond}:"` + arr[i] + '"')
@@ -102,10 +94,11 @@ function SearchUsers() {
     }
 
 
+    //Function that the dependency array executes to trigger a search each time
     async function fetchData(){
 
-        const DepFilter = DepArray.length > 0 ? testFunction("",DepArray,"education.school") : "";
-        const careerFilter = CareerStage.length > 0 ? testFunction("",CareerStage,"education.CareerStage") : "";
+        const DepFilter = DepArray.length > 0 ? stringConcat("",DepArray,"education.school") : "";
+        const careerFilter = CareerStage.length > 0 ? stringConcat("",CareerStage,"education.CareerStage") : "";
         
         var SidebarFilterOptions = "";
         if (DepFilter.length > 0 && careerFilter.length > 0){
@@ -139,7 +132,7 @@ function SearchUsers() {
         if (tagsArray.length > 0 && filter !== ""){
             let tagfilter = ""
             
-            checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise")
+            checked ? tagfilter = stringConcat("",tagsArray,"interest")  :  tagfilter = stringConcat("",tagsArray,"expertise")
 
             if (IncludeAll){
                 if (checked){
@@ -165,7 +158,7 @@ function SearchUsers() {
 
         } else if (tagsArray.length > 0){
             let tagfilter = ""
-            checked ? tagfilter = testFunction("",tagsArray,"interest")  :  tagfilter = testFunction("",tagsArray,"expertise");
+            checked ? tagfilter = stringConcat("",tagsArray,"interest")  :  tagfilter = stringConcat("",tagsArray,"expertise");
 
             if (IncludeAll){
                 if (checked){
@@ -202,6 +195,7 @@ function SearchUsers() {
         }
     }
 
+    //Filtering by name search 
     async function NameSearch(filter : string){
 
         if (searchTerm.length > 2){
@@ -261,6 +255,7 @@ function SearchUsers() {
         setChecked((prev) => !prev);
       };
 
+    //Adds values from AutoComplete to React state
     function addtoState(value : string[], reason : AutocompleteChangeReason){
         let newTags : string [] = []; 
         value.map( x => {

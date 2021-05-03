@@ -54,6 +54,7 @@ function EditUser() {
         Auth0.getAccessTokenSilently().then(token => setAccessToken(token));
     },[Auth0])
 
+    //Updates the context seperately for easier state changes and handling
     function LoadStates(){
         if (UserContext.data !== undefined ){
             setName(UserContext.data.name); 
@@ -74,14 +75,17 @@ function EditUser() {
         }
     }
 
+    //When a Interest Chip is deleted it is deleted from the React state as well
     function DeleteChipIntrest(e : String){
         setInterest(interests.filter(subject => subject !== e));
     }
 
+    //When a Interest Chip is deleted it is deleted from the React state as well
     function DeleteChipExpertise(e : String){
         setExpertise(expertise.filter(subject => subject !== e));
     }
 
+    //Changes the date in the state as well 
     const handleDate = (date: Date) => {
         setGraduation(date)
     };
@@ -114,6 +118,7 @@ function EditUser() {
         }
     }
 
+    //Sends an HTTP request to update the user. 
     async function UpdateUser(){
 
         const stravail = available.toString(); 
@@ -170,6 +175,8 @@ function EditUser() {
     function handleCloseDelete(){
         setOpenDelete(false); 
     }
+    
+    //Sends an HTTP request to delete the user. 
     async function handleDelete(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/Delete/${UserContext.data.user_id}`, {
             headers: {
@@ -191,6 +198,7 @@ function EditUser() {
         UserContext.setEdit(false);
     }
 
+    //Change the interest tags. 
     function changeInterest(value : string | null){
         mes = ""
         if (value !== null ){
@@ -201,6 +209,7 @@ function EditUser() {
         }
     }
     
+    //Change the expertise tags. 
     function changeExpertise(value : string | null){
         mes = ""
         if (value !== null ){

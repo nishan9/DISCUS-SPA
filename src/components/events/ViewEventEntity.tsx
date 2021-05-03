@@ -242,7 +242,7 @@ function ViewEventEntity(props : any) {
                     </Box>
                     </DialogTitle>
                         <DialogContent>
-                            <SendEmail/>
+                            <SendEmail dialog={() => setOpen(false)}/>
                         </DialogContent>
                 </Dialog>
                 </Box>
