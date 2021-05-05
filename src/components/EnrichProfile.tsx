@@ -35,6 +35,7 @@ function EnrichProfile() {
         setMetada({...metadata, GraduationDate : date});
     };
 
+    // Uses the context to update the user object. 
     async function SaveMetada() {
         const gradDate = metadata.GraduationDate.toString();
         const postreq = (

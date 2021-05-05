@@ -4,7 +4,7 @@ import React from 'react'
 import NotFound from '../config/NotFound.json'
 
 function NotFoundPlayer() {
-
+    //Lottie animation for when no evemts are found
     return (
         <Box p={15} textAlign="center">
             <Typography gutterBottom variant="h4"> No events found...</Typography>

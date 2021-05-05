@@ -10,7 +10,7 @@ function Events() {
     const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
       setValue(newValue);
     };
-    
+    //Main event page with the tab system
     const GreyTypography = withStyles({
         root: {
           color: "grey"

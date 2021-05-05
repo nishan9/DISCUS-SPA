@@ -40,6 +40,7 @@ const dataDefaultValue : Auth0user = {
         "isAdmin" : false
     }
 }
+//Editing other users
 export const SelectedUserContext = createContext({
     data : dataDefaultValue,
     setData : (user : Auth0user) => {}, 

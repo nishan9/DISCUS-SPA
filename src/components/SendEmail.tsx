@@ -29,10 +29,12 @@ function SendEmail(props : SendEmailProps) {
         formatter(); 
     }, [Auth0, accessToken])
 
+    //Retrieves the relevant event information to render as the body for email. 
     async function formatter(){
         setBody(`Title = ${EventContext.event.title}\n\nURL : ${EventContext.event.url}\n\nType : ${EventContext.event.type}\n\nStart DateTime : ${EventContext.event.dateTime}\n\nFinish DateTime : ${EventContext.event.dateTime}\n\nDescription : ${EventContext.event.description}`)
     }
 
+    // Retrieves all of the users in the system. 
     async function getRecipents(){
         const response = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/GetEmails`, { 
             headers: {
@@ -47,6 +49,7 @@ function SendEmail(props : SendEmailProps) {
         setrecipents(recipents?.filter(recipent => recipent !== e))
     }
 
+    //HTTP request to send an email with the DISCUS logo at the header
     async function sendEmail(){
         if (recipents !== undefined){
             let message; 

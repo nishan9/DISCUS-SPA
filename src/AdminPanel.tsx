@@ -10,6 +10,8 @@ import { Auth0Context } from './context/Auth0Context';
 
 function AdminPanel() {
     const AuthContext = useContext(Auth0Context)
+    //Main admin panel component to combine
+    
     return (
     <div style={{padding : '10px', paddingTop : '30px'}}>
         { AuthContext.data.app_metadata ?

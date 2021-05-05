@@ -19,7 +19,7 @@ function Dashboard() {
     const AuthContext = useContext(Auth0Context);
     const classes = UserTheme();
 
-
+    //Uses the context to trigger the edit component allowing users to edit user profile. 
     function changeEdit(){
         AuthContext.setEdit(true); 
     }

@@ -40,6 +40,7 @@ const dataDefaultValue : Auth0user = {
         "isAdmin" : false
     }
 }
+//Context API for the primary user logged-in
 export const Auth0Context = createContext({
     data : dataDefaultValue,
     setData : (user : Auth0user) => {}, 
