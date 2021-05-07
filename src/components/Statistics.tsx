@@ -22,6 +22,7 @@ function Statistics() {
 
     async function GetStats(){
         
+        //HTTP request to count the number of events, returns an integer from the database
         const events = await fetch(`${process.env.REACT_APP_API_URL}/EventEntity/Count`, { 
             headers: {
                 'Authorization': `Bearer ${accessToken}`, 
@@ -30,6 +31,7 @@ function Statistics() {
         });
         setEventsTotal(await events.json());  
 
+        //HTTP request to count the number of active user, returns an integer from Auth0
         const active = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/ActiveUsers`, { 
             headers: {
                 'Authorization': `Bearer ${accessToken}`, 
@@ -38,6 +40,7 @@ function Statistics() {
         });
         setActiveUsers(await active.json());  
 
+        //HTTP request to count the number of total, returns an integer from Auth0 
         const total = await fetch(`${process.env.REACT_APP_API_URL}/UserSearch/TotalUsers`, { 
             headers: {
                 'Authorization': `Bearer ${accessToken}`, 

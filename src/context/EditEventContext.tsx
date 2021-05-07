@@ -15,7 +15,7 @@ const eventdeafultvalue : EventEntity = {
     "linkedInterests" : false,
     "linkedExpertise" : false, 
 }
-
+//Context to update when editing event data
 export const EditEventContext = createContext({
     event : eventdeafultvalue,
     setEvent : (event : EventEntity) => {}, 

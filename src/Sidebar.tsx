@@ -17,8 +17,8 @@ import BubbleChartIcon from '@material-ui/icons/BubbleChart';
 import discus from './assets/discus.svg'; 
 import { Auth0Context } from './context/Auth0Context';
 
+//Material UI for a sidebar 
 const drawerWidth = 120;
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {

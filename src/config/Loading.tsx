@@ -4,7 +4,7 @@ import React from 'react'
 import lottie from '../config/lottie.json'
 
 function Loading() {
-
+    //Loading screen with Lottie animation
     return (
         <Box p={20}>
             <Player

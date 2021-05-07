@@ -35,6 +35,7 @@ function EnrichProfile() {
         setMetada({...metadata, GraduationDate : date});
     };
 
+    // Uses the context to update the user object. 
     async function SaveMetada() {
         const gradDate = metadata.GraduationDate.toString();
         const postreq = (
@@ -310,6 +311,7 @@ function EnrichProfile() {
                         )}
                         />
                     </Box>
+                    <Box my={1}>This information will be publicly available to all users to view. Administartors will be able to edit your details. You can edit or delete your profile whenever. History of previous details are never recorded.</Box>
                     <Grid justify= "center" container alignItems="center" alignContent="center">
                         <Box my={2}>
                             <Button variant="contained" 

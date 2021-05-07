@@ -5,6 +5,8 @@ import Reuss from './assets/Reuss.svg';
 
 
 export default function Login() {
+    
+    //Login page to redirect to Auth0 to initiate login flow
     const {loginWithRedirect } = useAuth0();
     const useStyles = makeStyles((theme: Theme) =>
       createStyles({

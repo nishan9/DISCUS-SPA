@@ -26,7 +26,7 @@ ReactDOM.render(
 );
 
 function Wrapper(){
-  
+  //Auth0 information
   return(
     <Auth0Provider
     domain="discus.eu.auth0.com"

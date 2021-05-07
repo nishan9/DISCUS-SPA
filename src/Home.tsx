@@ -16,7 +16,7 @@ export default function Home() {
 
     //size of the sidebar 
     const drawerWidth = 140;
-
+//React router to specify URL destinations
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
