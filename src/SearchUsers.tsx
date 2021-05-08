@@ -352,7 +352,7 @@ function SearchUsers() {
                              inputProps={{ 'aria-label': 'secondary checkbox' }}
                             />
                         }
-                        label="Search within tag heirachy"
+                        label="Search sub-fields"
                         labelPlacement="start"
                         />
                         
