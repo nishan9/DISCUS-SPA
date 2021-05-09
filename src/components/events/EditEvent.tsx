@@ -51,7 +51,7 @@ function EditEvent(props : EditEventProps) {
                 'Authorization': `Bearer ${accessToken}`, 
                 'Content-Type': 'application/json',
               },
-            method:"POST", 
+            method:"PATCH", 
             body: JSON.stringify(EventContext.event),
         })
         if(response.ok){
